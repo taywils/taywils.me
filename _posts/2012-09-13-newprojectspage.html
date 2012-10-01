@@ -1,0 +1,230 @@
+---
+layout: default
+title: The Projects page, a slidejs tutorial
+mydate: Sep 9 2012
+tags: [javascript]
+catagories: [web, slidejs, blog-improvements]
+description: I used some interesting jquery tricks(at least to me) to make the projects page more visually appealing; read on to learn how it was made. This is the beginning of a series on updates to the overall blog that I will post as I continue to learn more about both the Ruby Jekyll gem and web design in general.
+---
+<h3>The Projects page, a slidejs tutorial</h3>
+<div class="post-content">
+The projects page was designed using jquery and a neat javascript library called slidesjs<a href="http://slidesjs.com/">(slidesjs.com)</a>.
+ Slidesjs is a simple yet elegant slideshow library with many special features such as the ability to add captions and various transition effects to your slides.
+ I choose to use it mainly because I found the documentaion well prepared<a href="http://slidesjs.com/#docs">(slidesjs.com/#doc)</a>, on the site you'll find the rest of the features I won't touch on in this article.
+ This first part of the project page is the underlying html file, in this file you'll notice the structure of the main div tag which holds the sildes_container.
+ From within the slides_container you just add your slides and content as a div tag with the class slide; and from there you can put whatever you want into it.
+ Below is a copy of an early version of the projects page which was adapted from the &quot;images with captions&quot; example from slidesjs.
+ The only real change I made(excluding the image sources and caption content) is the last div tag at the bottom, &lt;div id=&quot;project-description&quot;&gt; this div tag allows me to swap out the contents of the projects page as you move across the slideshow using jquery which we'll cover after the CSS bit.
+<!-- http://boallen.com/htmlentities.html -->
+<div class="gcp"> <pre class="prettyprint lang-html">
+&lt;div id=&quot;container&quot;&gt;
+	&lt;div id=&quot;example&quot;&gt;
+		&lt;div id=&quot;slides&quot;&gt;
+			&lt;div class=&quot;slides_container&quot;&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/jliba/4665625073/&quot; title=&quot;145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-1.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 1&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot; style=&quot;bottom:0&quot;&gt;
+						&lt;b&gt;Project A&lt;/b&gt;
+						&lt;a href=&quot;foeafjoljf&quot;&gt;Live Demo&lt;/a&gt;&nbsp;|&nbsp;&lt;a href=&quot;foeafjoljf&quot;&gt;GitHub&lt;/a&gt;
+						&lt;p&gt;
+						This is just a test to check things out.
+						&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/stephangeyer/3020487807/&quot; title=&quot;Taxi | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-2.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 2&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						&lt;b&gt;Project B&lt;/b&gt;
+						&lt;a href=&quot;foeafjoljf&quot;&gt;Buy it on Google Play&lt;/a&gt;&nbsp;|&nbsp;&lt;a href=&quot;foeafjoljf&quot;&gt;GitHub&lt;/a&gt;
+						&lt;p&gt;
+						It took me a while to build it out but its done now.
+						&lt;/p&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/childofwar/2984345060/&quot; title=&quot;Happy Bokeh raining Day | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-3.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 3&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						Happy Bokeh raining Day
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/b-tal/117037943/&quot; title=&quot;We Eat Light | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-4.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 4&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						We Eat Light
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/bu7amd/3447416780/&quot; title=&quot;&amp;ldquo;I must go down to the sea again, to the lonely sea and the sky; and all I ask is a tall ship and a star to steer her by.&amp;rdquo; | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-5.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 5&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						&amp;ldquo;I must go down to the sea again, to the lonely sea and the sky...&amp;rdquo;
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/streetpreacher/2078765853/&quot; title=&quot;twelve.inch | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-6.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 6&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						twelve.inch
+					&lt;/div&gt;
+				&lt;/div&gt;
+				&lt;div class=&quot;slide&quot;&gt;
+					&lt;a href=&quot;http://www.flickr.com/photos/aftab/3152515428/&quot; title=&quot;Save my love for loneliness | Flickr - Photo Sharing!&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/slidesjs/slide-7.jpg&quot; width=&quot;570&quot; height=&quot;270&quot; alt=&quot;Slide 7&quot;&gt;&lt;/a&gt;
+					&lt;div class=&quot;caption&quot;&gt;
+						Save my love for loneliness
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;a href=&quot;#&quot; class=&quot;prev&quot;&gt;&lt;img src=&quot;/images/slidesjs/arrow-prev.png&quot; width=&quot;24&quot; height=&quot;43&quot; alt=&quot;Arrow Prev&quot;&gt;&lt;/a&gt;
+			&lt;a href=&quot;#&quot; class=&quot;next&quot;&gt;&lt;img src=&quot;/images/slidesjs/arrow-next.png&quot; width=&quot;24&quot; height=&quot;43&quot; alt=&quot;Arrow Next&quot;&gt;&lt;/a&gt;
+		&lt;/div&gt;
+		&lt;img src=&quot;/images/slidesjs/example-frame.png&quot; width=&quot;739&quot; height=&quot;341&quot; alt=&quot;Example Frame&quot; id=&quot;frame&quot;&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;project-description&quot;&gt;
+&lt;/div&gt;
+</pre></div>
+ The css shown below is very minimal and uses nothing out of the ordinary
+<div class="gcp"> <pre class="prettyprint lang-css">
+#container {
+	width:580px;
+	padding:10px;
+	margin:0 auto;
+	position:relative;
+	z-index:0;
+}
+
+#example {
+	width:600px;
+	height:350px;
+	position:relative;
+}
+
+#frame {
+	position:absolute;
+	z-index:0;
+	width:739px;
+	height:341px;
+	top:-3px;
+	left:-80px;
+}
+
+/*
+	Slideshow
+*/
+#slides {
+	position:absolute;
+	top:15px;
+	left:4px;
+	z-index:100;
+}
+
+/*
+	Slides container
+	Important:
+	Set the width of your slides container
+	Set to display none, prevents content flash
+*/
+.slides_container {
+	width:570px;
+	overflow:hidden;
+	position:relative;
+	display:none;
+}
+
+/*
+	Each slide
+	Important:
+	Set the width of your slides
+	If height not specified height will be set by the slide content
+	Set to display block
+*/
+.slides_container div.slide {
+	width:570px;
+	height:270px;
+	display:block;
+}
+
+
+/*
+	Next/prev buttons
+*/
+#slides .next,#slides .prev {
+	position:absolute;
+	top:107px;
+	left:-39px;
+	width:24px;
+	height:43px;
+	display:block;
+	z-index:101;
+}
+
+#slides .next {
+	left:585px;
+}
+
+/*
+	Pagination
+*/
+.pagination {
+	margin:26px auto 0;
+	width:100px;
+}
+
+.pagination li {
+	float:left;
+	margin:0 1px;
+	list-style:none;
+}
+
+.pagination li a {
+	display:block;
+	width:12px;
+	height:0;
+	padding-top:12px;
+	background-image:url(/images/slidesjs/pagination.png);
+	background-position:0 0;
+	float:left;
+	overflow:hidden;
+}
+
+.pagination li.current a {
+	background-position:0 -12px;
+}
+</pre></div>
+ Finally here is the javascript code for the projects page which calls the slidesjs library animation functions.
+ The main addition here is the showDescription(), it takes the div tag I mentioned before and extracts the current visible slides' content and displays it on every page transition.
+<div class="gcp"> <pre class="prettyprint lang-css">
+$(function(){
+        $('#slides').slides({
+                preload: true,
+                preloadImage: '/images/slidesjs/loading.gif',
+                play: 0,
+                pause: 2500,
+                hoverPause: true,
+                animationStart: function(current){
+                },
+                animationComplete: function(current){
+                        showDescription();
+                },
+                slidesLoaded: function() {
+                        showDescription();
+                }
+        });
+
+        function showDescription() {
+                //slide content
+                var $sc = $('div.slide').filter(function() {
+                        return this.style.display !== 'none';
+                });
+                //caption
+                var cap = $sc.children('div.caption').html();
+                $('div#project-description').html(cap);
+        }
+});
+</pre></div>
+Of particular merit here is the jquery filter function. 
+What this allows us to do is to basically only extract the sole visible slide from the div holding the slides by looking at the display property.
+In addition the jquery children function lets us run what is basically a sub-query on a given jquery object.
+From my perspective I could have easily just included the children search in the original query but I tend to keep queries short and simple to help the code remain easy to read.
+<p>
+Well that about wraps up how I put together the projects page... be sure to visit the projects page every once in a while.
+</p>
+</div> 
