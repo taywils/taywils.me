@@ -6,3 +6,1128 @@ tags: [java]
 catagories: [mobile, tutorial, android]
 description: In this tutorial we'll step through the process of using the Android's builtin support for SqlLite to store a password and retrive it in a rather interesting attempt at creating a guest dialer application. When I first imagined a guest dialer I had in mind an application that would allow you to let someone use your phone without giving them total access to your incomming messages and other sensitive data. However, a lock-in application basically classifies as a virus when you think about it so whatever... at least I learned about the SqlLite api ^_^ 
 ---
+<h3>A lightweight SqlLite Android tutorial</h3>
+<div class="post-content">
+<p>
+Before begining this tutorial make sure you have the following... 
+</p>
+<ol>
+	<li>Java runtime and SDK installed</li>
+	<li>Android SDK</li>
+	<li>Some IDE which supports Android development such as Eclipse or IntelliJ IDEA(the free community edition can be used for Android Dev)</li>
+	<li>Some familiarity at least(not much don't worry) with Android Development</li>
+</ol>
+<p>
+Within your IDE of choice create a new Android project and call it Secure Dialer(actually you can name it whatever but I'll just refer to it as Secure Dialer throughout this tutorial).
+Now locate the pre configured file called &quot;AndroidManifest.xml&quot;.
+The AndroidManifest file is the standard configuration file for Android applications.
+Its where you determine which permissions you demand from the phone OS as well as where you setup the various activity screens and many other things.
+Just think of the AndroidManifest as the app's system profile if that helps.
+To start us off lets declare the permissions we need the end user to accept in order for our
+application to function correctly.
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest 
+	xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+	package=&quot;org.secure.dialer&quot;
+	android:versionCode=&quot;1&quot;
+	android:versionName=&quot;1.0&quot;&gt;
+	
+    &lt;uses-sdk android:minSdkVersion=&quot;8&quot; /&gt;
+    
+    &lt;uses-permission 
+    	android:name=&quot;android.permission.CALL_PHONE&quot;&gt;
+    &lt;/uses-permission&gt;
+    
+    &lt;uses-permission 
+    	android:name=&quot;android.permission.READ_PHONE_STATE&quot;&gt;
+    &lt;/uses-permission&gt;
+</pre></div>
+
+Next we'll fill out the &lt;application&gt; element; this is the element where we can declare 
+the activities and setup any intent-filters which we might need as well.
+
+<div class="gcp"><pre class="prettyprint">
+&lt;application 
+    	android:icon=&quot;@drawable/icon&quot; 
+    	android:label=&quot;@string/app_name&quot; 
+    	android:debuggable=&quot;true&quot;&gt;
+    	
+    	&lt;activity
+    		android:name=&quot;.HomeScreen&quot;
+    		android:label=&quot;@string/homescreen_label&quot;&gt;
+    	
+    		&lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+            
+    	&lt;/activity&gt;
+    	
+    	&lt;activity
+    		android:name=&quot;.Dialer&quot;
+    		android:label=&quot;@string/dialer_label&quot;&gt;
+    	&lt;/activity&gt;
+    	
+    	&lt;activity
+    		android:name=&quot;.NewPassword&quot;
+    		android:label=&quot;@string/newpassword_label&quot;&gt;
+    	&lt;/activity&gt;
+    	
+    	&lt;activity
+    		android:name=&quot;.ResetPassword&quot;
+    		android:label=&quot;@string/resetpassword_label&quot;&gt;
+    	&lt;/activity&gt;
+    	
+    &lt;/application&gt;
+    
+&lt;/manifest&gt;
+</pre></div>
+Now go ahead and save the new AndroidManifest.xml with our changes in place.
+Next up is the resource file strings.xml.
+</p>
+<p>
+strings.xml if you need a refresher is a special resource file that is standard across Androidapps because its the file where you define all of the text strings which will appear throughout your app.
+Although is practical to define strings within the .java files its considered good Android development practice to keep as many of the applications strings within the strings.xml.
+You might think its crazy but for large applications it makes updating text notfications a piece of cake.
+So navigate within your IDE to res/values/strings.xml or create the file if it doesn't exist.
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string name=&quot;app_name&quot;&gt;SecureDialer&lt;/string&gt;
+    
+    &lt;string name=&quot;homescreen_label&quot;&gt;Homescreen Activity&lt;/string&gt;
+    &lt;string name=&quot;homescreen_dialer&quot;&gt;Dialer&lt;/string&gt;
+    &lt;string name=&quot;homescreen_password&quot;&gt;Password&lt;/string&gt;
+    &lt;string name=&quot;homescreen_exit&quot;&gt;Exit&lt;/string&gt;
+    
+    &lt;string name=&quot;newpassword_label&quot;&gt;Newpassword Activity&lt;/string&gt;
+    &lt;string name=&quot;newpassword_new_text&quot;&gt;Enter new password:&lt;/string&gt;
+    &lt;string name=&quot;newpassword_confirm_text&quot;&gt;Repeat the password:&lt;/string&gt;
+    &lt;string name=&quot;newpassword_new_hint&quot;&gt;Type new password here&lt;/string&gt;
+    &lt;string name=&quot;newpassword_confirm_hint&quot;&gt;Repeat password here&lt;/string&gt;
+    &lt;string name=&quot;newpassword_back&quot;&gt;Back&lt;/string&gt;
+    &lt;string name=&quot;newpassword_save&quot;&gt;Save&lt;/string&gt;
+    
+    &lt;string name=&quot;resetpassword_label&quot;&gt;Resetpassword Activity&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_old_text&quot;&gt;Enter old password:&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_old_hint&quot;&gt;Type old password here&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_new_text&quot;&gt;Enter new password:&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_new_hint&quot;&gt;Type new password here&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_confirm_text&quot;&gt;Confirm password:&lt;/string&gt;
+    &lt;string name=&quot;resetpassword_confirm_hint&quot;&gt;Repeat password here&lt;/string&gt;
+    
+    &lt;string name=&quot;dialer_label&quot;&gt;Dialer Activity&lt;/string&gt;
+    &lt;string name=&quot;dialer_dial&quot;&gt;Dial&lt;/string&gt;
+    &lt;string name=&quot;dialer_clear&quot;&gt;Clear&lt;/string&gt;
+    &lt;string name=&quot;dialer_done&quot;&gt;Done&lt;/string&gt;
+    
+    &lt;string name=&quot;dialerpassword_enter&quot;&gt;Enter&lt;/string&gt;
+    &lt;string name=&quot;dialerpassword_nevermind&quot;&gt;Nevermind&lt;/string&gt;
+&lt;/resources&gt;
+</pre></div>
+Remember all of those @string/some_name values within the AndroidManifest.xml?
+Well that is how we reference the values stored within res/strings.xml.
+Moving along next create the Java class file HomeScreen within your applications src folder
+if you want to follow along with the code I have it under src/org/secure/dialer/HomeScreen.java.
+Don't worry about all of those string values you just typed or pasted we'll use them shortly as we introduce each activity screen.
+</p>
+<p>
+As is normal with Android development we will first create the visual layouts and then once all our buttons and views are setup we then add Java to support the various actions we want to allow our users to make.
+Be warned though that this style of visuals first and then application logic might sound strange if you're comming from a web development MVC or MVVM background in which you first design your Models before hooking up controller logic before finnally designing a UI; but don't let it get to you too much because you'll see how its much easier for you to structure your Java code since you basically build application logic on top of objects created from your visual layout.
+But enough chit chat, create a new file &quot;homescreen.xml&quot; within /res/layout/
+
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!-- 
+A great tutorial on how to design button themes
+http://blog.androgames.net/40/custom-button-style-and-theme/
+ --&gt;
+&lt;RelativeLayout 
+	xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+	android:id=&quot;@+id/homescreen_relative_layout&quot;
+	android:orientation=&quot;vertical&quot;
+	android:layout_width=&quot;fill_parent&quot;
+	android:layout_height=&quot;fill_parent&quot;&gt;
+	
+	&lt;Button
+		android:id=&quot;@+id/homescreen_dialer_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;fill_parent&quot;
+		android:text=&quot;@string/homescreen_dialer&quot;
+		android:onClick=&quot;homescreen_button_click_handler&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/homescreen_password_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;fill_parent&quot;
+		android:layout_below=&quot;@id/homescreen_dialer_button&quot;
+		android:text=&quot;@string/homescreen_password&quot;
+		android:onClick=&quot;homescreen_button_click_handler&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/homescreen_exit_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;fill_parent&quot;
+		android:layout_below=&quot;@id/homescreen_password_button&quot;
+		android:text=&quot;@string/homescreen_exit&quot;
+		android:onClick=&quot;homescreen_button_click_handler&quot;/&gt;
+		
+&lt;/RelativeLayout&gt;
+</pre></div>
+The homescreen is fairly basic it will just appear as three buttons vertically tiled.
+When we get to the code for the homescreen you'll see how easily you hookup code to support the android:onClick= tags from your xml file.
+</p>
+
+<p>
+Now create the Java class file &quot;HomeScreen.java&quot; within your project's src/ folder.
+Here you'll also notice a class called &quot;PasswordDB&quot; created, that is the object representation of our SQLite database which is the focus of the article and we'll cover it in depth later on.
+
+<div class="gcp"><pre class="prettyprint">
+package com.example;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+public class HomeScreen extends Activity {
+
+    protected PasswordDB password_db;
+
+    /**
+     * (non-Javadoc)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
+    public void onCreate(Bundle saved_instance_state){
+        super.onCreate(saved_instance_state);
+        this.setContentView(R.layout.homescreen);
+        password_db = new PasswordDB(this);
+    }
+
+    /**
+     * Manages the button click events for the HomeScreen Activity.<br />
+     * Clicking exit terminates the app.<br />
+     * Clicking password launches either the newpassword or resetpassword
+     * activity depending on whether a password is currently stored.<br />
+     * Clicking dialer launches the dialer activity.
+     * @param button_clicked
+     */
+    public void homescreen_button_click_handler(View button_clicked){
+        switch(button_clicked.getId()){
+            case R.id.homescreen_exit_button:
+                HomeScreen.this.finish();
+                break;
+
+            case R.id.homescreen_password_button:
+                Boolean password_found = password_db.is_password();
+                if(!password_found){
+                    Intent new_password_intent = new Intent(this.getApplicationContext(), NewPassword.class);
+
+                    this.startActivity(new_password_intent);
+                    HomeScreen.this.finish();
+                }
+                else{
+                    Intent reset_password_intent = new Intent(this.getApplicationContext(), ResetPassword.class);
+
+                    this.startActivity(reset_password_intent);
+                    HomeScreen.this.finish();
+                }
+                break;
+
+            case R.id.homescreen_dialer_button:
+                Intent dialer_intent = new Intent(this.getApplicationContext(), Dialer.class);
+                this.startActivity(dialer_intent);
+                HomeScreen.this.finish();
+                break;
+        }
+    }
+
+    /**
+     * Displays the string passed as a new toast
+     * @param message
+     */
+    protected void display_toast(String message)
+    {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+}
+</pre></div>
+Pay attention to the homescreen_button_click_handler. 
+Remember inside our Homescreen.xml file where we defined the onClick attribute for each of the three buttons?
+Now you see how easy it is within the Java code to look up the button's unique id name and write handler code, it just becomes a switch case on the getId() method of the View which generated the click event.
+To think if you tried it the other way around you would have foolishly built up three different button handler events where we have just a single button_handler for the entire Homescreen.
+This style of design also makes our code very modular; if you wanted to add another button its as easy as popping in another case statement.
+Looking at the button_click_handler code when the user presses the homescreen_dialer_button we launch the Dialer activity screen... lets do that.
+</p>
+
+<p>
+As before we'll create the dialer layout first, so create the file &quot;dialer.xml&quot; within the layout directory res/layout.
+
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout
+        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        android:id=&quot;@+id/dialer_relative_layout&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;EditText
+            android:id=&quot;@+id/dialer_number_edit&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:focusable=&quot;false&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_one&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;1&quot;
+            android:layout_below=&quot;@id/dialer_number_edit&quot;
+            android:layout_alignLeft=&quot;@id/dialer_number_edit&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_two&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;2&quot;
+            android:layout_below=&quot;@id/dialer_number_edit&quot;
+            android:layout_toRightOf=&quot;@id/dialer_one&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_three&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;3&quot;
+            android:layout_below=&quot;@id/dialer_number_edit&quot;
+            android:layout_toRightOf=&quot;@id/dialer_two&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_four&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;4&quot;
+            android:layout_below=&quot;@id/dialer_one&quot;
+            android:layout_alignLeft=&quot;@id/dialer_one&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_five&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;5&quot;
+            android:layout_below=&quot;@id/dialer_two&quot;
+            android:layout_toRightOf=&quot;@id/dialer_four&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_six&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;6&quot;
+            android:layout_below=&quot;@id/dialer_three&quot;
+            android:layout_toRightOf=&quot;@id/dialer_five&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_seven&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;7&quot;
+            android:layout_below=&quot;@id/dialer_four&quot;
+            android:layout_alignLeft=&quot;@id/dialer_four&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_eight&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;8&quot;
+            android:layout_below=&quot;@id/dialer_five&quot;
+            android:layout_toRightOf=&quot;@id/dialer_seven&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_nine&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;9&quot;
+            android:layout_below=&quot;@id/dialer_six&quot;
+            android:layout_toRightOf=&quot;@id/dialer_eight&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_pound&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;#&quot;
+            android:layout_below=&quot;@id/dialer_seven&quot;
+            android:layout_alignLeft=&quot;@id/dialer_seven&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_zero&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;0&quot;
+            android:layout_below=&quot;@id/dialer_eight&quot;
+            android:layout_toRightOf=&quot;@id/dialer_pound&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_star&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;*&quot;
+            android:layout_below=&quot;@id/dialer_nine&quot;
+            android:layout_toRightOf=&quot;@id/dialer_zero&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_dial_button&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;@string/dialer_dial&quot;
+            android:layout_below=&quot;@id/dialer_pound&quot;
+            android:layout_alignParentLeft=&quot;true&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_clear_button&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;@string/dialer_clear&quot;
+            android:layout_below=&quot;@id/dialer_star&quot;
+            android:layout_alignParentRight=&quot;true&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialer_done_button&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;@string/dialer_done&quot;
+            android:layout_below=&quot;@id/dialer_dial_button&quot;
+            android:layout_centerHorizontal=&quot;true&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</pre></div>
+As you can guess all of the numerical button are what you should expect from a phone dialer.
+Of intrest is the non-focusable editbox where the phonenumber will be displayed as the user types and the three buttons near the bottom; dial, clear and done.
+The layout as you can see is rather plain but the interesting bits will come next when we add the Java code.
+However before that we need to creat the layout for the password prompt which will display once the guest has finished making a call and might potentially have the chance to muck around with your phone.
+Add the file &quot;dialerpassword.xml&quot; to the res/layout folder.
+
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout
+        xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+        android:id=&quot;@+id/dialerpassword_relative_layout&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;EditText
+            android:id=&quot;@+id/dialerpassword_password_edit&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:hint=&quot;@string/newpassword_confirm_hint&quot;
+            android:singleLine=&quot;true&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialerpassword_enter_button&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;@string/dialerpassword_enter&quot;
+            android:layout_below=&quot;@id/dialerpassword_password_edit&quot;
+            android:layout_alignLeft=&quot;@id/dialerpassword_password_edit&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+    &lt;Button
+            android:id=&quot;@+id/dialerpassword_nevermind_button&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:text=&quot;@string/dialerpassword_nevermind&quot;
+            android:layout_below=&quot;@id/dialerpassword_password_edit&quot;
+            android:layout_alignRight=&quot;@id/dialerpassword_password_edit&quot;
+            android:onClick=&quot;dialer_button_click_handler&quot;/&gt;
+
+&lt;/RelativeLayout&gt;
+</pre></div>
+
+Finnally create the Java class file &quot;Dialer.java&quot; and place it within your src/ folder.
+</p>
+<p>
+<div class="gcp"><pre class="prettyprint">
+package com.example;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.telephony.PhoneStateListener;
+
+public class Dialer extends HomeScreen {
+
+    private String current_password = null;
+    private EditText dialer_phone_number_field = null;
+    private Dialog password_dialog = null;
+    private EditText dialog_password_field = null;
+    private PhoneStateListener phone_state_listener = null;
+    private TelephonyManager telephony_manager = null;
+
+    /*
+      * (non-Javadoc)
+      * @see android.app.Activity#onCreate(android.os.Bundle)
+      */
+    public void onCreate(Bundle saved_instance_state){
+        // Hides both the title and status bar
+        // Must be called calling super.onCreate()
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        super.onCreate(saved_instance_state);
+        this.setContentView(R.layout.dialer);
+
+        current_password = password_db.get_password();
+        dialer_phone_number_field = (EditText)findViewById(R.id.dialer_number_edit);
+        phone_state_listener = new CallEndedListener();
+        telephony_manager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+    }
+
+    /**
+     * Manages the button click events for the HomeScreen Activity.<br />
+     * Clicking the numpad adds the number to the dial box<br />
+     * Clicking dial calls the number within the dial box<br />
+     * Clicking clear erases the dial box<br />
+     * Clicking done prompts for the password<br />
+     * @param button_clicked
+     */
+    public void dialer_button_click_handler(View button_clicked){
+        StringBuilder phone_number = new StringBuilder();
+
+        switch(button_clicked.getId()){
+            case R.id.dialer_one:
+                phone_number.append('1');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_two:
+                phone_number.append('2');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_three:
+                phone_number.append('3');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_four:
+                phone_number.append('4');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_five:
+                phone_number.append('5');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_six:
+                phone_number.append('6');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_seven:
+                phone_number.append('7');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_eight:
+                phone_number.append('8');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_nine:
+                phone_number.append('9');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_zero:
+                phone_number.append('0');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_star:
+                phone_number.append('*');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            case R.id.dialer_pound:
+                phone_number.append('#');
+                dialer_phone_number_field.append(phone_number);
+                phone_number.deleteCharAt(0);
+                break;
+
+            // Copies the phone_number_field to a StringBuilder,
+            // deletes the last digit and dumps the StringBuilder
+            // back to the phone_number_field
+            case R.id.dialer_clear_button:
+                if(!dialer_phone_number_field.getText().toString().equals("")){
+                    for(int i = 0; i < dialer_phone_number_field.getText().toString().length(); ++i){
+                        phone_number.append(dialer_phone_number_field.getText().toString().charAt(i));
+                    }
+
+                    phone_number.deleteCharAt(phone_number.length() - 1);
+                    dialer_phone_number_field.setText(phone_number.toString());
+                    phone_number.setLength(0);
+                }
+                break;
+
+            // Launches the dialog box prompting for the new password
+            case R.id.dialer_done_button:
+                password_dialog = make_password_dialog(this);
+                password_dialog.show();
+                break;
+
+            case R.id.dialer_dial_button:
+                if(dialer_phone_number_field.getText().toString().equals("")){
+                    display_toast("Enter a phone number to dial");
+                }
+                else{
+                    perform_dial();
+                }
+                break;
+        }
+    }
+
+    /**
+     * Creates a dialog for the password confirmation
+     * @param context
+     * @return
+     */
+    public Dialog make_password_dialog(Context context){
+        Dialog dialog = new Dialog(context);
+
+        dialog.setContentView(R.layout.dialerpassword);
+        dialog.setTitle("Password?");
+        dialog.setCancelable(true);
+
+        dialog_password_field = (EditText)dialog.findViewById(R.id.dialerpassword_password_edit);
+        Button dialog_enter = (Button)dialog.findViewById(R.id.dialerpassword_enter_button);
+        dialog_enter.setOnClickListener(dialog_click_listener);
+        Button dialog_nevermind = (Button)dialog.findViewById(R.id.dialerpassword_nevermind_button);
+        dialog_nevermind.setOnClickListener(dialog_click_listener);
+
+        return dialog;
+    }
+
+    /**
+     * Custom View.OnClickListener interface for the password
+     * dialog buttons.
+     */
+    public OnClickListener dialog_click_listener = new View.OnClickListener(){
+
+        /**
+         * Clicking nevermind closes the dialog menu<br />
+         * Clicking done validates the password entered.
+         * (non-Javadoc)
+         * @see android.view.View.OnClickListener#onClick(android.view.View)
+         */
+        @Override
+        public void onClick(View button_clicked) {
+            switch(button_clicked.getId()){
+                case R.id.dialerpassword_nevermind_button:
+                    password_dialog.dismiss();
+                    break;
+
+                case R.id.dialerpassword_enter_button:
+                    if(validate_password(dialog_password_field.getText().toString().trim())){
+                        password_dialog.dismiss();
+                        Intent homescreen_intent = new Intent(getApplicationContext(), HomeScreen.class);
+                        startActivity(homescreen_intent);
+                        Dialer.this.finish();
+                    }
+                    break;
+            }
+        }
+    };
+
+    /**
+     * Validates the password typed by the user to check if it
+     * matches the current password stored in the database.
+     * @param password_value
+     * @return true if the password was valid
+     */
+    private Boolean validate_password(String password_value){
+        if(!password_value.equals(current_password)){
+            display_toast("Incorrect password!");
+            this.dialog_password_field.setText("");
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    /**
+     * A small hack to disable the back button
+     * (non-Javadoc)
+     * @see android.app.Activity#onBackPressed()
+     */
+    @Override
+    public void onBackPressed() {
+        display_toast("The back button is disabled");
+        return;
+    }
+
+    /**
+     * Lets the user call using the dial button
+     * (non-Javadoc)
+     * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+     */
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode == KeyEvent.KEYCODE_CALL){
+            perform_dial();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Dials the desired phone number and creates a listener to
+     * to capture the state when the phone call has ended.
+     */
+    public void perform_dial(){
+        if(dialer_phone_number_field != null){
+            try{
+                telephony_manager.listen(phone_state_listener, PhoneStateListener.LISTEN_CALL_STATE);
+                Intent phone_call = new Intent(Intent.ACTION_CALL,
+                        Uri.parse("tel:" + dialer_phone_number_field.getText()));
+                startActivity(phone_call);
+            }
+            catch(Exception error){
+                error.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     *
+     * @author Alex Bredariol Grilo
+     * {@link www.umamao.com}
+     */
+    private class CallEndedListener extends PhoneStateListener {
+        boolean called = false;
+
+        /* Waits until the phone call is done and restarts the activity.
+         *
+         * (non-Javadoc)
+         * @see android.telephony.PhoneStateListener#onCallStateChanged(int, java.lang.String)
+         */
+        @Override
+        public void onCallStateChanged(int state, String incoming_number) {
+            if(called && state == TelephonyManager.CALL_STATE_IDLE){
+                called = false;
+
+                telephony_manager.listen(this,
+                        PhoneStateListener.LISTEN_NONE);
+
+                try{
+                    Dialer.this.finish();
+                    Intent dialer_restart = new Intent(Dialer.this, Dialer.class);
+                    dialer_restart.setAction(Intent.ACTION_MAIN);
+                    startActivity(dialer_restart);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+            else{
+                // When the phone is not in idle mode it is currently
+                // in use
+                if(state == TelephonyManager.CALL_STATE_OFFHOOK){
+                    called = true;
+                }
+            }
+        }
+    }
+}
+</pre></div>
+Stepping through the code for the Dialer class you'll notice that its relatively simple.
+Since the activity is once again button based the meat of the code involves deciding what we should do once each button handler event is triggered.
+A quick thing to notice is that the Dialer class we defined extends the HomeScreen where we intialized the password database object; so all of the password interaction is due to our great use of inheritance.
+Anyhow the basic idea for the Dialer activity is the following...
+<ol>
+	<li>Pressing the numeric keys lets the user enter a phonenumber</li>
+	<li>The clear button should delete a numeric character one at a time</li>
+	<li>Dial... makes a phonecall</li>
+	<li>Done should prompt the user for a password, if correct unlocks the app</li>
+</ol>
+What you'll notice here is that the prompting for a password is how we make the dialer somewhat secure.
+If the wrong one is entered the user should theorectically have no other access to your phone meaning they can't touch your apps, peek at your emails or do anything else.
+Looking at the code you'll see the function make_password_dialog() which creates the kinda mini embedded activity when the user triggers the dialer_done_button click event.
+The remaining code within the Dialer class involves the TelephonyManager which is the Android API's way of letting developers controller the actions of the phone listener and receiver.
+Its rather easy to understand after you force yourself to think of the Phone as advancing across as series of states such as IDLE, OFFHOOK, LISTEN_CALL and create a mental map of those states as you normally talk on the phone.
+Now we'll return back to the Homescreen and add in the code to support the new and reset password buttons. 
+Each of the buttons will have a layout and Java class file associated.
+</p>
+<p>
+Lets begin with the NewPassword class, create the file &quot;newpassword.xml&quot; within the res/layout folder of your Android project.
+The xml rather easy to understand as its just a regular enter password and repeat it once type of layout you've seen all over the place.
+
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout
+	xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+	android:id=&quot;@+id/newpassword_relative_layout&quot; 
+	android:layout_width=&quot;match_parent&quot;
+	android:layout_height=&quot;match_parent&quot;&gt;
+	
+	&lt;TextView 
+		android:id=&quot;@+id/newpassword_new_password_text&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:text=&quot;@string/newpassword_new_text&quot;/&gt;
+		
+	&lt;EditText 
+		android:id=&quot;@+id/newpassword_new_password_edit&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:hint=&quot;@string/newpassword_new_hint&quot;
+		android:layout_below=&quot;@id/newpassword_new_password_text&quot;
+		android:singleLine=&quot;true&quot;/&gt;
+		
+	&lt;TextView 
+		android:id=&quot;@+id/newpassword_confirm_password_text&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:text=&quot;@string/newpassword_confirm_text&quot;
+		android:layout_below=&quot;@id/newpassword_new_password_edit&quot;/&gt;
+		
+	&lt;EditText 
+		android:id=&quot;@+id/newpassword_confirm_password_edit&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:hint=&quot;@string/newpassword_confirm_hint&quot;
+		android:layout_below=&quot;@id/newpassword_confirm_password_text&quot;
+		android:singleLine=&quot;true&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/newpassword_back_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;wrap_content&quot;
+		android:text=&quot;@string/newpassword_back&quot;
+		android:layout_below=&quot;@id/newpassword_confirm_password_edit&quot;
+		android:layout_alignLeft=&quot;@id/newpassword_confirm_password_edit&quot;
+		android:onClick=&quot;newpassword_button_click_handler&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/newpassword_save_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;wrap_content&quot;
+		android:text=&quot;@string/newpassword_save&quot;
+		android:layout_below=&quot;@id/newpassword_confirm_password_edit&quot;
+		android:layout_alignRight=&quot;@id/newpassword_confirm_password_edit&quot;
+		android:onClick=&quot;newpassword_button_click_handler&quot;/&gt;
+	
+&lt;/RelativeLayout&gt;
+</pre></div>
+The Java code should be titled &quot;NewPassword.java&quot; and stored within the src/ folder of your project.
+The code consist of letting the user enter a password into the editText box, and validate that the repeated value matches the original.
+Once the validation has been accepted we make a DB transaction and store the password.
+<div class="gcp"><pre class="prettyprint">
+package com.example;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+public class NewPassword extends HomeScreen {
+
+    private EditText new_password_field = null;
+    private EditText confirm_password_field = null;
+
+    /*
+      * (non-Javadoc)
+      * @see android.app.Activity#onCreate(android.os.Bundle)
+      */
+    public void onCreate(Bundle saved_instance_state){
+        super.onCreate(saved_instance_state);
+        this.setContentView(R.layout.newpassword);
+
+        new_password_field = (EditText)findViewById(
+                R.id.newpassword_new_password_edit);
+        confirm_password_field = (EditText)findViewById(
+                R.id.newpassword_confirm_password_edit);
+    }
+
+    /**
+     * Manages the button click events for the NewPassword Activity.<br />
+     * Clicking back returns to the HomeScreen.<br />
+     * Clicking save will save the password if it passes the validation
+     * check.
+     * @param button_clicked
+     */
+    public void newpassword_button_click_handler(View button_clicked){
+        Intent homescreen_intent = new Intent(this.getApplicationContext(),
+                HomeScreen.class);
+
+        switch(button_clicked.getId()){
+            case R.id.newpassword_back_button:
+                this.startActivity(homescreen_intent);
+                NewPassword.this.finish();
+                break;
+
+            case R.id.newpassword_save_button:
+                if(validate_password(
+                        new_password_field.getText().toString().trim(),
+                        confirm_password_field.getText().toString().trim()
+                )){
+                    this.startActivity(homescreen_intent);
+                    NewPassword.this.finish();
+                }
+                break;
+        }
+    }
+
+    /**
+     * When both the new password and the confirmation password
+     * match the new password is saved. Else when the passwords
+     * don't match or are empty an error message is displayed.
+     * @return true if both password fields match else false
+     */
+    private Boolean validate_password(String new_password_value,
+                                      String confirm_password_value){
+
+        if(!new_password_value.equals(confirm_password_value)){
+            display_toast("Your Passwords do not match");
+            return false;
+        }
+        else if(new_password_value.equals("") &&
+                new_password_value.equals("")){
+            display_toast("Your Passwords cannot be empty");
+            return false;
+        }
+        else{
+            password_db.set_password(new_password_value);
+            display_toast("Your new password was saved!");
+            return true;
+        }
+    }
+}
+</pre></div>
+If you pay enough attention to the newpassword xml and Java code behind you'll have no trouble at all with the resetpassword code as its very similar.
+</p>
+<p>
+We'll begin with the layout for the resetpassword code, so create the file &quot;resetpassword.xml&quot; within the res/layout/ folder of your project.
+
+<div class="gcp"><pre class="prettyprint">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout
+	xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+	android:id=&quot;@+id/resetpassword_relative_layout&quot; 
+	android:layout_width=&quot;match_parent&quot;
+	android:layout_height=&quot;match_parent&quot;&gt;
+	
+	&lt;TextView 
+		android:id=&quot;@+id/resetpassword_old_password_text&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:text=&quot;@string/resetpassword_old_text&quot;/&gt;
+		
+	&lt;EditText 
+		android:id=&quot;@+id/resetpassword_old_password_edit&quot; 
+		android:hint=&quot;@string/resetpassword_old_hint&quot;
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:layout_below=&quot;@id/resetpassword_old_password_text&quot;
+		android:singleLine=&quot;true&quot;
+		android:maxLength=&quot;10&quot;/&gt;
+		
+	&lt;TextView 
+		android:id=&quot;@+id/resetpassword_new_password_text&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:text=&quot;@string/resetpassword_new_text&quot;
+		android:layout_below=&quot;@id/resetpassword_old_password_edit&quot;/&gt;
+		
+	&lt;EditText 
+		android:id=&quot;@+id/resetpassword_new_password_edit&quot; 
+		android:hint=&quot;@string/resetpassword_new_hint&quot;
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:layout_below=&quot;@id/resetpassword_new_password_text&quot;
+		android:singleLine=&quot;true&quot;
+		android:maxLength=&quot;10&quot;/&gt;
+		
+	&lt;TextView 
+		android:id=&quot;@+id/resetpassword_confirm_password_text&quot; 
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:text=&quot;@string/resetpassword_confirm_text&quot;
+		android:layout_below=&quot;@id/resetpassword_new_password_edit&quot;/&gt;
+		
+	&lt;EditText 
+		android:id=&quot;@+id/resetpassword_confirm_password_edit&quot; 
+		android:hint=&quot;@string/resetpassword_confirm_hint&quot;
+		android:layout_width=&quot;fill_parent&quot; 
+		android:layout_height=&quot;wrap_content&quot; 
+		android:layout_below=&quot;@id/resetpassword_confirm_password_text&quot;
+		android:singleLine=&quot;true&quot;
+		android:maxLength=&quot;10&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/resetpassword_back_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;wrap_content&quot;
+		android:text=&quot;@string/newpassword_back&quot;
+		android:layout_below=&quot;@id/resetpassword_confirm_password_edit&quot;
+		android:layout_alignLeft=&quot;@id/resetpassword_confirm_password_edit&quot;
+		android:onClick=&quot;reset_button_click_handler&quot;/&gt;
+		
+	&lt;Button
+		android:id=&quot;@+id/resetpassword_save_button&quot;
+		android:layout_height=&quot;wrap_content&quot;
+		android:layout_width=&quot;wrap_content&quot;
+		android:text=&quot;@string/newpassword_save&quot;
+		android:layout_below=&quot;@id/resetpassword_confirm_password_edit&quot;
+		android:layout_alignRight=&quot;@id/resetpassword_confirm_password_edit&quot;
+		android:onClick=&quot;reset_button_click_handler&quot;/&gt;
+		
+&lt;/RelativeLayout&gt;
+</pre></div>
+The addition here for the reset password xml layout is the entry for the current or old password.
+We going to assert that the value entered there must be found within the database before we can create a new transaction to store the value of a new password.
+Now create the file within the src/ folder of your project called &quot;ResetPassword.java&quot;. 
+I was extra careful to write useful comments within this file so be sure to read them before moving on to the last part.
+
+<div class="gcp"><pre class="prettyprint">
+package com.example;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+/**
+ * Resets the applications' password used to escape from the dialer activity
+ */
+public class ResetPassword extends HomeScreen {
+
+    private String current_password = null;
+    private EditText new_password_field = null;
+    private EditText confirm_password_field = null;
+    private EditText old_password_field = null;
+
+    /*
+      * (non-Javadoc)
+      * @see android.app.Activity#onCreate(android.os.Bundle)
+      */
+    public void onCreate(Bundle saved_instance_state){
+        super.onCreate(saved_instance_state);
+        this.setContentView(R.layout.resetpassword);
+
+        current_password = password_db.get_password();
+        new_password_field = (EditText)findViewById(
+                R.id.resetpassword_new_password_edit);
+        confirm_password_field = (EditText)findViewById(
+                R.id.resetpassword_confirm_password_edit);
+        old_password_field = (EditText)findViewById(
+                R.id.resetpassword_old_password_edit);
+    }
+
+    /**
+     * Manages the button click events for the NewPassword Activity.<br />
+     * Clicking back returns to the HomeScreen.<br />
+     * Clicking save will save the password if it passes the validation
+     * check.
+     * @param button_clicked
+     */
+    public void reset_button_click_handler(View button_clicked){
+        Intent homescreen_intent = new Intent(this.getApplicationContext(),
+                HomeScreen.class);
+
+        switch(button_clicked.getId()){
+            case R.id.resetpassword_back_button:
+                this.startActivity(homescreen_intent);
+                ResetPassword.this.finish();
+                break;
+
+            case R.id.resetpassword_save_button:
+                if(validate_password(
+                        old_password_field.getText().toString().trim(),
+                        new_password_field.getText().toString().trim(),
+                        confirm_password_field.getText().toString().trim()
+                )){
+                    this.startActivity(homescreen_intent);
+                    ResetPassword.this.finish();
+                }
+                break;
+        }
+    }
+
+    /**
+     * When the new password equals the confirmation password
+     * and the old password equals the current password 
+     * then the new password is reset. Else when the passwords
+     * don't match or are empty or the old password doesn't match the
+     * current password then an error message is displayed.
+     * @return true if both password fields match else false
+     */
+    private Boolean validate_password(String old_password_value,
+                                      String new_password_value, String confirm_password_value){
+        if(!old_password_value.equals(current_password)){
+            display_toast("Your old password is incorrect");
+            return false;
+        }
+        else if(!new_password_value.equals(confirm_password_value)){
+            display_toast("Your Passwords do not match");
+            return false;
+        }
+        else if(new_password_value.equals("") &&
+                confirm_password_value.equals("")){
+            display_toast("Your Passwords cannot be empty");
+            return false;
+        }
+        else{
+            password_db.reset_password(new_password_value);
+            display_toast("Your new password was saved!");
+            return true;
+        }
+    }
+}
+
+</pre></div>
+We are now ready to explore the basics of the Android SQLite API.
+</p>
+
+<p>
+</p>
+</div>
+
