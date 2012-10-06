@@ -1128,6 +1128,366 @@ We are now ready to explore the basics of the Android SQLite API.
 </p>
 
 <p>
+Within the src folder of your project add the file &quot;PasswordDB.java&quot;.
+
+<div class="gcp"><pre class="prettyprint">
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+/**
+ * Represents the Password Database
+ * @author Demetrious
+ *
+ */
+public class PasswordDB extends SQLiteOpenHelper {
+
+	private static final String db_name = "PasswordDB";
+	private static final String password_table = "Passwords";
+	private static final String password_col_password_number = "PassNo";
+	private static final String password_col_password_value = "PassVal";
+</pre></div>
+The static strings we declared above represent the name of our database, table and two columns.
+The password number or PassNo will be the primary key and the string value
+of the password(this is not a mission critical app so we're not going to encrpyt it) will be its stored value.
+</p>
+
+<p>
+Next we'll write the constructor for the database which will create the databasewith the name we gave it within the string db_name.
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * 
+	 * @param context
+	 */
+	public PasswordDB(Context context) {
+		super(context, db_name, null, 1);
+	}
+</pre></div>
+With our database in place the next step is to create the Table.
+The code below will accomplish just that, look at the JavaDoc I wrote to see the corresponding SQL.
+
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * Invokes the SQL statements below.
+	 *  <p>
+	 *	CREATE TABLE IF NOT EXISTS Password( <br />
+	 *	PassNo		INTEGER PRIMARY KEY, <br />
+	 *	PassVal		VARCHAR(10) NOT NULL <br />
+	 *	);
+	 * </p>
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
+	 */
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("CREATE TABLE IF NOT EXISTS " + password_table + "(" + 
+				password_col_password_number + " INTEGER PRIMARY KEY," +
+				password_col_password_value + " VARCHAR(10) NOT NULL" +
+				");");
+	}
+</pre></div>
+The next method onUpgrade() is a required function but we're not going to actually implement it since we don't need it for this example.
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)
+	 */
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, 
+			int newVersion) {
+	}
+</pre></div>
+We'll of course need a way to insert a new password into our database.
+The method set_password does just that.
+All its doing is calling a basic SQL insert into query but using the Android API helper method insert();
+
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * Inserts a new password into the Password DB via the following SQL.
+	 * <p>
+	 * INSERT INTO Password (PassVal)<br />
+	 * VALUES('new_password');
+	 * </p>
+	 * @param new_password
+	 */
+	public void set_password(String new_password){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues content_values = new ContentValues();
+		
+		content_values.put(password_col_password_value, new_password);
+		
+		db.insert(password_table, password_col_password_value, 
+				content_values);
+		db.close();
+	}
+</pre></div>
+Much like a Java property we need a getter to accompany the setter.
+However here we'll first write a raw query which will place a cursor at the first result row that was found from our SELECT statement.
+Database cursors can be though of as table iterators.
+The cursor will begin at the result table itself, you must first move it to the  result row to begin reading data.
+Once at a result row you have to move the cursor column by column and read the rrow value from each.
+ Since we are only going to be storing a single password the first row result will always contain the password we want to fetch. 
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * Returns the existing password assuming that one exists via the 
+	 * following SQL.
+	 * <p>
+	 * SELECT * <br />
+	 * FROM Passwords <br />
+	 * WHERE PassNo='1';
+	 * </p>
+	 * @return A String with the current password
+	 */
+	public String get_password(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		Cursor cursor = db.rawQuery(
+				"SELECT " + password_col_password_value +
+				" FROM " + password_table +
+				" WHERE " + password_col_password_number + "=\'1\';", null);
+		
+		cursor.moveToFirst();
+		Integer column_index = cursor.getColumnIndex(
+				password_col_password_value);
+		String string_value = cursor.getString(column_index);
+		
+		cursor.close();
+		db.close();
+		
+		return string_value;
+	}
+</pre></div>
+Now the question becomes how do we update an existing password?
+To do so we have to use the update() method which is another Android SQLite API wrapper around the traditional SQL UPDATE WHERE statement.
+Looking at the JavaDoc I wrote you can see how we would write this if it were a regular SQL statement.
+Despite the Android SQL API being a little verbose(this might change in the future) the parameterized input means that we would be safe from any type of injection attacks since we're not passing a rawQuery from the user input.
+In short using the parameterized wrapper methods is more code but it saves you from the potential danger of calling rawQueries which substitute in user values.
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * Updates the existing password based on the following SQL.
+	 * <p>
+	 *  UPDATE Password <br />
+	 *	SET PassVal='new_password' <br />
+	 *	WHERE PassVal='old_password';
+	 * </p>
+	 * @param new_password
+	 */
+	public void reset_password(String new_password){
+		String old_password = get_password();
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues content_values = new ContentValues();
+		
+		content_values.put(password_col_password_value, new_password);
+		
+		String where_clause = password_col_password_value + "=?";
+		String[] where_args = {old_password};
+		db.update(password_table, content_values, where_clause, 
+				where_args);
+	
+		db.close();
+	}
+</pre></div>
+Lastly we need a way to verify if a password has been set or not. 
+This will allow us to determine when we need to prompt the user for a reset.
+Its short and sweet, just run a select query and count the results.
+<div class="gcp"><pre class="prettyprint">
+	/**
+	 * Uses the following SQL.
+	 * <p>
+	 * SELECT * <br />
+	 * FROM Passwords <br />
+	 * WHERE PassNo='1';
+	 * </p>
+	 * @return true if a password exists else false
+	 */
+	public Boolean is_password(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		Cursor cursor = db.rawQuery(
+				"SELECT " + password_col_password_value +
+				" FROM " + password_table +
+				" WHERE " + password_col_password_number + "=\'1\';", null);
+		
+		if(cursor != null && cursor.getCount() > 0 ){
+			db.close();
+			cursor.close();
+			return true;
+		}
+		else{
+			db.close();
+			cursor.close();
+			return false;
+		}
+	}
+}
+</pre></div>
+</p>
+<p>
+Perhaps you got lost(its better if you followed along closely) but here is the PasswordDB class in full.
+
+<div class="gcp"><pre class="prettyprint">
+//Add your package name here!
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class PasswordDB extends SQLiteOpenHelper {
+
+	private static final String db_name = "PasswordDB";
+	private static final String password_table = "Passwords";
+	private static final String password_col_password_number = "PassNo";
+	private static final String password_col_password_value = "PassVal";
+	
+	/**
+	 * 
+	 * @param context
+	 */
+	public PasswordDB(Context context) {
+		super(context, db_name, null, 1);
+	}
+
+	/**
+	 * Invokes the SQL statements below.
+	 *  <p>
+	 *	CREATE TABLE IF NOT EXISTS Password( <br />
+	 *	PassNo		INTEGER PRIMARY KEY, <br />
+	 *	PassVal		VARCHAR(10) NOT NULL <br />
+	 *	);
+	 * </p>
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
+	 */
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("CREATE TABLE IF NOT EXISTS " + password_table + "(" + 
+				password_col_password_number + " INTEGER PRIMARY KEY," +
+				password_col_password_value + " VARCHAR(10) NOT NULL" +
+				");");
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)
+	 */
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, 
+			int newVersion) {
+	}
+	
+	/**
+	 * Inserts a new password into the Password DB via the following SQL.
+	 * <p>
+	 * INSERT INTO Password (PassVal)<br />
+	 * VALUES('new_password');
+	 * </p>
+	 * @param new_password
+	 */
+	public void set_password(String new_password){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues content_values = new ContentValues();
+		
+		content_values.put(password_col_password_value, new_password);
+		
+		db.insert(password_table, password_col_password_value, 
+				content_values);
+		db.close();
+	}
+	
+	/**
+	 * Returns the existing password assuming that one exists via the 
+	 * following SQL.
+	 * <p>
+	 * SELECT * <br />
+	 * FROM Passwords <br />
+	 * WHERE PassNo='1';
+	 * </p>
+	 * @return A String with the current password
+	 */
+	public String get_password(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		Cursor cursor = db.rawQuery(
+				"SELECT " + password_col_password_value +
+				" FROM " + password_table +
+				" WHERE " + password_col_password_number + "=\'1\';", null);
+		
+		cursor.moveToFirst();
+		Integer column_index = cursor.getColumnIndex(
+				password_col_password_value);
+		String string_value = cursor.getString(column_index);
+		
+		cursor.close();
+		db.close();
+		
+		return string_value;
+	}
+	
+	/**
+	 * Updates the existing password based on the following SQL.
+	 * <p>
+	 *  UPDATE Password <br />
+	 *	SET PassVal='new_password' <br />
+	 *	WHERE PassVal='old_password';
+	 * </p>
+	 * @param new_password
+	 */
+	public void reset_password(String new_password){
+		String old_password = get_password();
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues content_values = new ContentValues();
+		
+		content_values.put(password_col_password_value, new_password);
+		
+		String where_clause = password_col_password_value + "=?";
+		String[] where_args = {old_password};
+		db.update(password_table, content_values, where_clause, 
+				where_args);
+	
+		db.close();
+	}
+	
+	/**
+	 * Uses the following SQL.
+	 * <p>
+	 * SELECT * <br />
+	 * FROM Passwords <br />
+	 * WHERE PassNo='1';
+	 * </p>
+	 * @return true if a password exists else false
+	 */
+	public Boolean is_password(){
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		Cursor cursor = db.rawQuery(
+				"SELECT " + password_col_password_value +
+				" FROM " + password_table +
+				" WHERE " + password_col_password_number + "=\'1\';", null);
+		
+		if(cursor != null && cursor.getCount() > 0 ){
+			db.close();
+			cursor.close();
+			return true;
+		}
+		else{
+			db.close();
+			cursor.close();
+			return false;
+		}
+	}
+}
+</pre></div>
+</p>
+<p>
+So there you go, an Android application that makes use of the SQLite API.
+Perhaps you can extend this application or something.
+Anyways... enjoy your guestDialer app. 
 </p>
 </div>
 
