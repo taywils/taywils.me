@@ -1,7 +1,7 @@
 $(function(){
 	$('#slides').slides({
 		preload: true,
-		preloadImage: '/images/slidesjs/loading.gif',
+		preloadImage: '/static/images/slidesjs/loading.gif',
 		play: 0,
 		pause: 2500,
 		hoverPause: true,
