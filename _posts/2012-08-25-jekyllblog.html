@@ -9,7 +9,10 @@ description: Although it wasn't easy I finally migrated my blog over to Jekyll. 
 <h3>Why I switched over to Jekyll from WordPress</h3>
 <div class="post-content">
 <p>
-Quite some time ago(early 2011) when I just began programming I had learned that it was a fairly common practice amongst programmers to keep an update code blog.
+<ul class="no-bullets">
+	<li><a href="https://github.com/taywils/taywils.me">Grab the code on GitHub</a></li>
+</ul>
+Quite some time ago(early 2010) when I just began programming I had learned that it was a fairly common practice amongst programmers to keep an update code blog.
 Not knowing anything at all about web development or even what PHP stood for I did what most people assumed when they heard the word blog and jumped on WordPress.
 Although there is nothing wrong with using WordPress for a blogging platform, as a developer I quickly realized that I was not the targeted audience.
 However I would later learn that many developers do in fact build various plugins and themes for WordPress such as code syntax highlighters and site search engines.
@@ -19,17 +22,17 @@ My old programming blog morphed into a nasty mashup of copy pasted code and I us
 I could remember it taking me several hours just to go from writing new content to finnally displaying on my code blog just because I knew nothing about how content was actually served on the web.
 I can't exactly remember when it was that I was browsing online one day for WordPress tutorials when I spotted a comment on a blog post that said something along the lines of &quot;Do you really need a database connection just to fetch blog post which probably won't ever be updated after you've written it?&quot;. 
 Something about that kinda pissed me off... I was thinking to myself &quot;You know... why the heck do I need user auth and an entire content management system which I probably only use about 2% of its entire features anyways just to render some damn static html on a screen?&quot;
-However given my skillset at the time(all I knew was C++ and a tiny sliver of HTML) I couldn't imagine writting every single line of HTML by hand and having to go through and update every single linkon the site; not only would it be absurd but the sheer amount of wasted time could have been invested into just paying someone to build a site for me.
+However given my skillset at the time(all I knew was C++ and a tiny sliver of HTML) I couldn't imagine writting every single line of HTML by hand and having to go through and update every single link on the site; not only would it be absurd but the sheer amount of wasted time could have been invested into just paying someone to build a site for me.
 In the meantime I had just discovered the wonders of version control and Git in particular when I came across an article about how GitHub.com handles its myraid number of web pages.
-It was a something called Jekyll, a blog aware static site generator.
+It was something called Jekyll, a blog aware static site generator.
 </p>
 
 <p>
-The basics of Jekyll are easy enough to figure out, you have a layout and you use templating engine to render all of your post which fit neatly into the _post directory of your app.
+The basics of Jekyll are easy enough to figure out, you design a layout and run some ruby code to render all of your post which fit neatly into the _post directory of your app.
 From there you run the command &quot;Jekyll&quot; at the terminal at the root directory of your application and the _site folder is generated.
 Next you copy the _site directory to a web server and you're done.
 The overall no nonsense just write some markup or markdown, add css throw in some javascript and let Jekyll do the rest really made writing a blog a chore.
-As you can see from the github source for this blog the main layout is where all of parts of the Jekyll app come together.
+As you can see from the github source for this blog the main layout is where all parts of the Jekyll app come together.
 
 <div class="gcp"> <pre class="prettyprint lang-html">
 &lt;!DOCTYPE html&gt;
