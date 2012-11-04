@@ -216,12 +216,14 @@ public class HomeScreen extends Activity {
      */
     public void homescreen_button_click_handler(View button_clicked){
         switch(button_clicked.getId()){
+		Boolean password_found = password_db.is_password();
+
             case R.id.homescreen_exit_button:
                 HomeScreen.this.finish();
                 break;
 
             case R.id.homescreen_password_button:
-                Boolean password_found = password_db.is_password();
+                
                 if(!password_found){
                     Intent new_password_intent = new Intent(this.getApplicationContext(), NewPassword.class);
 
@@ -237,9 +239,13 @@ public class HomeScreen extends Activity {
                 break;
 
             case R.id.homescreen_dialer_button:
-                Intent dialer_intent = new Intent(this.getApplicationContext(), Dialer.class);
-                this.startActivity(dialer_intent);
-                HomeScreen.this.finish();
+                if(password_found) {
+                    Intent dialer_intent = new Intent(this.getApplicationContext(), Dialer.class);
+                    this.startActivity(dialer_intent);
+                    HomeScreen.this.finish();
+                } else {
+                    display_toast("No password has been set yet.");
+                }
                 break;
         }
     }
