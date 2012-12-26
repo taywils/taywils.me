@@ -138,3 +138,21 @@ description: In this tutorial we'll setup a Python development environment on Wi
 	- Start the Python Interactive shell and enter the code that appears within the screenshot below
 
 	- <a href="/static/images/win_py_tutorial/i.png"><img src="/static/images/win_py_tutorial/i.png" width="473px" height="230px"/></a>
+
+14. Install matplotlib for python
+
+	- This tutorial is using python 3.2 and Numpy 1.6.2 for 32-bit Windows
+
+	- [https://github.com/downloads/matplotlib/matplotlib/matplotlib-1.2.0.win32-py3.2.exe](https://github.com/downloads/matplotlib/matplotlib/matplotlib-1.2.0.win32-py3.2.exe)
+
+	- After installing regenerate the intellisense database
+
+	- Tools >> Options >> Python Tools >> Interpreter Options >> Generate Intellisense database
+
+15. Verify that matplotlib is running
+
+	- Special thanks to [http://bespokeblog.wordpress.com/2011/07/07/basic-data-plotting-with-matplotlib-part-2-lines-points-formatting/](http://bespokeblog.wordpress.com/2011/07/07/basic-data-plotting-with-matplotlib-part-2-lines-points-formatting) for the example code
+
+	- Try and reproduce the screenshot below within your visual studio environment
+
+	- <a href="/static/images/win_py_tutorial/j.PNG"><img src="/static/images/win_py_tutorial/j.PNG" width="430px" height="345px"/></a>
