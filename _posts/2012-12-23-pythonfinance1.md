@@ -1,13 +1,21 @@
 ---
 layout: post
-title: Install Python, Numpy and Pandas on Windows 7 
+title: Install Python, Numpy, SciPy, IPython and Pandas on Windows
 mydate: Dec 23 2012
 tags: [python]
 catagories: [tutorial, numpy, pandas]
 comments: true
 description: In this tutorial we'll setup a Python development environment on Windows 7. After finishing this tutorial you will be ready to start writing numerical applications, data analysis algorithmns and implement various machine learning methods. I've always wanted to get back into numerical computing and Python seems like the way to go.
 ---
-### Install Python, Numpy and Pandas on Windows 7
+### Install Python, Numpy, SciPy, IPython and Pandas on Windows
+
+<div class="post-content">
+<p>
+In this tutorial you will be setting up a numerical Python development environment for Windows 7.
+As you might have already realized, Python is rather simple to setup on a Linux/MacOSX box but as with many open source based projects
+getting up and running on Windows is never trivial.
+</p>
+</div>
 
 1. Visit [http://www.python.org](http://www.python.org) and search for Python version 3.2.x
 
@@ -156,3 +164,24 @@ description: In this tutorial we'll setup a Python development environment on Wi
 	- Try and reproduce the screenshot below within your visual studio environment
 
 	- <a href="/static/images/win_py_tutorial/j.PNG"><img src="/static/images/win_py_tutorial/j.PNG" width="430px" height="345px"/></a>
+
+16. Install SciPy
+	- We're using Python3.2 so get the appropriate version
+
+	- [http://sourceforge.net/projects/scipy/files/scipy/0.11.0/scipy-0.11.0-win32-superpack-python3.2.exe/download](http://sourceforge.net/projects/scipy/files/scipy/0.11.0/scipy-0.11.0-win32-superpack-python3.2.exe/download)
+
+	- Right click the installer and "Run as administrator" and then follow the on screen instructions
+
+	- Regenerate the intellisense database within Visual Studio 2012 to ensure that Scipy will be autocompleted
+
+17. Install IPython
+
+	- [http://www.windowsazure.com/en-us/develop/python/tutorials/ipython-notebook](http://www.windowsazure.com/en-us/develop/python/tutorials/ipython-notebook)
+
+	- Follow the very detailed instructions on that site except the part about the ipython_notebook_config.py file I couldn't get that part to work.
+
+	- If you get an error relating to missing module JinJa2 then open Powershell and run "easy_install.exe Jinja2"
+
+	- I managed to get IPython working correctly using the following from Powershell
+
+	- <div class="post-content">ipython3.exe notebook --pylab=inline --profile=nbserver --certfile='C:\Users\YourNameHere\.ipython\profile_nbserver\mycert.pem'</div>
