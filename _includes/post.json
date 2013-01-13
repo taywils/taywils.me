@@ -1,0 +1,9 @@
+{
+	"title"				: "{{ post.title }}",
+	"date"				: "{{ post.mydate }}",
+	"tags"				: [ {% for tag in post.tags %} "{{ tag }}", {% endfor %} null],
+	"href"				: "{{ post.url }}",
+	"catagories"	: [ {% for catagory in post.catagories %} "{{ catagory }}", {% endfor %} null],
+	"description"	: "{{ post.description }}"
+}
+

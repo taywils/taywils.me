@@ -19,7 +19,7 @@ permalink: /index.html
 			<tr>
 				<td class="article-tags">
 					{% for tag in post.tags %}
-						<img src="/static/images/{{ tag }}.png" title="{{ tag }}"/>
+						<a href="/search.html?tag={{ tag | downcase }}"><img src="/static/images/{{ tag }}.png" title="{{ tag }}"/></a>
 					{% endfor %}
 					<div class="article-catagories">
 						{% for catagory in post.catagories %}
