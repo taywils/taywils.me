@@ -8,11 +8,10 @@ lesscss.org
 
 // Variables
 @headerLength: 60px;
-@rightSideBarLength: 300px;
+@rightSideBarLength: 230px;
 @leftSideBarLength: 230px; 
 @headerSpacePadding: 3em;
-@headerShadow: 0px 5px 5px #888;
-@fontFamilyContent: "Helvetica, sans-serif";
+@fontPlainContent: 'Lato', sans-serif;
 
 // Mixins
 .anchor-override-style (@color: white) {
@@ -32,11 +31,18 @@ lesscss.org
 		text-decoration: none;
 	}
 }
+.border-content-style (@border-color: #DDD, @background-color: white) {
+	border: 1px solid @border-color;
+	background-color: @background-color;
+	padding: 20px;
+}
 
+// CSS
 body {
 	margin: 20px 0 0 0;
 	padding: @headerLength @rightSideBarLength 0 @leftSideBarLength;
-	font-family: @fontFamilyContent;
+	font-family: @fontPlainContent;
+	background-color: #F9F9F9;
 }
 
 div#content {
@@ -51,14 +57,9 @@ div#header {
 	height: @headerLength;
 	background: #f69609;
 	color: #ffffff;
-	opacity:0.9;
-	filter:alpha(opacity=90); /* For IE8 and earlier */
-	font-family: @fontFamilyContent;
+	font-family: @fontPlainContent;
 	font-size: 80%;
 	.anchor-override-style();
-	-webkit-box-shadow: @headerShadow;
-	-moz-box-shadow: @headerShadow;
-	box-shadow: @headerShadow;
 }
 
 div#left-sidebar {
@@ -80,6 +81,8 @@ div#right-sidebar {
 div.post-content {
 	font-size: 75%;
 	line-height: 1.5;
+	.border-content-style();
+	margin-bottom: 35px;
 }
 
 div.gcp {
@@ -102,6 +105,7 @@ table.article-table {
 	table-layout: fixed;
 	margin-top: 20px;
 	margin-bottom: 50px;
+	.border-content-style();
 	td {
 		width: 950px;
 		overflow: hidden;
@@ -121,8 +125,9 @@ table.article-table {
 		height: 70px;
 		float: left;
 		div.article-catagories {
-			margin-top: 28px;
+			margin-top: 35px;
 			float: right;
+			color: #828282;
 		}
 	}
 }
