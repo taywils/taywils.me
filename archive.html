@@ -3,7 +3,7 @@ layout: default
 title: Archive
 permalink: /archive.html
 ---
-<div class="post-content">
+<div class="post-content" align="center">
 {% for post in site.posts %}
     {% capture cmonth %}{{ post.date | date: "%B" }}{% endcapture %}
     {% unless lmonth == cmonth %}
@@ -13,7 +13,7 @@ permalink: /archive.html
         {% assign lmonth = cmonth %}
     {% endunless %}
     {% if post.layout == 'link' %}
-            <li><span>{{ post.date | date: "%d" }}</span> <a href="{{ post.link_url }}">{{ post.title }}</a> <a href="{{ post.url }}" class="arch_permalink">&#8734;</a></li>
+            <li><span>{{ post.date | date: "%d" }}</span> <a href="{{ post.link_url }}">{{ post.title }}</a> <a href="{{ post.url }}">&#8734;</a></li>
     {% else %}
             <li><span>{{ post.date | date: "%d" }}</span> <a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endif %}
