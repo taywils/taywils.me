@@ -12,6 +12,7 @@ lesscss.org
 @leftSideBarLength: 230px; 
 @headerSpacePadding: 3em;
 @fontPlainContent: 'Lato', sans-serif;
+@contentLeftRightMargin: 160px;
 
 // Mixins
 .anchor-override-style (@color: white) {
@@ -168,6 +169,11 @@ body {
 // Media Queries
 // Desktop
 @media all and (min-width: 1025px) {
+	div#content {
+		font-size: 160%;
+		width: 75%;
+		margin: 0 @contentLeftRightMargin 0 @contentLeftRightMargin;
+	}
 }
 
 // Laptop and Tablet
@@ -195,5 +201,8 @@ body {
 	td.header-space {
 		padding-left: 1em;
 		padding-right: 1em;
+	}
+	div.post-content {
+		font-size: 100%;
 	}
 }
