@@ -25,9 +25,9 @@ In short what I mean is compare the Google search results for say [how to build 
 
 Ok so I just signed up for a new account on [Amazon S3](http://aws.amazon.com/s3/) and I just bookmarked this dev's [amazing tutorial](http://www.hongkiat.com/blog/amazon-s3-the-beginners-guide/) on how to leverage S3 for content hosting. In addition I'm going to start using GitHub Gist for all of my code samples, I have no clue why I wasn't doing this before. Maybe it was due to me going through this phase where I had to build everything from scratch and totally "SELF HOST ALL THE THINGS"  because you know I like wasting time and re-inventing the wheel every two week iteration.
 
-For some reason when I choose to embedd the GitHub Gist script all html and or javascript following the gist fails to render so for now I will just provide a link.
+As a short example of my new goal of not self hosting everything here is a preview of how all of my new code snippets will appear as; notice how I don't have to bother with loading all the google-code-prettify css and tinkering with html code tags and getting the attributes correct for the styles and language settings.
 
-[HelloWorld in C Gist example](https://gist.github.com/taywils/5164836)
+<script src="https://gist.github.com/taywils/5164836.js"> </script>
 
 And one more thing... I found this cool article on using CSS3 to draw images that would normally have to be done with Photoshop... more of that means less PNGs your browser has to pull down.
 
@@ -40,7 +40,7 @@ I mean whats the point of sitting around and talking about your so called "next 
 Other than some of the excellent post on CodingHorror I've also taken an intrest in another software blogger whos written some interesting post surrounding programmer productivity and other things.
 [Aaronontheweb](http://www.aaronstannard.com/) and in particular his post that really got to me was [ten reasons why you're failing to become a better developer](http://www.aaronstannard.com/post/2013/02/06/10-Reasons-Why-Youe28099re-Failing-to-Realize-Your-Potential-as-a-Developer.aspx). Not sure about anyone reading this but I've fallen victum to several of the points he mentions in his elaborate post.
 
-Ok that wraps up what is essentially my first "_real_" blog post. What I mean by "_real_" is that up until now I've been thinking that I've been sort of pseudo-blogging.
+Ok that wraps up what is essentially my first _real_ blog post. What I mean by _real_ is that up until now I've been thinking that I've been sort of pseudo-blogging.
 I've been just kinda posting random tutorials and minor updates on my status but nothing really substantial or opinionated. It was almost as if I was afraid of people striking my arguments down or calling me out on BS. Up until now I haven't been blogging... well its time to change that. This of course doesn't mean that I'll stop writing technical articles but it more so means that I'm human and like most humans I have stuff I want to say and get out to the public as opposed to just going through code tutorials and linking to projects.
 
 Here is a link to the post by the founder of [DuckDuckGo](https://duckduckgo.com/)(a pretty badass search engine by the way) who inspired me to stop being such a wuss/pseudo-blogger and acutally blog as if I had something to say for once [Why I Blog](http://www.gabrielweinberg.com/blog/2011/08/why-i-blog.html).
