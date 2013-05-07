@@ -1,6 +1,3 @@
-auto: true
-server: true
-server_port: 4000
 name: Taywils.me
 description: Yet another software development blog made using Jekyll
 url: http://www.taywils.me
