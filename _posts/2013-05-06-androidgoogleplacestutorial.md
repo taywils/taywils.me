@@ -32,13 +32,17 @@ Our Android manifest file will include the usual suspects which are the various 
 
 <script src="https://gist.github.com/taywils/5533980.js"> </script>
 
-The manifest xml did reference a string via the @string value so you'll need to include the XML for the /res/values/strings.xml file.
+The manifest xml did reference a string via the @string value so you'll need to include the XML file and replace it with your /res/values/strings.xml 
 
 <script src="https://gist.github.com/taywils/5534449.js"> </script>
 ### The Main Activity
 
-We begin activity files primarily with the package name, and list of class files to import. For the most part I highly reccommend you look up the documentation for imported packages you are not familiar with such as org.apache.http or many of the other packages not typically used by Android Devs. It would be tough to describe each package in detail but as I explain the source code it should be much clearer to see how each of the packages contribute to the app. 
+We'll start off by listing the various packages to import. For the most part I highly reccommend you look up the documentation for the imported packages you are not familiar with such as org.apache.http or many of the other packages not typically used by Android Devs. It would be tough to describe each package in detail but as I explain the source code it should be much clearer to see how each of the packages contribute to the app. So go ahead and add the package imports to your main activity file.
 
 <script src="https://gist.github.com/taywils/5534247.js"> </script>
+
+Start off by extending our main class from the Android Activity class. As for class properties you'll want to store things such as the latitude and logitude for obvious reasons and in addition you'll need to encode your Google Places API Key as a string. The property radius can be thought of as the length of the radius of the circle expanding outward from the position of the phone owner when the places API returns results. We're setting the property *String type* to food but if you refer to the Google Places documenation there are other types which you can use but they will of course give you an entirely different set of places. As for the rest of the properties they are given more descriptive names which match their use cases.
+
+<script src="https://gist.github.com/taywils/5543754.js"> </script>
 
 </div>
