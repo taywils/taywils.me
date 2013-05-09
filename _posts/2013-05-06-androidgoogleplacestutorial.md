@@ -7,7 +7,7 @@ catagories: [mobile, android, tutorial]
 comments: true 
 description: I had just installed IntelliJ version 12.1.2 the other day and I saw an old Android project in the recent projects list. Thinking back I was satisfied with the result so I thought I should post it to my blog. It was a proof of concept application I wrote to list nearby restaurants based on your current location.
 ---
-## Android Google Places Tutorial 
+## Android Google Places Tutorial (Incomplete)
 
 <div class="post-content" markdown="1">
 ### Pre-reqs
@@ -41,7 +41,7 @@ We'll start off by listing the various packages to import. For the most part I h
 
 <script src="https://gist.github.com/taywils/5534247.js"> </script>
 
-Start off by extending our main class from the Android Activity class. As for class properties you'll want to store things such as the latitude and logitude for obvious reasons and in addition you'll need to encode your Google Places API Key as a string. The property radius can be thought of as the length of the radius of the circle expanding outward from the position of the phone owner when the places API returns results. We're setting the property *String type* to food but if you refer to the Google Places documenation there are other types which you can use but they will of course give you an entirely different set of places. As for the rest of the properties they are given more descriptive names which match their use cases.
+Start off by extending our main class from the Android Activity. As for class properties you'll want to store things such as the latitude and logitude for obvious reasons and in addition you'll need to encode your Google Places API Key as a string. The property radius can be thought of as the length of the radius of the circle expanding outward from the position of the phone owner when the places API returns results. We're setting the property *String type* to food but if you refer to the Google Places documenation there are other types which you can use but they will of course give you an entirely different set of places. As for the rest of the properties they are given more descriptive names which match their use cases.
 
 <script src="https://gist.github.com/taywils/5543754.js"> </script>
 
