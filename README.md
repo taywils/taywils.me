@@ -1,6 +1,6 @@
-# taywils.me/blog
+# taywils.me
 
-The blog [http://taywils.me/blog](http://www.taywils.me) is currently based on [jekyll](http://github.com/mojombo/jekyll)
+The blog [http://taywils.me](http://www.taywils.me) is currently based on [jekyll](http://github.com/mojombo/jekyll)
 
 ## License
 
