@@ -45,4 +45,12 @@ Start off by extending our main class from the Android Activity. As for class pr
 
 <script src="https://gist.github.com/taywils/5543754.js"> </script>
 
+TODO: Write about the onCreate
+
+<script src="https://gist.github.com/taywils/5633124.js"> </script>
+
+TODO: loadXMLFromString and GetCurrentLocation
+
+<script src="https://gist.github.com/taywils/5633146.js"> </script>
+
 </div>
