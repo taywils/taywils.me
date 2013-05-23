@@ -53,4 +53,9 @@ TODO: loadXMLFromString and GetCurrentLocation
 
 <script src="https://gist.github.com/taywils/5633146.js"> </script>
 
+TODO: QueryGooglePlaces in the background
+<script src="https://gist.github.com/taywils/5633162.js"> </script>
+
+TODO: QueryGooglePlaces on PostExecute method
+<script src="https://gist.github.com/taywils/5633166.js"> </script>
 </div>
