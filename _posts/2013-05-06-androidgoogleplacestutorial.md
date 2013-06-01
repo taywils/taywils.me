@@ -7,7 +7,7 @@ catagories: [mobile, android, tutorial]
 comments: true 
 description: I had just installed IntelliJ version 12.1.2 the other day and I saw an old Android project in the recent projects list. Thinking back I was satisfied with the result so I thought I should post it to my blog. It was a proof of concept application I wrote to list nearby restaurants based on your current location.
 ---
-## Android Google Places Tutorial (Incomplete)
+## Android Google Places Tutorial
 
 <div class="post-content" markdown="1">
 ### __FOR READERS IN A HURRY__
@@ -97,19 +97,25 @@ for the user to look at and scroll through. We managed to build a HTTP GET reque
 The meat of any class extending ArrayAdapter is the getView override. What you have to do within the getView override is create a LayoutInflater object and bind its layout resource to a row object. Then for each row, we treat it just as we would any view resource and use the good ole findViewById to select only the parts of the layout we're actrually interested in so we can populate them with some data. It sounds nice until you realize that the getView method returns the row and you have to do strange ritual code such as checking for null rows else the entire view explodes in your face. Its not that I hate ArrayAdapters but I would much rather have the Android API introduce finer tuned XML tags that represent data bindings directly to classes but then I thought to myself that such a thing would be possible only if Android used a templating engine such as Apache Velocity instead of just using vanilla XML for layouts. Ok ok.... Scala for Android(The Scaloid Project) solves this by using a custom DSL instead of vanilla XML... why heck has Google not hired the project lead for Scaloid yet?
 <script src="https://gist.github.com/taywils/5633177.js"> </script>
 
-TODO: MyLocationListener
+### Implementing The LocationListener Interface
+Aside from the complexities of writing methods for classes that extend from ArrayAdapters, implementing the LocationListener interface is much less headache.
+For the simplicity of this demonstration code we're only going to handle the event when the physical location of the user has changed.
 <script src="https://gist.github.com/taywils/5633181.js"> </script>
 
-TODO: MyRunnable
+### Remember When We Needed To Load The Location Data In A Thread?
+Here is the class that implements the Runnable interface to be ran on a thread.
 <script src="https://gist.github.com/taywils/5633183.js"> </script>
 
-TODO: MyLocation Class
+### A Class To Figure Out MyLocation 
+The MyLocation class was wonderfully designed by a fellow who provided it as an answer to a stackoverflow.com question.
+I've modified it slightly to fit the needs of this application but for the most part it remains the same. See the stackoverflow link to learn more about
+the class itself.
 <script src="https://gist.github.com/taywils/5633195.js"> </script>
 
-TODO: HttpTestRow xml file
+### Layout Files
+Listed below are the layout files you'll need, just be sure to place them within the correct folder of your Android project directory.
 <script src="https://gist.github.com/taywils/5633207.js"> </script>
 
-TODO: HttpTestList xml file
 <script src="https://gist.github.com/taywils/5633216.js"> </script>
 
 ### Summary
