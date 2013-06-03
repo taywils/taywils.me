@@ -11,7 +11,7 @@ description: After over a year I've finally made some changes to my old imagescr
 
 <div class="post-content">
 <p style="text-align: center;">
-<a href="/static/images/imagescrape2.png"><img src="/static/images/imagescrape2.png" alt="Imagescrape2 New UI" width="300px" /></a>
+<a href="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/imagescrape2.png"><img src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/imagescrape2.png" alt="Imagescrape2 New UI" width="300px" /></a>
 </p>
 
 Click here to see the new version of Imagescrape in action <a href="http://imagescraper.heroku.com/">http://www.imagescrape.heroku.com</a>
