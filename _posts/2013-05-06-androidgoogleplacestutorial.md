@@ -25,7 +25,7 @@ The entire Java class files themselves are located at the end of this post just 
 ### What You Will Create
 Below is a snapshot of the Android app we're going to develop today. It uses a simple ListView and doesn't support any click events. The reason as I mentioned in the pre-reqs section assuming you read it was that this app was a proof of concept for the Google Places API. Think of it as "Hello World" but using places instead of the TextView GUI widget.
 
-<img src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/places_api.jpg" alt="Google Places API Demo" width="30%" height="30%"/>
+<a href="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/places_api.jpg"><img src="/static/images/low-places_api.png" width="30%" height="30%" alt="Google Places API Demo"/></a>
 
 In the meantime create a new Android application and name it HttpTestActivity like I did for some odd reason or come up with a better sounding name for your project. On the current topic of boring and dull names I choose the exciting name of com.example for the package... you can use that name if you wish but I warn you to strive for excellence and excitment by chooing demonstrative package names.
 
