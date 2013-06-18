@@ -1,9 +1,5 @@
 $(function() {
-	var $divContent, $searchResults, resultHtmlHeader, searchTag;
-
-	$divContent = $("div#content");
-	$divContent.css("display", "none");
-	$divContent.fadeIn(600);
+	var $searchResults, resultHtmlHeader, searchTag;
 
 	searchTag = window.location.search.split('=')[1];
 	if (searchTag) {
