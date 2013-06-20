@@ -1,0 +1,60 @@
+// Global Variables
+@fontPlainContent: 'Lato', sans-serif;
+
+// Mixins
+.txt (@color: white, @size: 1rem) {
+	color: @color;
+	font-size: @size;
+}
+
+.anchor-style (@color: white) {
+	a:link {
+		color: @color;
+	}
+	a:visited {
+		color: @color;
+	}
+	a:hover {
+		color: @color;
+	}
+	a:active {
+		color: @color;
+	}
+	a {
+		text-decoration: bold;
+	}
+}
+
+html {
+	font-size: 100%;
+
+	body {
+		background: #f69609;
+		font-family: @fontPlainContent;
+	}
+}
+
+.splash-name {
+	.txt(white, 2rem);
+	padding-top: 120px;
+	padding-bottom: 30px;
+	text-align: center;
+}
+
+.splash-occupation, .splash-location {
+	.txt(white);
+	text-align: center;
+	line-height: 20px;
+}
+
+.splash-description, .splash-learnmore {
+	.txt(white);
+	.anchor-style(white);
+
+	@p-margin: 39.2%;
+	p {
+		padding-top: 40px;
+		margin-left: @p-margin;
+		margin-right: @p-margin;
+	}
+}
