@@ -53,6 +53,18 @@ $ sudo apt-get install git
 </pre></div>
 Next we are going to create a directory for our magento development system as mentioned within the book by MacGregor.
 <div class="gcp"> <pre class="prettyprint">
-
+$ sudo mkdir -p /srv/www/magento_dev/public_html/</br>
+$ sudo mkdir -p /srv/www/magento_dev/logs/</br>
+$ sudo mkdir -p /srv/www/magento_dev/ssl/</br>
 </pre></div>
+<p>
+Using git we'll want to clone the Magento mirror repo into the /srv/www/magento_dev/public_html/ directory.
+<div class="gcp"> <pre class="prettyprint">
+$ sudo git clone http://github.com/LokeyCoding/magento-mirror.git /srv/www/magento_dev/public_html/
+</pre></div>
+</p>
+The above directories are necessary for magento to function properly else you will get strange errors when it tries to write to a non-existant log directory. Furthermore we need to perform some standard devops sys-admin stuff for Magento such as configuring apache2 virtual hosts, chown www-data:www-data and chmod -R 755. There are instructions on the Magento website [Magento File Configuration](http://www.magentocommerce.com/download) under the How to Get Started tab.
+<p>
+Assuming you have a directory with the magento git repo cloned and file/directory permissions setup we need to now 
+</p>
 </div>
