@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Learning Magento Part 1  
+title: Learning Magento: Starting Out
 mydate: Jul 16 2013
 tags: [php]
 catagories: [web, magento]
