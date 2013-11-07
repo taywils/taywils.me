@@ -64,6 +64,8 @@ Assuming you chose to install the community edition of IntelliJ IDEA we'll get H
 
 - Open a web browser and [Download Apache Maven](http://maven.apache.org/download.cgi)
 
+- If you're using a Mac I recommend using Homebrew ```brew install maven```
+
 - Follow the instructions on how to test that you have it installed properly [Apache Maven in 5 Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 <blockquote class="quote">
