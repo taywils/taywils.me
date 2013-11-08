@@ -12,6 +12,18 @@ description: Some friends and I want build a large project in Java beginning ear
 <div class="post-content" markdown="1">
 ## Setting up Java for web development
 
+### Before you begin download and install Git
+
+- [Download and install git](http://git-scm.com/)
+
+- The main GitRepo for this tutorial is [https://github.com/taywils/java_spark_tutorial](https://github.com/taywils/java_spark_tutorial)
+
+- So create a new directory on your machine, then change directory into it and run the following code
+
+<div align="center">
+```git clone https://github.com/taywils/java_spark_tutorial.git``` 
+</div>
+
 ### Downloading the JRE and JDK
 
 - Check to see if you already have Java 7 installed on your machine by opening either terminal or command prompt and typing **java --version**
@@ -106,6 +118,9 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 </blockquote>
 
 ### Hello World...
+<div align="center">
+``` git checkout hello_step_1 ```
+</div>
 
 - Now that we've setup Maven we're just going to create a quick hello world program. From the Project sidebar click src -> main and then right click the "java" folder
 
@@ -127,25 +142,116 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 
 ## Running the Spark demo app
 
+<div align="center">
+``` git checkout spark_demo_step_1 ```
+</div>
+
 - Lets begin by modifying our Hello world class file to use the Spark framework so we can get started with Java web development
 
 <div align="center">
 <a href="http://www.sparkjava.com/index.html"><img src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/java_spark_tutorial/java_spark_logo.png" alt="Spark A Java MVC micro framework"/></a>
 </div>
 
-### Spice it up with some JSON
+- Maven allows us to include external dependencies within our projects via the _pom.xml_ file. So open up the _pom.xml_ file and add the dependency for Spark.
 
-## Some Persistence Options
+<script src="https://gist.github.com/taywils/7366389.js"> </script>
+
+- From Intellij when you make a change to a Maven pom.xml file you can set it to "enable auto-import" so it refreshes your Maven dependencies when you update your pom.xml
+
+<div align="center">
+``` git checkout spark_demo_step_2 ```
+</div>
+
+- Next open up HelloSpark.java and remove all the existing code... replace it with the snippet below
+
+<script src="https://gist.github.com/taywils/7366522.js"> </script>
+
+<blockquote class="quote">
+Just in case you were curious you'll note that the Spark documentation uses "import static" so [here is a brief explaination of import static](http://stackoverflow.com/questions/162187/what-does-the-static-modifier-after-import-mean). In short you can uses a class' static methods without explicitly typing the classname; beware of its pitfalls though.
+</blockquote>
+
+- Now from within IntelliJ click Run -> "run 'HelloSpark' from the top menu, the code will startup and then it will let you know that Spark is currently running on some port most likely localhost:4567
+
+- Launch a new web browser window and goto [http://localhost:4567/hello](http://localhost:4567/hello)
+
+- Congrats!!! You are now a super web developer!
+
+<blockquote class="quote">
+So how does that work? Like many MVC applications Spark provides us a basic router to let our app respond to HTTP requests. Of the four most commonly used are GET PUT POST DELETE. Those four HTTP request types when used in conjunction with the HTTP Header(s) for the request such as Content-type: application/json and or application/x-www-form-urlencoded allow us to capture and handle all sorts of browser request. For a good [introduction to HTTP and REST see the article on net.tutsplus](http://net.tutsplus.com/tutorials/other/a-beginners-introduction-to-http-and-rest/)
+</blockquote>
+
+- For some more fun play around with some of the basic features you can do with Route such as capturing user supplied parameters and or adding new routes
+
+<div align="center">
+``` git checkout spark_demo_step_3 ```
+</div>
+
+<script src="https://gist.github.com/taywils/7366801.js"> </script>
+
+- Next lets introduce the POST request. We're going to use POST to store some data and then display it as a list. This example is very crude and will help us segway into mini blog tutorial further on in the article.
+
+<div align="center">
+``` git checkout spark_demo_step_4 ```
+</div>
+
+- In the snippet of code below we use a POST request on the route _/add/:item_ to add things to our list and then use GET on the route _/list_ to display them
+
+<script src="https://gist.github.com/taywils/7367126.js"> </script>
+
+- So update your HelloSpark.java file, press build and then run the code. Launch your web browser and goto [http://localhost:4567/list](http://localhost:4567/list)
+
+- You should be greeted by our message "Try adding some things to your list"
+
+- Now you might be tempted to try navigating to [http://localhost:4567/add/bananas](http://localhost:4567/add/bananas) or something 
+
+<blockquote class="quote">
+__BUT THAT WON'T WORK AT ALL!__
+</blockquote>
+
+- When we visit urls from our web browser we by default use the GET request so http://www.google.com calls the GET request on some google webserver somewhere.
+
+<blockquote class="quote">
+If you're puzzled as to why you hit a 404 page when we clearly defined a POST route to /add/ you've just discovered that our application will only route POST request to a post handler method. To fix this we should actually send a HTTP POST request instead of using GET.
+</blockquote>
+
+- To send a POST request open a terminal window and use _curl_ or if you're on a windows machine use PowerShell _yes I said PowerShell please stop using command prompt_
+
+<div align="center">
+<p>
+``` curl -X POST http://localhost:4567/add/apples ```
+</p>
+<p>
+``` Invoke-RestMethod -Uri "http://localhost:4567/add/apples" -Method POST ```
+</p>
+</div>
+
+- Try making a few POST request and thing go back to [http://localhost:4567/list](http://localhost:4567/list) and be amazed
+
+- Congrats!!! You are now a super web developer ex-plus &alpha;
+
+## CRUD Example: A Blog
+
+*Comming Soon...*
+
+## Some other persistence options
+
+*Comming Soon...*
 
 ### Relational Storage
 
+*Comming Soon...*
+
 ### NoSQL
+
+*Comming Soon...*
 
 ### Redis
 
-## Spark CRUD Example
+*Comming Soon...*
 
 ## Homework: Create a checklist application
 
-### Solution *Comming Soon...*
+### Solution 
+
+*Comming Soon...*
 </div>
