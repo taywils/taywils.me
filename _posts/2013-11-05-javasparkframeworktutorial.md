@@ -227,7 +227,7 @@ If you're puzzled as to why you hit a 404 page when we clearly defined a POST ro
 
 - Try making a few POST request and thing go back to [http://localhost:4567/list](http://localhost:4567/list) and be amazed
 
-- Congrats!!! You are now a super web developer ex-plus &alpha;
+- Congrats!!! You are now a web developer ex-plus &alpha;
 
 ## CRUD Example: A Blog
 
