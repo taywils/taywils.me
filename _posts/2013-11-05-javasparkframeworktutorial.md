@@ -231,7 +231,27 @@ If you're puzzled as to why you hit a 404 page when we clearly defined a POST ro
 
 ## CRUD Example: A Blog
 
-*Comming Soon...*
+<blockquote class="quote">
+Within this section we'll be creating a basic blog application that will eventually grow more complex as we add more features. Its important to start off slow so the first iteration of the blog will be very concise and perform just the bare minium in order to function. Being a CRUD app each aspect of CRUD will be explored.
+</blockquote>
+
+### __C__reate
+
+- Return to your HelloSpark.java code and delete everything making sure you're starting off with a clean slate
+
+<div align="center">
+``` git checkout spark_blog_step_1 ```
+</div>
+
+- We'll begin by importing all of the necessary files which include the spark library and the two java.util classes
+
+- As a blog our objective is to Create, Read, Update and Delete new articles which are just bodies of text which we'll also assign a unique identification number and a timestamp of the date when we created the article.
+
+<script src="https://gist.github.com/taywils/7382438.js"> </script>
+
+- When a user hits the root index of the blog we should show the list of articles written ordered by their date of creation else a message that indicates no articles have yet been added. To accomplish this we'll add a conditional statment and create a *StringBuilder* object to render some HTML
+
+<script src="https://gist.github.com/taywils/7382471.js"> </script>
 
 ## Some other persistence options
 
