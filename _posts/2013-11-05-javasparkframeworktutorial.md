@@ -293,6 +293,45 @@ The next part of CRUD is actually the easist since it doesn't actually involve m
 
 ### Update
 
+<div align="center">
+``` git checkout spark_blog_step_3 ```
+</div>
+
+- When updating an existing article all we need to do is possibly overwrite the found content, so add a new Route for /article/update/:id 
+
+- The code behind the /article/update/:id will use the same form as the /article/create except the form fields will be pre-populated
+
+<script src="https://gist.github.com/taywils/7403433.js"> </script>
+
+- Now all that is left is to add the POST handler for our update form
+
+<script src="https://gist.github.com/taywils/7403558.js"> </script>
+
+### Delete
+
+<div align="center">
+``` git checkout spark_blog_step_4 ```
+</div>
+
+<blockquote class="quote">
+Along with Read Delete is another rather simple action since it only requires a single method along with a redirect
+However if you recall back to when we created the Article Model, we had a boolean value called _deleted_. In this sense any deleted articles are basically marked as deleted and not shown to the UI. Later on when we explore different types of persistence we'll actually delete articles for good but for now this will have to suffice.
+</blockquote>
+
+- Within your HelloSpark.java file add the method to handle the delete action /article/delete/:id
+
+<script src="https://gist.github.com/taywils/7404207.js"> </script>
+
+- Lastly we need to go back and edit our Blog homepage to hide deleted articles
+
+<script src="https://gist.github.com/taywils/7404222.js"> </script>
+
+- Congrats!!! You are now a super web developer II turbo
+
+## Putting the V in MVC
+
+*Comming Soon...*
+
 ## Some other persistence options
 
 *Comming Soon...*
