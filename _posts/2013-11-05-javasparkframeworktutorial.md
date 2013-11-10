@@ -235,7 +235,17 @@ If you're puzzled as to why you hit a 404 page when we clearly defined a POST ro
 Within this section we'll be creating a basic blog application that will eventually grow more complex as we add more features. Its important to start off slow so the first iteration of the blog will be very concise and perform just the bare minium in order to function. Being a CRUD app each aspect of CRUD will be explored.
 </blockquote>
 
-### __C__reate
+- Before we start our blog application will need an object representation of an Article. Our article will have title, summary and content for now. Article.java is just plain old Java so there really isn't much to get excited about; the MVC web stuff will follow.
+
+- Within the same package as _HelloSpark.java_ create the file _Article.java_
+
+<div align="center">
+<a href="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/java_spark_tutorial/java_spark_blog_project_display.png"><img src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/java_spark_tutorial/java_spark_blog_project_display.png" alt="Project structure with Article.java"/></a>
+</div>
+
+<script src="https://gist.github.com/taywils/7393394.js"> </script>
+
+### Create
 
 - Return to your HelloSpark.java code and delete everything making sure you're starting off with a clean slate
 
@@ -252,6 +262,36 @@ Within this section we'll be creating a basic blog application that will eventua
 - When a user hits the root index of the blog we should show the list of articles written ordered by their date of creation else a message that indicates no articles have yet been added. To accomplish this we'll add a conditional statment and create a *StringBuilder* object to render some HTML
 
 <script src="https://gist.github.com/taywils/7382471.js"> </script>
+
+- In order to publish articles we need a way to create them and submit the information to our server side code. Add another GET method which will handle requests made to /article/create
+
+- On the page is a form which accepts a new title, summary and content for the new blog article
+
+<script src="https://gist.github.com/taywils/7393074.js"> </script>
+
+- Right now you may restart the Spark app and note that by clicking the "Write Article" link you are sent over to the form we created...
+
+- However when you click the "Publish" button nothing happens; in order to fix that we need write a method to handle the POST request called from /article/create
+
+- We'll want to persist the article to our storage on the server side code by capturing the form elements _article-title_, _article-summary_ and _article-content_
+
+<script src="https://gist.github.com/taywils/7393125.js"> </script>
+
+### Read
+
+<div align="center">
+``` git checkout spark_blog_step_2 ```
+</div>
+
+<blockquote class="quote">
+The next part of CRUD is actually the easist since it doesn't actually involve modifying data. To do so we'll use the read article link associated with every Article object and use the unique id number of the article to pull its information from our storage when the user requests a GET /article/read/:id from our server
+</blockquote>
+
+- To read an article is very simple, just use a for loop until we find the ID of the article. Of course using a straight up iterative search is horrific for very large numbers of articles but we'll look at alternative data persistance later on in this post.
+
+<script src="https://gist.github.com/taywils/7394124.js"> </script>
+
+### Update
 
 ## Some other persistence options
 
