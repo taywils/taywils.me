@@ -330,7 +330,47 @@ However if you recall back to when we created the Article Model, we had a boolea
 
 ## Putting the V in MVC
 
-*Comming Soon...*
+<blockquote class="quote">
+Recall how in the previous code all of our views or HTML code was simply shoved into our controller routes... this won't work in actual practice and is in fact not a very sane way to structure code. Thus we'll soon work out a method to deal with the fact that our core logic should be separated from what our clients view. This idea is what brings us to the VIEW portion of Model View Controller.
+</blockquote>
+
+- In this section we will be using a very powerful Java templating engine called _Freemarker_ which will allow us to separate our Controller logic from our View layer
+
+- Lucky for us the author of the Spark framework has already created a library _spark-template-freemarker_ which provides an interface to using the Freemarker template engine. So open up your pom.xml file and add the following dependency.
+
+<script src="https://gist.github.com/taywils/7461578.js"> </script> 
+
+<blockquote class="quote">
+However before we start demonstrating the power of a well made html templating engine its important to not let your templated HTML get out of hand; to the point where your templated HTML substitues for your entire application. A famous blog post titled [Your templating engine sucks and everything you have ever written is spaghetti code](http://www.workingsoftware.com.au/page/Your_templating_engine_sucks_and_everything_you_have_ever_written_is_spaghetti_code_yes_you) takes a critical look at how easy it is to completely and utterly abuse the living crap out of your code by overusing template engines until all of your code basically becomes PHP4... and lets not go back to those days. For the TL;DR the author basically says to avoid heavy use of conditionals and or functions/macros within your templated HTML; think of it as when developing a Java application and how you [rarely ever want to manually invoke the garbage collector.](http://stackoverflow.com/questions/66540/system-gc-in-java)
+</blockquote>
+
+- Lets keep moving... for now we'll add a test Route to our application before we go back and refactor the blog code to remove the messy string injected html.
+
+<div align="center">
+``` git checkout spark_view_step_1 ```
+</div>
+
+- In the code below we create a HashMap which will map our Java objects to variables which can be called directly from our View templated HTML files
+
+- The HashMap elements _blogTitle_, _descriptionTitle_, and the two _descriptionBody_ will be reffered to within our freemarker templates and appear exactly as they do within the HelloSpark.java file.
+
+<script src="https://gist.github.com/taywils/7462642.js"> </script>
+
+- Next within your IntelliJ project directory create the folder structure beginning with the _resources_ directory resources/spark/template/freemarker
+
+- Once that is done right click on the newly created directory adn add the file "layout.ftl" the naming here is important since we will be discussing a common pattern in MVC which is to split your Views between layouts and templates. 
+
+<blockquote class="quote">
+Layouts are like view container which hold multiple templates. Take my blog for example; it uses a layout which holds the top navigation bar and the disqus comments in the footer and swaps out article templates for each of my blog posts. Intelligent use of templates and layouts means that we can inject different views to our clients depening on the data sent to the view from the controller.
+</blockquote>
+
+- *This is not a tutorial on HTML and CSS so for now lets just assume the HTML code is correct.*
+
+- Anyhow the code below is for the file _layout.ftl_ notice where we inject the Java variables we sent to the view using the ``` ${some_variable_name_here} ``` syntax. Don't forget to checkout the documentation for Freemarker or Google for some Freemarker tutorials if you are confused.
+
+<script src="https://gist.github.com/taywils/7462774.js"> </script>
+
+- By the way... don't forget to experiment with Freemarker. Try passing serveral variable to the ftl file and get the hang of templating; its a popular technique that is used in many different programming languages [including the Javascript Framework AngularJS which allows Java](http://docs.angularjs.org/guide/templates)
 
 ## Some other persistence options
 
@@ -353,4 +393,5 @@ However if you recall back to when we created the Article Model, we had a boolea
 ### Solution 
 
 *Comming Soon...*
+-->
 </div>
