@@ -370,7 +370,39 @@ Layouts are like view container which hold multiple templates. Take my blog for 
 
 <script src="https://gist.github.com/taywils/7462774.js"> </script>
 
-- By the way... don't forget to experiment with Freemarker. Try passing serveral variable to the ftl file and get the hang of templating; its a popular technique that is used in many different programming languages [including the Javascript Framework AngularJS which allows Java](http://docs.angularjs.org/guide/templates)
+- By the way... don't forget to experiment with Freemarker. Try passing serveral variable to the ftl file and get the hang of templating; its a popular technique that is used in many different programming languages [including the Javascript Framework AngularJS](http://docs.angularjs.org/guide/templates)
+
+### View templates and layouts
+
+<div align="center">
+``` git checkout spark_view_step_2 ```
+</div>
+
+- Given the new Bootstrap 3 powered homepage we just completed, lets now go back and refactor our old code to move the HTML injected strings out of our Controllers and into proper HTML files.
+
+- Create a new file called *articleList.ftl* or just edit the existing one and place it within the directory sparkle/src/main/resources/spark/template/freemarker/articleList.ftl
+
+- Now open up HelloSpark.java and GET method for the "/" url and change it to use the FreeMarkerRoute instead of the regular route. For our refactor we're going to create a HashMap to store the Java Objects we wish to pass onto the view articleList.ftl file.
+
+<blockquote class="quote">
+Finnally no more creating String objects to hold our HTML!
+</blockquote>
+
+<script src="https://gist.github.com/taywils/7480416.js"> </script>
+
+- With our Controller updated to use the layout.ftl file we now need to update our layout.ftl with the new values provided by the viewObject HashMap
+
+- Layouts allow use to embed child HTML pages within them so pay attention to the code where we inject a template called articleList.ftl via the "include" Freemarker tag. This allows us to separate our head and navigation links from our article View markup.
+
+<script src="https://gist.github.com/taywils/7480455.js"> </script>
+
+- Finnally we'll create another Freemaker template file within the same directory as the layout.ftl called "articleList.ftl"
+
+<blockquote class="quote">
+Look at the code snippet for the articleList.ftl file. Pay special attention to how templating engines such as FreeMarker allow us to use conditional statements and loop over enumerable objects such as Arrays and HashMaps.
+</blockquote>
+
+<script src="https://gist.github.com/taywils/7480504.js"> </script>
 
 ## Some other persistence options
 
@@ -393,5 +425,4 @@ Layouts are like view container which hold multiple templates. Take my blog for 
 ### Solution 
 
 *Comming Soon...*
--->
 </div>
