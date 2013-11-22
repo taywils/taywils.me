@@ -21,7 +21,19 @@ description: Some friends and I want build a large project in Java beginning ear
 - So create a new directory on your machine, then change directory into it and run the following code
 
 <div align="center">
-```git clone https://github.com/taywils/java_spark_tutorial.git``` 
+```git clone https://github.com/taywils/java_spark_tutorial.git .``` 
+</div>
+
+- In order to follow along with each step of the tutorial we'll want to be able to pull down remote git branches into our local repo
+
+<div align="center">
+```git fetch origin```
+</div>
+
+- Run the following git command in order to list all remote branches or just browse the Java spark tutorial repo on Github [https://github.com/taywils/java_spark_tutorial](https://github.com/taywils/java_spark_tutorial)
+
+<div align="center">
+```git branch -a```
 </div>
 
 ### Downloading the JRE and JDK
@@ -119,7 +131,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 
 ### Hello World...
 <div align="center">
-``` git checkout hello_step_1 ```
+``` git checkout -b hello_step_1 origin/hello_step_1 ```
 </div>
 
 - Now that we've setup Maven we're just going to create a quick hello world program. From the Project sidebar click src -> main and then right click the "java" folder
@@ -143,7 +155,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 ## Running the Spark demo app
 
 <div align="center">
-``` git checkout spark_demo_step_1 ```
+``` git checkout -b spark_demo_step_1 origin/spark_demo_step_1```
 </div>
 
 - Lets begin by modifying our Hello world class file to use the Spark framework so we can get started with Java web development
@@ -159,7 +171,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 - From Intellij when you make a change to a Maven pom.xml file you can set it to "enable auto-import" so it refreshes your Maven dependencies when you update your pom.xml
 
 <div align="center">
-``` git checkout spark_demo_step_2 ```
+``` git checkout -b spark_demo_step_2 origin/spark_demo_step_2```
 </div>
 
 - Next open up HelloSpark.java and remove all the existing code... replace it with the snippet below
@@ -183,7 +195,7 @@ So how does that work? Like many MVC applications Spark provides us a basic rout
 - For some more fun play around with some of the basic features you can do with Route such as capturing user supplied parameters and or adding new routes
 
 <div align="center">
-``` git checkout spark_demo_step_3 ```
+``` git checkout -b spark_demo_step_3 origin/spark_demo_step_3 ```
 </div>
 
 <script src="https://gist.github.com/taywils/7366801.js"> </script>
@@ -191,7 +203,7 @@ So how does that work? Like many MVC applications Spark provides us a basic rout
 - Next lets introduce the POST request. We're going to use POST to store some data and then display it as a list. This example is very crude and will help us segway into mini blog tutorial further on in the article.
 
 <div align="center">
-``` git checkout spark_demo_step_4 ```
+``` git checkout -b spark_demo_step_4 origin/spark_demo_step_4 ```
 </div>
 
 - In the snippet of code below we use a POST request on the route _/add/:item_ to add things to our list and then use GET on the route _/list_ to display them
@@ -399,10 +411,16 @@ Finnally no more creating String objects to hold our HTML!
 - Finnally we'll create another Freemaker template file within the same directory as the layout.ftl called "articleList.ftl"
 
 <blockquote class="quote">
-Look at the code snippet for the articleList.ftl file. Pay special attention to how templating engines such as FreeMarker allow us to use conditional statements and loop over enumerable objects such as Arrays and HashMaps.
+Look at the code snippet for the articleList.ftl file. Pay special attention to how templating engines such as FreeMarker allow us to use conditional statements and loop over enumerable objects such as Arrays and HashMaps. However if you remember the article about why your templating engine sucks then you should agree that conditionals and loops are about all our templating engine should be responsible for... more complex logic should stay server-side within the respective Controller.
 </blockquote>
 
 <script src="https://gist.github.com/taywils/7480504.js"> </script>
+
+<div align="center">
+``` git checkout spark_view_step_3 ```
+</div>
+
+
 
 ## Some other persistence options
 
