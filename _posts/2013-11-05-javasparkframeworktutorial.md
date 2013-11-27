@@ -262,7 +262,7 @@ Within this section we'll be creating a basic blog application that will eventua
 - Return to your HelloSpark.java code and delete everything making sure you're starting off with a clean slate
 
 <div align="center">
-``` git checkout spark_blog_step_1 ```
+``` git checkout -b spark_blog_step_1 origin/spark_blog_step_1 ```
 </div>
 
 - We'll begin by importing all of the necessary files which include the spark library and the two java.util classes
@@ -292,7 +292,7 @@ Within this section we'll be creating a basic blog application that will eventua
 ### Read
 
 <div align="center">
-``` git checkout spark_blog_step_2 ```
+``` git checkout -b spark_blog_step_2 origin/spark_blog_step_2 ```
 </div>
 
 <blockquote class="quote">
@@ -306,7 +306,7 @@ The next part of CRUD is actually the easist since it doesn't actually involve m
 ### Update
 
 <div align="center">
-``` git checkout spark_blog_step_3 ```
+``` git checkout -b spark_blog_step_3 origin/spark_blog_step_3 ```
 </div>
 
 - When updating an existing article all we need to do is possibly overwrite the found content, so add a new Route for /article/update/:id 
@@ -322,7 +322,7 @@ The next part of CRUD is actually the easist since it doesn't actually involve m
 ### Delete
 
 <div align="center">
-``` git checkout spark_blog_step_4 ```
+``` git checkout -b spark_blog_step_4 origin/spark_blog_step_4 ```
 </div>
 
 <blockquote class="quote">
@@ -342,6 +342,10 @@ However if you recall back to when we created the Article Model, we had a boolea
 
 ## Putting the V in MVC
 
+<div align="center">
+<a href="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/java_spark_tutorial/java_spark_blog_bootstrap.PNG"><img src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/java_spark_tutorial/java_spark_blog_bootstrap.PNG" alt="blog bootstrap3"/></a>
+</div>
+
 <blockquote class="quote">
 Recall how in the previous code all of our views or HTML code was simply shoved into our controller routes... this won't work in actual practice and is in fact not a very sane way to structure code. Thus we'll soon work out a method to deal with the fact that our core logic should be separated from what our clients view. This idea is what brings us to the VIEW portion of Model View Controller.
 </blockquote>
@@ -359,7 +363,7 @@ However before we start demonstrating the power of a well made html templating e
 - Lets keep moving... for now we'll add a test Route to our application before we go back and refactor the blog code to remove the messy string injected html.
 
 <div align="center">
-``` git checkout spark_view_step_1 ```
+``` git checkout -b spark_view_step_1 origin/spark_view_step_1 ```
 </div>
 
 - In the code below we create a HashMap which will map our Java objects to variables which can be called directly from our View templated HTML files
@@ -387,7 +391,7 @@ Layouts are like view container which hold multiple templates. Take my blog for 
 ### View templates and layouts
 
 <div align="center">
-``` git checkout spark_view_step_2 ```
+``` git checkout -b spark_view_step_2 origin/spark_view_step_2 ```
 </div>
 
 - Given the new Bootstrap 3 powered homepage we just completed, lets now go back and refactor our old code to move the HTML injected strings out of our Controllers and into proper HTML files.
@@ -429,6 +433,26 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 - Create the freemarker template file called *articleForm.ftl*
 
 <script src="https://gist.github.com/taywils/7668761.js"> </script>
+
+<div align="center">
+``` git checkout -b spark_view_step_4 origin/spark_view_step_4 ```
+</div>
+
+- Lastly we need to update the views for editing and reading articles, so open up HelloSpark.java and change the following routes within your controller code until it matches.
+
+<script src="https://gist.github.com/taywils/7670579.js"> </script>
+
+- First we're going to add a new freemarker template file called *articleRead.ftl*
+
+<script src="https://gist.github.com/taywils/7670586.js"> </script>
+
+- Lastly we need to re-use our existing *articleForm.ftl* but when the user chooses to update an article we need to populate the form with the article content to be edited
+
+- This can be accomplished by using Freemarker conditionals to check for an existing article and if found then place its attritbutes within the form fields
+
+<script src="https://gist.github.com/taywils/7670599.js"> </script>
+
+- Congrats!!! You are now a super web developer IV 3D Edition 
 
 ## Some other persistence options
 
