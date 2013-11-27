@@ -417,10 +417,18 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 <script src="https://gist.github.com/taywils/7480504.js"> </script>
 
 <div align="center">
-``` git checkout spark_view_step_3 ```
+``` git checkout -b spark_view_step_3 origin/spark_view_step_3 ```
 </div>
 
+- Next we're going to redo the write article form, so open up HelloSpark.java and edit the route /article/create 
 
+<script src="https://gist.github.com/taywils/7668728.js"> </script>
+
+- Notice how simple our form view code became within the controller code because all of our view specific code will now be placed within an actual HTML file instead of nasty string appened spaghetti code
+
+- Create the freemarker template file called *articleForm.ftl*
+
+<script src="https://gist.github.com/taywils/7668761.js"> </script>
 
 ## Some other persistence options
 
