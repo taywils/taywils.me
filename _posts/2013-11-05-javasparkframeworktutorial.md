@@ -456,17 +456,53 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 
 ## Some other persistence options
 
+In this section we're going to explore different ways for storing our application data other than stricly within the memory of our java servlet. Being a more pragmatic developer I've chosen to stick with three of the more popular database models (Relational, Document Store and Key-value) for educational purposes.
+
+- [db-engines.com definition of Relational Model](http://db-engines.com/en/article/Relational+DBMS?ref=RDBMS)
+
+- [db-engines.com definition of Document Store Model](http://db-engines.com/en/article/Document+Stores)
+
+- [db-engines.com definition of Key-value Store Model](http://db-engines.com/en/article/Key-value+Stores)
+
+While your at be sure to at least learn a bit about alternative Database Models such as __wide-column stores__, __search optimized databases__, __graph databases__ and lesser known db models such as __content stores__
+
+### Relational Storage via Postgres
+
+There has always been that lingering question in the open-source community about the pros and cons of MySQL vs Postgres(or PostgreSQL but I prefer it by the street name) but over the years Postgres has finnally caught up in terms of features and performance (probably due to Heroku and AWS but thats another topic). As for myself I've never used Postgres before due to all of my professional work using MySQL on a LAMP stack but its always fun to learn new things.
+
+[An article on the rise of Postgres](http://readwrite.com/2013/09/10/postresql-hits-93-new-levels-of-popularity-with-the-cool-kids)
+
+### Getting started with PostgreSQL
+
+- Ok lets start, go to [http://www.postgresql.org/download/](http://www.postgresql.org/download/)
+
+- I'm using Ubuntu Linux but choose whatever platform you need; follow the instructions and continue reading this article when you have Postgres installed.
+
+<div align="center">
+``` sudo apt-get install postgresql ```
+</div>
+
+- Lets verify that the postgres installer worked type into your console
+
+<div align="center">
+``` which psql ```
+</div>
+
+- In order to start the postgres command line interface use the command
+
+<div align="center">
+``` psql ```
+</div>
+
+<blockquote class="quote">
+If you encounter the error message __psql: FATAL:  role "$USER" does not exist__ then [refer to the stackoverflow answer linked here](http://stackoverflow.com/questions/7863770/rails-and-postgresql-role-postgres-does-not-exist)
+</blockquote>
+
+### Document Storage with MongoDB
+
 *Comming Soon...*
 
-### Relational Storage
-
-*Comming Soon...*
-
-### NoSQL
-
-*Comming Soon...*
-
-### Redis
+### Key-value storage using Redis
 
 *Comming Soon...*
 
