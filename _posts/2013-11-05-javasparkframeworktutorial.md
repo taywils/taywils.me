@@ -495,8 +495,70 @@ There has always been that lingering question in the open-source community about
 </div>
 
 <blockquote class="quote">
-If you encounter the error message __psql: FATAL:  role "$USER" does not exist__ then [refer to the stackoverflow answer linked here](http://stackoverflow.com/questions/7863770/rails-and-postgresql-role-postgres-does-not-exist)
+If you encounter the error message __psql: FATAL:  role "$USER" does not exist__ then you probably need to run postgresql as the postgre admin; To do that just run the following command.
 </blockquote>
+
+<div align="center">
+``` sudo -u postgres psql ```
+</div>
+
+- You should get familiar with the postgres command line interface(cli) before continuing; it differs a bit from other database systems in that many admin features are separate terminal commands which are ran from outside the cli
+
+<div align="center">
+``` git checkout -b spark_storage_step_1 origin/spark_storage_step_1 ```
+</div>
+
+- In order for us to begin using Postgres update our *pom.xml* file and add a new dependency.
+
+- From the command line run the following to create the database which we'll be using
+
+<div align="center">
+``` sudo -u postgres createdb sparkledb ```
+</div>
+
+- The first thing we'll want to do is build a service class to interact with each of our database types, within your project's java directory create the file *ArticleDbService.java*
+
+<script src="https://gist.github.com/taywils/7866235.js"> </script>
+
+### A Short Intermission: Refactoring The Servlet In-Memory Storage Into A Data Access Object Class
+
+- The ArticleDbService.java file we just created serves as the interface to the persistence storages we will implement; we are currently setup to use a java ArrayList for our storage this will be moved into a new file.
+
+- Create the file *ArticleServletDao.java*
+
+<script src="https://gist.github.com/taywils/7866271.js"> </script>
+
+- The *ArticleServletDao* implements the ArticleDbService methods and as such will allow use to swap it out as the current implmentation for the ArticleDbService object within our Blog application.
+
+- Now lets go back and refactor the *HelloSpark.java* to use the ArticleDbService. The changes are mentioned within the comments so read them so you understand; notice how much simpler our Route methods have become since we moved the DataAccess logic to its own service(s).
+
+<script src="https://gist.github.com/taywils/7866367.js"> </script>
+
+### Building a PostgreSQL DAO for our Blog
+
+- Before we can connect to the database from the Java class we created we need to set a password for the postgres user.
+
+<div align="center">
+``` sudo -u postgres psql ```
+</div>
+
+- Then from the psql command line interface set the password, to keep the example simple lets use the same name as the password(that way the Java code won't fail to connect)
+
+<div align="center">
+``` alter user postgres password 'postgres'; ```
+</div>
+
+- Our Data Access Object(DAO) class for Postgres should be created as a new file named *ArticlePostgresDao.java*
+
+- The ArticlePostgreDao SQL code is pretty straight forward as far as the SQL goes since the queries are fairly basic(there are no complex JOINs and or temp tables) so I've left some helpful comments throughout the file.
+
+<script src="https://gist.github.com/taywils/7904757.js"> </script>
+
+- One more quick refactor... add the following constructor to *Article.java* which is used by the ArticlePostgresDao.
+
+<script src="https://gist.github.com/taywils/7904766.js"> </script>
+
+- To use the ArticlePostgresDao just swap its name in place of the ArticleServletDao within the file *HelloSpark.java*. I hope you're starting the see the power of the infamous design pattern [program to interfaces, not implementations](http://stackoverflow.com/questions/2697783/). 
 
 ### Document Storage with MongoDB
 
