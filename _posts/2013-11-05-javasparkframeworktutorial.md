@@ -536,6 +536,10 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 ### Building a PostgreSQL DAO for our Blog
 
+<div align="center">
+``` git checkout -b spark_storage_step_2 origin/spark_storage_step_2 ```
+</div>
+
 - Before we can connect to the database from the Java class we created we need to set a password for the postgres user.
 
 <div align="center">
@@ -562,6 +566,10 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 ### Document Storage with MongoDB
 
+<div align="center">
+``` git checkout -b spark_storage_step_3 origin/spark_storage_step_3 ```
+</div>
+
 - Update your *pom.xml* to include the MongoDB Java Driver 
 
 <script src="https://gist.github.com/taywils/7366389.js"> </script>
@@ -572,18 +580,12 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 - Now that we're done installing MongoDB create a new file within your src/main/java directory called *ArticleMongoDao.java*
 
-- <script src="https://gist.github.com/taywils/7952171.js"> </script>
+<script src="https://gist.github.com/taywils/7952171.js"> </script>
 
 - We're not even skimming the surface as to what MongoDB is fully capable of due to the simplicity of this application but I imagine you're starting to picture the flexibility one obtains by removing the constraint of a rigid schema from the underlying DAO.
 
-### Key-value storage using Redis
-
-
-*Comming Soon...*
-
 ## Homework: Create a checklist application
 
-### Solution 
+- Use the examples presented in the tutorial to write a Java web app using Spark to let a user create, read, update and delete daily tasks.
 
-*Comming Soon...*
 </div>
