@@ -562,9 +562,22 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 ### Document Storage with MongoDB
 
-*Comming Soon...*
+- Update your *pom.xml* to include the MongoDB Java Driver 
+
+<script src="https://gist.github.com/taywils/7366389.js"> </script>
+
+- The key aspect to using Document stores versus say a traditional relational DB is that we can (optionally)forego schema design and just store our data as freeform documents.
+
+- Begin by [downloading and installing MongoDB](http://www.mongodb.org/downloads), it shouldn't be too much of a hassle. [If you get stuck read the manual](http://docs.mongodb.org/manual/)
+
+- Now that we're done installing MongoDB create a new file within your src/main/java directory called *ArticleMongoDao.java*
+
+- <script src="https://gist.github.com/taywils/7952171.js"> </script>
+
+- We're not even skimming the surface as to what MongoDB is fully capable of due to the simplicity of this application but I imagine you're starting to picture the flexibility one obtains by removing the constraint of a rigid schema from the underlying DAO.
 
 ### Key-value storage using Redis
+
 
 *Comming Soon...*
 
