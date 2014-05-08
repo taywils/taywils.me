@@ -6,6 +6,6 @@ layout: nil
 
 	<!-- Posts -->
 	{% for post in site.posts %}
-		<url><loc>http://www.taywils.me/{{ post.url }}</loc></url>
+		<url><loc>http://www.taywils.me{{ post.url }}</loc></url>
 	{% endfor %}
 </urlset>
