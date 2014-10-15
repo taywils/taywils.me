@@ -20,19 +20,19 @@ description: Some friends and I want build a large project in Java beginning ear
 
 - So create a new directory on your machine, then change directory into it and run the following code
 
-<div align="center">
+<div align="center" markdown="1">
 ```git clone https://github.com/taywils/java_spark_tutorial.git .``` 
 </div>
 
 - In order to follow along with each step of the tutorial we'll want to be able to pull down remote git branches into our local repo
 
-<div align="center">
+<div align="center" markdown="1">
 ```git fetch origin```
 </div>
 
 - Run the following git command in order to list all remote branches or just browse the Java spark tutorial repo on Github [https://github.com/taywils/java_spark_tutorial](https://github.com/taywils/java_spark_tutorial)
 
-<div align="center">
+<div align="center" markdown="1">
 ```git branch -a```
 </div>
 
@@ -130,7 +130,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 </blockquote>
 
 ### Hello World...
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b hello_step_1 origin/hello_step_1 ```
 </div>
 
@@ -154,7 +154,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 
 ## Running the Spark demo app
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_demo_step_1 origin/spark_demo_step_1```
 </div>
 
@@ -170,7 +170,7 @@ The Maven cli is pretty robust and is what your IDE calls in the background anyw
 
 - From Intellij when you make a change to a Maven pom.xml file you can set it to "enable auto-import" so it refreshes your Maven dependencies when you update your pom.xml
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_demo_step_2 origin/spark_demo_step_2```
 </div>
 
@@ -194,7 +194,7 @@ So how does that work? Like many MVC applications Spark provides us a basic rout
 
 - For some more fun play around with some of the basic features you can do with Route such as capturing user supplied parameters and or adding new routes
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_demo_step_3 origin/spark_demo_step_3 ```
 </div>
 
@@ -202,7 +202,7 @@ So how does that work? Like many MVC applications Spark provides us a basic rout
 
 - Next lets introduce the POST request. We're going to use POST to store some data and then display it as a list. This example is very crude and will help us segway into mini blog tutorial further on in the article.
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_demo_step_4 origin/spark_demo_step_4 ```
 </div>
 
@@ -216,7 +216,7 @@ So how does that work? Like many MVC applications Spark provides us a basic rout
 
 - Now you might be tempted to try navigating to [http://localhost:4567/add/bananas](http://localhost:4567/add/bananas) or something 
 
-<blockquote class="quote">
+<blockquote class="quote" markdown="1">
 __BUT THAT WON'T WORK AT ALL!__
 </blockquote>
 
@@ -228,18 +228,17 @@ If you're puzzled as to why you hit a 404 page when we clearly defined a POST ro
 
 - To send a POST request open a terminal window and use _curl_ or if you're on a windows machine use PowerShell _yes I said PowerShell please stop using command prompt_
 
-<div align="center">
-<p>
+<div align="center" markdown="1">
 ``` curl -X POST http://localhost:4567/add/apples ```
-</p>
-<p>
-``` Invoke-RestMethod -Uri "http://localhost:4567/add/apples" -Method POST ```
-</p>
+</div>
+
+<p></p>
+
+<div align="center" markdown="1">
+``` Invoke-RestMethod -Uri http://localhost:4567/add/apples -Method POST ```
 </div>
 
 - Try making a few POST request and thing go back to [http://localhost:4567/list](http://localhost:4567/list) and be amazed
-
-- Congrats!!! You are now a web developer ex-plus &alpha;
 
 ## CRUD Example: A Blog
 
@@ -261,7 +260,7 @@ Within this section we'll be creating a basic blog application that will eventua
 
 - Return to your HelloSpark.java code and delete everything making sure you're starting off with a clean slate
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_blog_step_1 origin/spark_blog_step_1 ```
 </div>
 
@@ -291,7 +290,7 @@ Within this section we'll be creating a basic blog application that will eventua
 
 ### Read
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_blog_step_2 origin/spark_blog_step_2 ```
 </div>
 
@@ -305,7 +304,7 @@ The next part of CRUD is actually the easist since it doesn't actually involve m
 
 ### Update
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_blog_step_3 origin/spark_blog_step_3 ```
 </div>
 
@@ -321,7 +320,7 @@ The next part of CRUD is actually the easist since it doesn't actually involve m
 
 ### Delete
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_blog_step_4 origin/spark_blog_step_4 ```
 </div>
 
@@ -337,8 +336,6 @@ However if you recall back to when we created the Article Model, we had a boolea
 - Lastly we need to go back and edit our Blog homepage to hide deleted articles
 
 <script src="https://gist.github.com/taywils/7404222.js"> </script>
-
-- Congrats!!! You are now a super web developer II turbo
 
 ## Putting the V in MVC
 
@@ -356,13 +353,13 @@ Recall how in the previous code all of our views or HTML code was simply shoved 
 
 <script src="https://gist.github.com/taywils/7461578.js"> </script> 
 
-<blockquote class="quote">
+<blockquote class="quote" markdown="1">
 However before we start demonstrating the power of a well made html templating engine its important to not let your templated HTML get out of hand; to the point where your templated HTML substitues for your entire application. A famous blog post titled [Your templating engine sucks and everything you have ever written is spaghetti code](http://www.workingsoftware.com.au/page/Your_templating_engine_sucks_and_everything_you_have_ever_written_is_spaghetti_code_yes_you) takes a critical look at how easy it is to completely and utterly abuse the living crap out of your code by overusing template engines until all of your code basically becomes PHP4... and lets not go back to those days. For the TL;DR the author basically says to avoid heavy use of conditionals and or functions/macros within your templated HTML; think of it as when developing a Java application and how you [rarely ever want to manually invoke the garbage collector.](http://stackoverflow.com/questions/66540/system-gc-in-java)
 </blockquote>
 
 - Lets keep moving... for now we'll add a test Route to our application before we go back and refactor the blog code to remove the messy string injected html.
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_view_step_1 origin/spark_view_step_1 ```
 </div>
 
@@ -386,19 +383,19 @@ Layouts are like view container which hold multiple templates. Take my blog for 
 
 <script src="https://gist.github.com/taywils/7462774.js"> </script>
 
-- By the way... don't forget to experiment with Freemarker. Try passing serveral variable to the ftl file and get the hang of templating; its a popular technique that is used in many different programming languages [including the Javascript Framework AngularJS](http://docs.angularjs.org/guide/templates)
+- By the way don't forget to experiment with Freemarker. Try passing serveral variable to the ftl file and get the hang of templating; its a popular technique that is used in many different programming languages [including the Javascript Framework AngularJS](http://docs.angularjs.org/guide/templates)
 
 ### View templates and layouts
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_view_step_2 origin/spark_view_step_2 ```
 </div>
 
 - Given the new Bootstrap 3 powered homepage we just completed, lets now go back and refactor our old code to move the HTML injected strings out of our Controllers and into proper HTML files.
 
-- Create a new file called *articleList.ftl* or just edit the existing one and place it within the directory sparkle/src/main/resources/spark/template/freemarker/articleList.ftl
+- Create a new file called *articleList.ftl* or just edit the existing one and place it within the directory __sparkle/src/main/resources/spark/template/freemarker/articleList.ftl__
 
-- Now open up HelloSpark.java and GET method for the "/" url and change it to use the FreeMarkerRoute instead of the regular route. For our refactor we're going to create a HashMap to store the Java Objects we wish to pass onto the view articleList.ftl file.
+- Now open up HelloSpark.java and GET method for the "/" url and change it to use the FreeMarkerRoute instead of the regular route. For our refactor we're going to create a HashMap to store the Java Objects we wish to pass onto the view __articleList.ftl__ file.
 
 <blockquote class="quote">
 Finnally no more creating String objects to hold our HTML!
@@ -420,7 +417,7 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 
 <script src="https://gist.github.com/taywils/7480504.js"> </script>
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_view_step_3 origin/spark_view_step_3 ```
 </div>
 
@@ -434,7 +431,7 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 
 <script src="https://gist.github.com/taywils/7668761.js"> </script>
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_view_step_4 origin/spark_view_step_4 ```
 </div>
 
@@ -452,8 +449,6 @@ Look at the code snippet for the articleList.ftl file. Pay special attention to 
 
 <script src="https://gist.github.com/taywils/7670599.js"> </script>
 
-- Congrats!!! You are now a super web developer IV 3D Edition 
-
 ## Some other persistence options
 
 In this section we're going to explore different ways for storing our application data other than stricly within the memory of our java servlet. Being a more pragmatic developer I've chosen to stick with three of the more popular database models (Relational, Document Store and Key-value) for educational purposes.
@@ -464,7 +459,7 @@ In this section we're going to explore different ways for storing our applicatio
 
 - [db-engines.com definition of Key-value Store Model](http://db-engines.com/en/article/Key-value+Stores)
 
-While your at be sure to at least learn a bit about alternative Database Models such as __wide-column stores__, __search optimized databases__, __graph databases__ and lesser known db models such as __content stores__
+While you're at it be sure to at least learn a bit about alternative Database Models such as __wide-column stores__, __search optimized databases__, __graph databases__ and lesser known db models such as __content stores__.
 
 ### Relational Storage via Postgres
 
@@ -478,33 +473,33 @@ There has always been that lingering question in the open-source community about
 
 - I'm using Ubuntu Linux but choose whatever platform you need; follow the instructions and continue reading this article when you have Postgres installed.
 
-<div align="center">
+<div align="center" markdown="1">
 ``` sudo apt-get install postgresql ```
 </div>
 
 - Lets verify that the postgres installer worked type into your console
 
-<div align="center">
+<div align="center" markdown="1">
 ``` which psql ```
 </div>
 
 - In order to start the postgres command line interface use the command
 
-<div align="center">
+<div align="center" markdown="1">
 ``` psql ```
 </div>
 
-<blockquote class="quote">
+<blockquote class="quote" markdown="1">
 If you encounter the error message __psql: FATAL:  role "$USER" does not exist__ then you probably need to run postgresql as the postgre admin; To do that just run the following command.
 </blockquote>
 
-<div align="center">
+<div align="center" markdown="1">
 ``` sudo -u postgres psql ```
 </div>
 
 - You should get familiar with the postgres command line interface(cli) before continuing; it differs a bit from other database systems in that many admin features are separate terminal commands which are ran from outside the cli
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_storage_step_1 origin/spark_storage_step_1 ```
 </div>
 
@@ -512,7 +507,7 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 - From the command line run the following to create the database which we'll be using
 
-<div align="center">
+<div align="center" markdown="1">
 ``` sudo -u postgres createdb sparkledb ```
 </div>
 
@@ -536,20 +531,20 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 ### Building a PostgreSQL DAO for our Blog
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_storage_step_2 origin/spark_storage_step_2 ```
 </div>
 
 - Before we can connect to the database from the Java class we created we need to set a password for the postgres user.
 
-<div align="center">
+<div align="center" markdown="1">
 ``` sudo -u postgres psql ```
 </div>
 
 - Then from the psql command line interface set the password, to keep the example simple lets use the same name as the password(that way the Java code won't fail to connect)
 
-<div align="center">
-``` alter user postgres password 'postgres'; ```
+<div align="center" markdown="1">
+``` alter user postgres password postgres; ```
 </div>
 
 - Our Data Access Object(DAO) class for Postgres should be created as a new file named *ArticlePostgresDao.java*
@@ -566,7 +561,7 @@ If you encounter the error message __psql: FATAL:  role "$USER" does not exist__
 
 ### Document Storage with MongoDB
 
-<div align="center">
+<div align="center" markdown="1">
 ``` git checkout -b spark_storage_step_3 origin/spark_storage_step_3 ```
 </div>
 
