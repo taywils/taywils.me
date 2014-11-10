@@ -18,9 +18,9 @@ Welcome to the second part of the how to write a echo server in C. In this short
 
 ### Part II: The Server
 
-If you read through Part I of this tutorial much of the code here will be instantly familiar. The server code uses the same platform object macros and selects a branch of code based on the system its being executed on.
-
 <div class="post-content" markdown="1">
+
+If you read through Part I of this tutorial much of the code here will be instantly familiar. The server code uses the same platform object macros and selects a branch of code based on the system its being executed on.
 
 ### C preprocessor setup, function prototypes and main
 
