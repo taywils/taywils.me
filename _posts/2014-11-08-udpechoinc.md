@@ -12,6 +12,8 @@ description: Lately I've been getting back into C, for various reasons I haven't
 <div class="post-content" markdown="1">
 ### Intro
 
+[Click here for Part II](/2014/11/09/udpechoinc_p2.html)
+
 As my first blog post on getting back into C/C++ programming I want to look at how one would approach building a simple echo server in C using sockets.
 If you aren't aware an echo server is a server which copies the client data and sends it back to them upon each request. The simplicity of the echo server is why it is often considered to be the "Hello World" of socket programming. Before we begin make sure you have the following...
 
@@ -323,4 +325,6 @@ Thats it for today; below is the complete source code.
 ### Complete Source Code
 
 <script src="https://gist.github.com/taywils/80720c98cc4b24dea9cd.js"> </script>
+
+[Click here for Part II](/2014/11/09/udpechoinc_p2.html)
 </div>
