@@ -48,4 +48,50 @@ Thus the following is a list of C++ objects used by our Client to implement the 
 - **boost::thread_group** to address multi-processing
 - **std::queue&lt; std::string &gt;** to represent the bounded-buffer of messages
 - **boost::thread** objects for adding and removing messages from the queue
+
+### Preprocessor Directives And Function Prototypes
+
+Lets start off, create a new working directory called **chat_app** wherever you want on your system.
+Next change into the **chat_app** directory and create a new file, name it **boostChatClient.cpp**.
+First we'll need to include a few libraries; some from the C++ standard template library and others from Boost.
+
+<div class="gcp" markdown="0"> <pre class="prettyprint">
+/* boostChatClient.cpp */
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;string&gt;
+#include&lt;cstdlib&gt;
+
+#include&lt;boost/thread.hpp&gt;
+#include&lt;boost/bind.hpp&gt;
+#include&lt;boost/asio.hpp&gt;
+#include&lt;boost/asio/ip/tcp.hpp&gt;
+#include&lt;boost/algorithm/string.hpp&gt;
+</pre></div>
+
+The above library includes are fairly basic for a C++ console application but unfamiliar to most are probably the Boost includes.
+
+- **boost/thread** Multithreading support
+- **boost/bind** A library for functional programming but used here to create sub-rountines for threads
+- **boost/asio** System socket and network programming library
+- **boost/algorithm/string** Pretty self-explainatory; gives use some new string methods
+
+I will be using namespace aliasing in this application, it can be a pain sometimes to read code without namespace aliasing so lets at least make an effort to strive for clean human readable code. So add the lines below to the current file right after the preprocessor library includes.
+
+<div class="gcp" markdown="0"> <pre class="prettyprint">
+/* boostChatClient.cpp */
+using namespace std;
+using namespace boost;
+using namespace boost::asio;
+using namespace boost::asio::ip;
+</pre></div>
+
+Next we define some typedefs for quickly describing some boost shared pointers. Shared pointers are now apart of the C++ standard but there are problems abound when you try and mix and match C++ std shared pointers with Boost library shared pointers. Not so much for performance but more from the fact that using Boost shared pointers introduces a dependency on the Boost libraries; so to keep your code Boost friendly just stick with the Boost versions of the smart pointer collection.
+
+<div class="gcp" markdown="0"> <pre class="prettyprint">
+/* boostChatClient.cpp */
+typedef boost::shared_ptr&lt;tcp::socket&gt; socket_ptr;
+typedef boost::shared_ptr&lt;string&gt; string_ptr;
+typedef boost::shared_ptr&lt; queue&lt;string_ptr&gt; &gt; messageQueue_ptr;
+</pre></div>
 </div>
