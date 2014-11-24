@@ -94,4 +94,191 @@ typedef boost::shared_ptr&lt;tcp::socket&gt; socket_ptr;
 typedef boost::shared_ptr&lt;string&gt; string_ptr;
 typedef boost::shared_ptr&lt; queue&lt;string_ptr&gt; &gt; messageQueue_ptr;
 </pre></div>
+
+In order to initialize the boost::asio networking methods we need to create a special object called **io_service**. The best way to think of **io_service** is as shared queue which only accepts functions that deal with asynchronous I/O. Thus you can represent a socket bound to a network port within your application and in order to send the socket a method such as __connect()__ the method must get enqueued within the io_service before its sent down to the operating system.
+
+<blockquote class="quote" markdown="1">
+The documentation on the anatomy of Boost::asio is the most helpful for understanding the architecture of the library. [Basic Boost.Asio Anatomy](http://www.boost.org/doc/libs/1_57_0/doc/html/boost_asio/overview/core/basics.html)
+</blockquote>
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+io_service service; // Boost Asio io_service
+messageQueue_ptr messageQueue(new queue&lt;string_ptr&gt;); // Queue for producer consumer pattern
+tcp::endpoint ep(ip::address::from_string(&quot;127.0.0.1&quot;), 8001); // TCP socket for connecting to server
+const int inputSize = 256; // Maximum size for input buffer
+string_ptr promptCpy; // Terminal prompt displayed to chat users
+</pre></div>
+
+Add the following function prototypes; we'll discuss the functions as they get implemented. As you can already guess by the descriptive names of each function the function's with the suffix __Loop__ will be ran on threads and interact with the __messageQueue__ we defined earlier.
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+// Function Prototypes
+bool isOwnMessage(string_ptr);
+void displayLoop(socket_ptr);
+void inboundLoop(socket_ptr, string_ptr);
+void writeLoop(socket_ptr, string_ptr);
+string* buildPrompt();
+// End of Function Prototypes
+</pre></div>
+
+### The main() Function, Thread Creation And Socket Initialization
+
+From the explaination earlier in the article we create a thread_group facilitate the all of our async functions. In regards to the producer-consumer pattern, 
+
+- **inboundLoop()** Will push items from the socket to our messageQueue; i.e producer
+- **displayLoop()** Removes items from messageQueue to display on the client terminal; i.e consumer
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+int main(int argc, char** argv)
+{
+	try
+	{
+		boost::thread_group threads;
+		socket_ptr sock(new tcp::socket(service));
+
+		string_ptr prompt( buildPrompt() );
+		promptCpy = prompt;
+
+		sock-&gt;connect(ep);
+
+		cout &lt;&lt; &quot;Welcome to the ChatApplication\nType \&quot;exit\&quot; to quit&quot; &lt;&lt; endl;
+
+		threads.create_thread(boost::bind(displayLoop, sock));
+		threads.create_thread(boost::bind(inboundLoop, sock, prompt));
+		threads.create_thread(boost::bind(writeLoop, sock, prompt));
+
+		threads.join_all();
+	}
+	catch(std::exception&amp; e)
+	{
+		cerr &lt;&lt; e.what() &lt;&lt; endl;
+	}
+
+	puts(&quot;Press any key to continue...&quot;);
+	getc(stdin);
+	return EXIT_SUCCESS;
+}
+</pre></div>
+
+### Function Definitions
+
+The first function _buildPrompt_ is a function which handles the display of the terminal input for clients.
+Its fairly simple in that it takes a string of the clients name and assigns it to the value of the prompt pointer we declared earlier.
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+string* buildPrompt()
+{
+	const int inputSize = 256;
+	char inputBuf[inputSize] = {0};
+	char nameBuf[inputSize] = {0};
+	string* prompt = new string(&quot;: &quot;);
+
+	cout &lt;&lt; &quot;Please input a new username: &quot;;
+	cin.getline(nameBuf, inputSize);
+	*prompt = (string)nameBuf + *prompt;
+	boost::algorithm::to_lower(*prompt);
+
+	return prompt;
+}
+</pre></div>
+
+Following the buildPrompt() function the first of the threaded functions is the _inboundLoop()_.
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+void inboundLoop(socket_ptr sock, string_ptr prompt)
+{
+	int bytesRead = 0;
+	char readBuf[1024] = {0};
+
+	for(;;)
+	{
+		if(sock-&gt;available())
+		{
+			bytesRead = sock-&gt;read_some(buffer(readBuf, inputSize));
+			string_ptr msg(new string(readBuf, bytesRead));
+
+			messageQueue-&gt;push(msg);
+		}
+
+		boost::this_thread::sleep( boost::posix_time::millisec(1000));
+	}
+}
+</pre></div>
+Our code for the _inboundLoop()_ is self-explainatory but in particular it creates a loop which only inserts into the thread when a message is available on the socket connected to the server. Reading from the socket object is an operation which may potentially interfere with writing to the socket so we put a one second delay on checks for reading.
+
+As for writting mesasges to the socket to send off to other members of the Chat session we need a loop that will constantly poll for user input. Once the user input is read write the message to the socket wait for the next input. Recall that this operation is threaded so in-comming messages can still be displayed since that happens on an entirely different thread.
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+void writeLoop(socket_ptr sock, string_ptr prompt)
+{
+	char inputBuf[inputSize] = {0};
+	string inputMsg;
+
+	for(;;)
+	{
+		cin.getline(inputBuf, inputSize);
+		inputMsg = *prompt + (string)inputBuf + '\n';
+
+		if(!inputMsg.empty())
+		{
+			sock-&gt;write_some(buffer(inputMsg, inputSize));
+		}
+
+		// The string for quitting the application
+		// On the server-side there is also a check for &quot;quit&quot; to terminate the TCP socket
+		if(inputMsg.find(&quot;exit&quot;) != string::npos)
+			exit(1); // Replace with cleanup code if you want but for this tutorial exit is enough
+
+		inputMsg.clear();
+		memset(inputBuf, 0, inputSize);
+	}
+}
+</pre></div>
+
+For the extra pedantic, you might be wondering why there is no extraneous clean-up code and instead we just call exit(1); for the sake of keeping this tutorial brief and to the point we are not launching a production ready scalable service oriented distributed ChatApplication to be used by thousands of clients. Anyhow moving on the last of the threaded funtions is for displaying the messages read from the socket to the terminal.
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+/* boostChatClient.cpp */
+void displayLoop(socket_ptr sock)
+{
+	for(;;)
+	{
+		if(!messageQueue-&gt;empty())
+		{
+			// Can you refactor this code to handle multiple users with the same prompt?
+			if(!isOwnMessage(messageQueue-&gt;front()))
+			{
+				cout &lt;&lt; &quot;\n&quot; + *(messageQueue-&gt;front());
+			}
+
+			messageQueue-&gt;pop();
+		}
+
+		boost::this_thread::sleep( boost::posix_time::millisec(1000));
+	}
+}
+</pre></div>
+
+The _displayLoop()_ function is fairly crude but it gets the job done. We rely on the fact that every message begins with a user prompt in order to determine if the message belonged to the client or not. When I say crude I mean that a proper chat application with tag each user with a specific id number because our code fails to handle the error when multiple users share the same prompt. Speaking of which here is the last of the utility functions; the one which checks if the prompt from _buildPrompt()_ is found within the string arriving from the socket.
+
+<div class="gcp" markdown="0"><pre class="prettyprint">
+bool isOwnMessage(string_ptr message)
+{
+	if(message-&gt;find(*promptCpy) != string::npos)
+		return true;
+	else
+		return false;
+}
+</pre></div>
+
+Thanks for reading my tutorial on how to setup a chat client using C++ and the Boost Libraries; this code deserves a refactor considering that many of the Boost code used is now apart of the latest C++ standard. In addition the introduction of a protocol could be useful for unique identification of clients and other things as well.
+Stay tuned for the second part of this tutorial where we code the server side of the Chat applciation.
+
+### Full Source Code
+<script src="https://gist.github.com/taywils/9e8019fe72ff3ab16e0f.js"> </script>
 </div>
