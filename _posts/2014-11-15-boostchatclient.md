@@ -12,6 +12,8 @@ description: In this tutorial we'll learn how to write a client for a feature li
 <div class="post-content" markdown="1">
 ### Intro
 
+[Click here for Part II](/2014/11/28/boostchatserver.html)
+
 ####Tutorial Assumes Boost Version >= 1.53
 
 We'll be making use of the Boost C++ libraries for this tutorial so before we begin make sure you have read through the installation documentation on the Boost website on. Below I have included some links for each operating system on how to install a recent version of Boost; its not extremely difficult but sometimes installing Boost can be tricky for those of us not familiar with compiling C++ projects from source code or the difference between the header-file only libraries and the rest of Boost.
@@ -281,4 +283,6 @@ Stay tuned for the second part of this tutorial where we code the server side of
 
 ### Full Source Code
 <script src="https://gist.github.com/taywils/9e8019fe72ff3ab16e0f.js"> </script>
+
+[Click here for Part II](/2014/11/28/boostchatserver.html)
 </div>
