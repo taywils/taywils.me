@@ -11,8 +11,7 @@ description: The Final part of our tutorial, after completing this tutorial you 
 <div class="post-content">
 <p><a href="/2011/06/16/textbasedrpgpart6.html">Click here for part 6</a></p>
 
-In the last part of this series we're going to develop the server logic to host our game and end with a short demonstration of how it works in action. Just as you performed it in part 6, create a new Visual C++ CLR project within Visual Studio and add the following files leaving them empty for now; "Common.h", "database.h", "server.h", "database.cpp", "main.cpp" and "server.cpp". Solution Navigator should appear similar to one shown below.
-<p style="text-align: center;"><a class="lightbox" href="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_1.png"><img class="aligncenter size-medium wp-image-165" title="Simple_C++_RPG_Part_7_1" src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_1-300x164.png" alt="" width="300" height="164" /></a></p>
+In the last part of this series we're going to develop the server logic to host our game and end with a short demonstration of how it works in action. Just as you performed it in part 6, create a new Visual C++ CLR project within Visual Studio and add the following files leaving them empty for now; "Common.h", "database.h", "server.h", "database.cpp", "main.cpp" and "server.cpp". 
 The first file we'll write is the "Common.h" file. All "Common.h" does is declare the namespaces and set the constant values we'll be using for the server application. If you recall from part six when we set the client to access the server via port 13000, you can now see why we did so because by setting the same port on the server the server will know which port to set the listening socket to.
 
 <div class="gcp"> <pre class="prettyprint">
@@ -724,13 +723,8 @@ Before we demo our fully functional multiplayer game we have to add the last uti
 Now open up the file "main.cpp" and run the server, we run the server via the constructor method so as soon as you create the server it will pend for request on 127.0.0.1 port 13000 for new players.
 
 For the demo what you'll need to do is to open up three instances of Visual Studio. One instance will run the server, so open up the server project on the first one while the second and third instances will each run clients; so open up the client project on the other two. Once you have all three open the first step is to start the server.
-<p style="text-align: center;"><a class="lightbox" href="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_2.png"><img class="aligncenter size-medium wp-image-168" title="Simple_C++_RPG_Part_7_2" src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_2-300x152.png" alt="" width="300" height="152" /></a></p>
-Now that the server is running go ahead and launch the first client. Giving the new player a name.
-<p style="text-align: center;"><a class="lightbox" href="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_3.png"><img class="aligncenter size-medium wp-image-171" title="Simple_C++_RPG_Part_7_3" src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_3-300x154.png" alt="" width="300" height="154" /></a></p>
 Then launch the second client and give this new player a name.
-<p style="text-align: center;"><a class="lightbox" href="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_4.png"><img class="aligncenter size-medium wp-image-169" title="Simple_C++_RPG_Part_7_4" src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_4-300x148.png" alt="" width="300" height="148" /></a></p>
 Now switch back to the first client enter the following commands, "eq:woodsword" and then "a:imp" this will have the effect of equipping the woodsword item from the Main Hall and killing the imp monster. Finally switch back over to the second client and enter the following command "find:", you will notice that both the woodsword and the imp have cannot be found as they were both taken care of by the first player. You have just finished writing a simple text based multiplayer RPG.
-<p style="text-align: center;"><a class="lightbox" href="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_5.png"><img class="aligncenter size-medium wp-image-170" title="Simple_C++_RPG_Part_7_5" src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_7_5-300x157.png" alt="" width="300" height="157" /></a></p>
 Once again the two files below, the one for the server and the one for the client are hosted on my dropbox account, so if at any time they aren't accessible(I often move files around and don't clean up dead links) and put a request into the comments section.
 
 <p>
