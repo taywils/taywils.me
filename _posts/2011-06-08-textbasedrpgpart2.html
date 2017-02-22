@@ -121,7 +121,6 @@ void Test::test_item_class(void)
 	cout << "woodsword->getName() == " << woodsword.getName() << endl;
 </pre></div>
 <p>The output will be the following</p> 
-<img src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_2_1.png" alt="Output"   class="lightbox"/>
 <p>Note the different memory addresses of the two items. After changing the name of the “barksword” item, the “woodsword” remained intact. However, consider the next example</p> <p>(Insert main.cpp 23-34 un-numbered)</p> 
 <div class="gcp"> <pre class="prettyprint">
        Item* woodsword = new Item("woodsword", Item::WEAPON, 9, 0, 0);
@@ -135,7 +134,6 @@ void Test::test_item_class(void)
 	cout << "woodsword->getName() == " << woodsword->getName() << endl;
 </pre></div>
 <p>The output will be</p> 
-<img src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_2_2.png" alt="Output"   class="lightbox"/>
 <p>Did you notice that changing the name of the “barksword” also changed the name of the “woodsword” to “happysword”. In addition look again at the memory address’, they are exactly the same. Here the C++ compiler did exactly what we told it to do and nothing more but we were unaware that the assignment of pointers meant that the bark and wood swords now reference the same item in memory. Here is what we meant to say to the compiler.</p>  
 <div class="gcp"> <pre class="prettyprint">
         Item* woodsword = new Item("woodsword", Item::WEAPON, 9, 0, 0);
@@ -151,7 +149,6 @@ void Test::test_item_class(void)
 	cout << "woodsword->getName() == " << woodsword->getName() << endl;
 </pre></div>
 <p>The output will be</p>
-<img src="http://code2live.net/wp-content/uploads/2011/06/Simple_C++_RPG_Part_2_3.png" alt="Output"   class="lightbox"/>
 <p>Thus we meant for the attributes of the “woodsword” to be assigned to the “barksword” and for the “barksword” to have its own memory address. Now that we have demonstrated the reasoning behind the reference assertion in the unit test you can finally finish up the Item class test cases for the getter and setter methods.</p>  
 <div class="gcp"> <pre class="prettyprint">
         // Item void constructor test
