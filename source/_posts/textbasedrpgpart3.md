@@ -156,5 +156,5 @@ int main(void)
 ```
 Ok, that’s it for today.
 
-[link_part_2]: /2011/06/05/textbasedrpgpart2
+[link_part_2]: /2011/06/08/textbasedrpgpart2
 [link_part_4]: /2011/06/11/textbasedrpgpart4
