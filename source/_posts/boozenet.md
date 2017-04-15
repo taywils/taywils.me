@@ -1,5 +1,5 @@
 ---
-title: An introductory Meteor tutorial, improving on the leaderboard sample app
+title: An Introductory Meteor Tutorial, Improving On The Leaderboard Sample App
 date: 2012-03-26
 catagories: [tutorial]
 tags: [javascript, nodejs]
