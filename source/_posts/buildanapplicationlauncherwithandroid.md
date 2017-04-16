@@ -12,22 +12,22 @@ Create a new xml layout for the ListView by right clicking the res/layout folder
 
 ```xml
 <LinearLayout
-xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:id=&quot;@+id/applauncher_linearlayout&quot;
-android:layout_width=&quot;fill_parent&quot;
-android:layout_height=&quot;fill_parent&quot;
-android:orientation=&quot;vertical&quot;>
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/applauncher_linearlayout"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical">
 
 <ListView
-android:id=&quot;@android:id/list&quot;
-android:layout_width=&quot;fill_parent&quot;
-android:layout_height=&quot;fill_parent&quot;/>
+android:id="@android:id/list"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"/>
 
 <TextView
-android:id=&quot;@android:id/empty&quot;
-android:layout_width=&quot;fill_parent&quot;
-android:layout_height=&quot;fill_parent&quot;
-android:text=&quot;List PlaceHolder&quot;/>
+android:id="@android:id/empty"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:text="List PlaceHolder"/>
 
 </LinearLayout>
 ```
@@ -36,31 +36,31 @@ When using ListViews we can setup the overall look of each row by creating an xm
 Create a new xml layout for the ListView rows by right clicking the res/layout folder and adding a new android xml file. Title it "applauncherrow.xml" and add the code below.
 ```xml
 <LinearLayout
-xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:id=&quot;@+id/applauncherrow_imagelinearlayout&quot;
-android:layout_width=&quot;fill_parent&quot;
-android:layout_height=&quot;?android:attr/listPreferredItemHeight&quot;
-android:padding=&quot;6dip&quot;>
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/applauncherrow_imagelinearlayout"
+android:layout_width="fill_parent"
+android:layout_height="?android:attr/listPreferredItemHeight"
+android:padding="6dip">
 
 <ImageView
-android:id=&quot;@+id/applauncherrow_icon&quot;
-android:layout_width=&quot;wrap_content&quot;
-android:layout_height=&quot;fill_parent&quot;
-android:layout_marginRight=&quot;6dip&quot;/>
+android:id="@+id/applauncherrow_icon"
+android:layout_width="wrap_content"
+android:layout_height="fill_parent"
+android:layout_marginRight="6dip"/>
 
 <LinearLayout
-android:id=&quot;@+id/applauncherrow_namelinearlayout&quot;
-android:orientation=&quot;vertical&quot;
-android:layout_width=&quot;0dip&quot;
-android:layout_weight=&quot;1&quot;
-android:layout_height=&quot;fill_parent&quot;>
+android:id="@+id/applauncherrow_namelinearlayout"
+android:orientation="vertical"
+android:layout_width="0dip"
+android:layout_weight="1"
+android:layout_height="fill_parent">
 
 <TextView
-android:id=&quot;@+id/applauncherrow_appname&quot;
-android:layout_width=&quot;fill_parent&quot;
-android:layout_height=&quot;0dip&quot;
-android:layout_weight=&quot;1&quot;
-android:gravity=&quot;center_vertical&quot;/>
+android:id="@+id/applauncherrow_appname"
+android:layout_width="fill_parent"
+android:layout_height="0dip"
+android:layout_weight="1"
+android:gravity="center_vertical"/>
 
 </LinearLayout>
 
@@ -73,35 +73,35 @@ Create a new Java Class and name it "AppLauncher.java".
 Next open up the manifest file for your application and make sure it looks like the code below.
 
 ```xml
-<!-- Your package=&quot;&quot; name might differ -->
+<!-- Your package="" name might differ -->
 <manifest 
-xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-package=&quot;org.example.hello&quot; 
-android:versionCode=&quot;1&quot;
-android:versionName=&quot;1.0&quot;>
+xmlns:android="http://schemas.android.com/apk/res/android"
+package="org.example.hello" 
+android:versionCode="1"
+android:versionName="1.0">
 
-<!-- Your default android:icon=&quot;&quot; name might differ -->
+<!-- Your default android:icon="" name might differ -->
 <application 
-android:icon=&quot;@drawable/icon&quot; 
-android:label=&quot;AppLauncher&quot; 
-android:debuggable=&quot;true&quot;
-android:description=&quot;An Application Launcher&quot;>
+android:icon="@drawable/icon" 
+android:label="AppLauncher" 
+android:debuggable="true"
+android:description="An Application Launcher">
 
 <activity
-android:name=&quot;AppLauncher&quot;
-android:label=&quot;AppLauncher&quot;>
+android:name="AppLauncher"
+android:label="AppLauncher">
 
 <!-- This tag indicates the initial activity -->
 <intent-filter>
-<action android:name=&quot;android.intent.action.MAIN&quot; />
-<category android:name=&quot;android.intent.category.LAUNCHER&quot; />
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
 </intent-filter>
 
 </activity>
 
 </application>
 
-<uses-sdk android:minSdkVersion=&quot;8&quot; />
+<uses-sdk android:minSdkVersion="8" />
 
 </manifest> 
 ```

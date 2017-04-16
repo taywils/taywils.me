@@ -1,0 +1,527 @@
+---
+title: Ruby Cramp tutorial build an RSS API with Ruby and Redis
+date: 2012-10-28
+tags: [ruby, redis]
+catagories: [tutorial]
+comments: true
+---
+A while ago I had wanted to design an API for delivering realtime RSS news feeds from multiple sites organized by category so that I wouldn't have to navigate a reading list of tabs within my browser or simply run out of interesting stories to read whenever my favorites sites offered me nothing of interest.
+
+In this tutorial we're going to be building a small API for categorized RSS feeds.
+The choice of technology for this tutorial will the Ruby programming language, Redis for data caching and Cramp an async framework written in Ruby.
+
+<a href="http://www.ruby-lang.org/en/">Installation and instructions for Ruby</a>
+
+<a href="http://redis.io/">Redis installation and info</a>
+
+<a href="http://cramp.in/">Cramp framework instructions</a>
+
+Once you get all of the three components installed on your development machine you should be ready to go.
+To begin you'll want to open your desired terminal application on your machine whether it be PowerShell on Windows or Terminal on Linux or OSX, create a new directory called &quot;NewsPlus&quot; and move into said directory.
+Within the directory we'll invoke the Ruby Cramp gem scaffolding command to write the skeleton code for our app.
+```
+#Terminal window 
+$ cramp new newsplus
+```
+After the scaffolding has completed the first thing we'll need to do is setup the Gemfile for the application.
+The Gemfile contains all the information needed by your application in order to install its dependencies.
+```ruby
+#NewsPlus/Gemfile
+source :rubygems
+
+# Rails Support Lib Classes
+gem 'activesupport'
+
+# Rails Internationalization
+gem 'i18n'
+
+# Cramp Framework 
+gem 'cramp'
+
+# Ruby Redis Driver
+gem 'redis'
+
+# JSON support
+gem 'json'
+
+# Async webserver for running a cramp application
+gem 'thin'
+
+# Rack based routing
+gem 'http_router'
+
+# Collection of async-proof rack middlewares - https://github.com/rkh/async-rack.git
+gem 'async-rack'
+```
+With your Gemfile complete run the next command to instruct the bundle gem to install all of the needed dependencies.
+```
+#Terminal Window
+$ bundle install
+```
+If you don't have the bundle gem installed just run the command to install it and then try again.
+```
+#Terminal Window
+$ gem install bundler
+```
+With the Gemfile all setup we can begin editing the configuration for the project.
+Within the configuration file config.ru we'll add all required gems for our project and leave everything else default.
+```ruby
+#NewsPlus/config.ru
+# Gems and libs
+require 'redis'
+require 'open-uri'
+require 'rss'
+require 'json'
+require 'active_support/core_ext'
+
+# Cramp Application
+require './application'
+
+NewPlus::Application.initialize!
+
+# Development middlewares
+if NewPlus::Application.env == 'development'
+  use AsyncRack::CommonLogger
+
+  # Enable code reloading on every request
+  use Rack::Reloader, 0
+
+  # Serve assets from /public
+  use Rack::Static, :urls => ["/javascripts"], :root => NewPlus::Application.root(:public)
+end
+
+# Running thin :
+#
+#   bundle exec thin --max-persistent-conns 1024 --timeout 0 -R config.ru start
+#
+# Vebose mode :
+#
+#   Very useful when you want to view all the data being sent/received by thin
+#
+#   bundle exec thin --max-persistent-conns 1024 --timeout 0 -V -R config.ru start
+#
+run NewPlus::Application.routes
+```
+Another bit of pre configuration that we'll need before we start actually coding our application will be the application.rb file.
+Within the application file we're going to leave all of the previous defaults setup by the Cramp scaffolding except for the last line.
+On the last line we have to tell Cramp to require the sub-folders within the app folder in a specific order.
+The reason being so that our data models don't try to reference helper modules that haven't been loaded yet.
+```ruby
+#NewsPlus/application.rb
+require "rubygems"
+require "bundler"
+
+module NewPlus
+  class Application
+
+  def self.root(path = nil)
+    @_root ||= File.expand_path(File.dirname(__FILE__))
+    path ? File.join(@_root, path.to_s) : @_root
+  end
+
+  def self.env
+  @_env ||= ENV['RACK_ENV'] || 'development'
+  end
+
+  def self.routes
+  @_routes ||= eval(File.read('./config/routes.rb'))
+  end
+
+  # Initialize the application
+  def self.initialize!
+  end
+
+  end
+end
+
+Bundler.require(:default, NewPlus::Application.env)
+
+# Preload application classes in the order specified
+(Dir['./app/helpers/*.rb'] + Dir['./app/models/*.rb'] + Dir['./app/actions/*.rb']).each {|f| require f}
+```
+Lastly to wrap up the pre-configuration we need to setup the routing for the app.
+Luckly for us the Cramp framework uses the well known Rack HttpRouter for Ruby. 
+Below is the code for the routes.rb file which we'll handle our GET and POST requests from.
+```ruby
+#NewsPlus/config/routes.rb
+# Check out https://github.com/joshbuddy/http_router for more information on HttpRouter
+HttpRouter.new do
+  post('/prepare').to(PrepareAction)
+  post('/refresh').to(RefreshAction)
+  get('/pull').to(PullAction)
+  get('/info').to(InfoAction)
+end
+```
+We're keeping our API very simple, it consists of just four commands prepare, refresh, pull and info.
+Prepare is the initial call and fetches all rss site content from as defined within our sites model which we'll get to shortly.
+Refresh will go out and fetch the sites within the desired category again assuming they have been initially loaded with prepare call.
+Pull is exactly what you think it is... it pulls down the RSS feed info from the web and stores it within Redis.
+Info returns the channel element from the RSS xml, this is the element within an RSS document which informs the user about the origin of the xml document.
+
+Now that all of the configuration code has been written the next step is to define our storage code.
+Since we're using Redis as our in memory data storage we're going to need some helper code to connect a new Redis session.
+Within your application directory navigate to the app directory and create a new directory called helpers.
+On a Linux/Unix machine just use mkdir to create the helpers directory
+```
+#Terminal
+$ cd app
+$ mkdir helpers
+```
+Now create the file moduleredis.rb.
+Being a Ruby module we're going to use the module code as a mixin within other parts of our code to give them Redis connectivity.
+This might be a bit unfamiliar to those of you comming from languages such as Java or C++ where one tends to rely on abstract classes and inheritance but as a Ruby developer you should always consider whether or not a mixin should be used in place of inheritance.
+```ruby
+#NewsPlus/app/helpers/moduleredis.rb
+module RedisHelper
+  def connect_to_redis
+    @redis = Redis.new
+    puts "INFO: Redis Connection started"
+    yield
+  end
+
+  def close_redis
+    @redis.quit
+    puts "INFO: Redis client disconnected"
+  end
+end
+```
+Now that we have Redis connectivity, we can start adding code to support our two data models, the first will be the sites model.
+The sites model will contain the information needed to define what a site is and how its key is stored within our Redis cache.
+Use whatever text editor or IDE and create the following file, call it sites.rb and place it within the models folder.
+```
+#Terminal
+$ mkdir NewsPlus/app/models
+```
+```ruby
+#NewsPlus/app/models/sites.rb
+class Sites
+  attr_reader :sites
+
+    def initialize()
+      @sites = {
+        'hackernews' => { 
+          url: 'http://news.ycombinator.com/rss', 
+          attributes: %w{ title link comments description }, 
+          category: "tech",
+          name: "hackernews"
+        },
+        'redditprogramming' => {
+          url: 'http://www.reddit.com/r/programming.rss',
+          attributes: %w{ title link description },
+          category: "tech",
+          name: 'reddit/r/programming'
+        },
+        'wsjusbusiness' => {
+          url: 'http://online.wsj.com/xml/rss/3_7014.xml',
+          attributes: %w{ title link description pubDate },
+          category: "business",
+          name: 'WSJ.com US Business'
+        }
+      }
+    end
+
+    def all_sites(category = nil)
+      return @sites if category.nil?
+
+      sites_hash = {}
+
+      @sites.each do |name, vals|
+        sites_hash[name] = vals if vals[:category] == category
+      end
+
+      return sites_hash
+    end
+
+    def get_redis_key(name, attribute)
+      "#{@sites[name][:category]}:#{@sites[name][:name]}:#{attribute}"
+    end
+end
+```
+Our sites model is not that involved really; all we're doing is storing a collection of RSS feeds via the @sites hashmap and the all_sites method will either return a dump of the @sites attr_reader or just those from the category passed as a string argument.
+For this demonstration we're gonna restrict ourselves to just tech and business but you can add more if you wish.
+
+Within the same models directory of your application create the next model file, call it newsfeed.rb.
+The newsfeed model takes a sites information as provided and handle all translation of the RSS's native xml format to json.
+By placing our site's RSS information in the json format we can then possibly build a web based reader that can take the json and display it in an interesting way via CSS3/HTML5 or perhaps with some visual javascript library.
+```ruby
+#NewsPlus/app/models/newsfeed.rb
+class NewsFeed
+  attr_reader :feed, :item_attributes_array, :news_category, :site_name
+
+  def initialize(site_name, site_url, item_attributes_array, news_category)
+    @feed = Hash.from_xml open(site_url)
+    @item_attributes_array = item_attributes_array
+    @news_category = news_category
+    @site_name = site_name
+  end
+
+  def self.refresh(url)
+    new_feed = Hash.from_xml open(url)
+    new_feed['rss']['channel']['item'].to_json
+  end
+
+  def send_info()
+    info = { 
+      siteName: @site_name,
+      homepageUrl: @feed['rss']['channel']['link'],
+      about: @feed['rss']['channel']['description'],
+      feedElements: @item_attributes_array,
+      category: @news_category.downcase
+    }
+    info.to_json
+  end
+
+  def send_stories()
+    @feed['rss']['channel']['item'].to_json
+  end
+end
+```
+With both the newsfeed and sites models completed the next step is to code the Cramp equivalent of controllers.
+Due to the fact that Cramp is a non MVC framework although one can easily turn it into one if you want, Cramp requires that 
+all routed web request are handled via actions.
+
+If you recall earlier in this tutorial where we defined the file NewsPlus/config/routes.rb we defined two GET and two POST methods.
+The first one we'll tackle is the Prepare action which you can think off as the initialization step.
+
+Open a new file within the NewsPlus/app/actions/ directory and call it "prepare_action.rb"
+One of the things you'll notice is that for Cramp actions you have to pay attention to is the order in which you declare your functions.
+Cramp handles each request by filtering it through a series of callbacks, these are listed in order below.
+
+- before_start
+- respond_with
+- on_start
+- on_finish
+
+Based on the callback order above you place your action functions into each of the four callback categories.
+For a more in depth discussion of the Cramp frameworks callback structure refer to the official project's documentation available at the following link. 
+
+<a href="http://cramp.in/documentation">http://cramp.in/documentation</a>
+
+However, by studying this example code you can gain an intuitive feel for how the callbacks process your request.
+In each of the actions we'll include in this app the before_start callback usually involves connecting to redis and checking for request parameters.
+Addtionally the on_finish callback is where you want to put any clean up code and close open database connections or cache connections as is the case with this example.
+One thing I forgot to mention is the Cramp framework function "render", what render does is return the response to the client.
+You'll see render sprinkled around a bit but make sure you pay attention to what data its rendering back to the client; for this application we'll commit ourselves to just JSON formatted data but you can return plaintext if you want and or any other type as well.
+```ruby
+#NewsPlus/app/actions/prepare_action.rb
+class PrepareAction < Cramp::Action
+  include RedisHelper
+
+  before_start :connect_to_redis, :pull_news_feeds, :cache_news_feeds
+  on_start :handle_request
+  on_finish :close_redis
+
+  def pull_news_feeds
+    @sites = Sites.new
+    @news_feeds = []
+
+    @sites.all_sites().each do |site_name, site_vals|
+      @news_feeds << NewsFeed.new(site_name, site_vals[:url], site_vals[:attributes], site_vals[:category])
+    end
+
+    puts "INFO: News feeds pulled"
+    yield
+  end
+
+  def cache_news_feeds
+    @news_feeds.each do |feed|
+      @redis.set(@sites.get_redis_key(feed.site_name, 'stories'), feed.send_stories())
+      @redis.set(@sites.get_redis_key(feed.site_name, 'info'), feed.send_info())
+    end
+
+    puts "INFO: News feeds cached"
+    yield
+  end
+
+  def respond_with
+    [201, {'Content-Type' => 'application/json'}]
+  end
+
+  def handle_request 
+    response = {ok: "prepare success"}.to_json
+    render response
+    finish
+  end
+end
+```
+As you can probably guess the goal of the prepare action is to just create new newsfeed objects from our sites and foreach feed cache its data.
+Another point of interest is the use of the RedisHelper module, on the line "include RedisHelper" the mixin allows use to share
+access code for the Redis cache across each of our actions, you'll see this same mixin throughout all of our actions.
+The next action will be what is called the info action, the info action returns the RSS feed's root information which describes the feed.
+```ruby
+#NewsPlus/app/actions/info_action.rb
+class InfoAction < Cramp::Action
+  include RedisHelper
+
+  before_start :connect_to_redis, :get_params, :info_sites
+  on_start :handle_request
+  on_finish :close_redis
+
+  def get_params
+    if(params.has_key?(:category))
+      @category = params[:category]
+      yield
+    else
+      @category = nil
+      yield
+    end
+  end
+
+  def info_sites 
+    @response_data = []
+
+    @sites = Sites.new
+
+    @sites.all_sites(@category).each do |site_name, site_vals|
+      temp = nil
+      temp = @redis.get(@sites.get_redis_key(site_name, 'info'))
+      @response_data << temp
+    end
+    yield
+  end
+
+  def respond_with
+    [200, {'Content-Type' => 'application/json'}]
+  end
+
+  def handle_request 
+    response = @response_data.to_json
+    render response
+    finish
+  end
+end
+```
+With both prepare and info done we now want the ability to pull the raw information from the RSS feed, this will be represented by the pull action.
+Go into the app/actions directory and create a new file using your text editor of choice and call it pull_action.rb
+```ruby
+#NewsPlus/app/action/pull_action.rb
+class PullAction < Cramp::Action
+  include RedisHelper
+
+  before_start :connect_to_redis, :get_params, :pull_sites
+  on_start :handle_request
+  on_finish :close_redis
+
+  def get_params
+    if(params.has_key?(:category))
+      @category = params[:category]
+      yield
+    else
+      puts "No category param passed"
+      @category = nil
+      yield
+    end
+  end
+
+  def pull_sites
+    @response_data = []
+
+    @sites = Sites.new
+
+    @sites.all_sites(@category).each do |site_name, site_vals|
+      puts "pulling data for #{site_name}"
+      temp = @redis.get(@sites.get_redis_key(site_name, 'stories'))
+      @response_data << temp
+    end
+    yield
+  end
+
+  def respond_with
+    [200, {'Content-Type' => 'application/json'}]
+  end
+
+  def handle_request 
+    response = @response_data.to_json
+    render response
+    finish
+  end
+end
+```
+The pull_action is similar to the info action with the exception that it fetches the stories redis key as opposed to the info redis key we definied within the sites model a while back.
+
+Now that you kinda have a feel for how Cramp handles request via a sequence of callbacks, you should easily follow the logic of the next action, the "refresh_action".
+What refresh does is rather simple... refresh just re-caches the rss data from the web; if the client passes an optional category parameter only those feeds under the said category will be refreshed. 
+```ruby
+#NewPlus/app/actions/refresh_action.rb
+class RefreshAction < Cramp::Action
+  include RedisHelper
+
+  before_start :connect_to_redis, :get_params, :refresh_sites
+  on_start :handle_request
+  on_finish :close_redis
+
+  def get_params
+    if(params.has_key?(:category))
+      @category = params[:category]
+      yield
+    else
+      @category = nil
+      yield
+    end
+  end
+
+  def refresh_sites
+    @sites = Sites.new
+
+    @sites.all_sites(@category).each do |site_name, site_vals|
+      @redis.set(@sites.get_redis_key(site_name, 'stories'), NewsFeed.refresh(site_vals[:url]))
+    end
+    yield
+  end
+
+  def respond_with
+    [201, {'Content-Type' => 'application/json'}]
+  end
+
+  def handle_request 
+    response = {ok: "refresh success"}.to_json
+    render response
+    finish
+  end
+end
+```
+So far so good we have at this point completed all of the necessary Ruby code required to run this application.
+The next step is to start our redis server, to create a new redis server on a Linux/Unix machine you just run the code below in your terminal.
+```
+#Terminal
+$ cd location_where_you_installed_redis
+$ ./redis-2.4.17/src/redis-server
+```
+That command will create a new redis server on the default port with the default settings which will be enough for our development environment.
+In addition you may want to verify that our changes are being cached as we run through a test run of the code.
+This requires that you start a redis client 
+```
+#Terminal
+$ cd location_where_you_installed_redis
+$ ./redis-2.4.17/src/redis-cli
+```
+Now that you have both the redis client and server before starting the application begin the redis server or if you already have it running let it continue.
+
+Open a new terminal window and navigate the to the directory of your project.
+The following command will allow you to run the cramp application; this command was taken from the documentation at the Cramp homepage.
+```
+#Terminal
+$ bundle exec thin --timeout 0 -R config.ru start
+```
+Once running you shouldn't see any error messages if everything has been typed correctly. As with all Cramp applications the default port number will be 3000 and the host set to local. We'll start by calling the prepare function from our mock api, open a terminal and type the following. The terminal command we will be using is called Curl, its a command line tool data transfer across various protocols including HTTP.
+```
+#Terminal
+$ curl -X POST 127.0.0.1:3000/prepare
+```
+The response sent back from the server will be JSON indicating that the request succeded, now if you view your redis server the debug information will show that there are now 6 keys cached.
+
+Remember that each of our 3 sites have two keys; info and server for a total of six.
+To run some of the other commands we can use curl again...
+```
+#Terminal
+$ curl -X POST 127.0.0.1:3000/refresh
+$ curl -X GET 127.0.0.1:3000/pull
+$ curl -X GET 127.0.0.1:3000/info
+```
+If this is your first time using curl you might be wondering how one passes parameters, well its just like any http request you include the question mark and begin passing your parameters delimeted by the ampersand.
+
+Say you wanted to pull only tech rss feeds.
+```
+$ curl -X GET 127.0.0.1:3000/pull?category=tech
+```
+Now you have a basic RSS api written using Ruby and the Cramp framework, go read more about Cramp so you can extend on this app and turn it into something more useful.
