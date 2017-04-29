@@ -2,7 +2,7 @@
 title: The Projects page, a slidejs tutorial
 date: 2012-09-12
 tags: [javascript]
-catagories: [tutorial]
+categories: [tutorial]
 ---
 I used some interesting jquery tricks(at least to me) to make the projects page more visually appealing; read on to learn how it was made. This is the beginning of a series on updates to the overall blog that I will post as I continue to learn more about both the Ruby Jekyll gem and web design in general.
 

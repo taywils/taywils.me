@@ -2,8 +2,7 @@
 title: Ruby Cramp tutorial build an RSS API with Ruby and Redis
 date: 2012-10-28
 tags: [ruby, redis]
-catagories: [tutorial]
-comments: true
+categories: [tutorial]
 ---
 A while ago I had wanted to design an API for delivering realtime RSS news feeds from multiple sites organized by category so that I wouldn't have to navigate a reading list of tabs within my browser or simply run out of interesting stories to read whenever my favorites sites offered me nothing of interest.
 

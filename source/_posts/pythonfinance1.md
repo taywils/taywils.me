@@ -2,7 +2,7 @@
 title: Install Python, Numpy, SciPy, IPython and Pandas on Windows
 date: 2012-12-23
 tags: [python]
-catagories: [tutorial]
+categories: [tutorial]
 ---
 In this tutorial we'll setup a Python development environment on Windows 7. After finishing this tutorial you will be ready to start writing numerical applications, data analysis algorithmns and implement various machine learning methods. I've always wanted to get back into numerical computing and Python seems like the way to go.
 

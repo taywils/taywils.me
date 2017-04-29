@@ -2,7 +2,7 @@
 title: Android Google Places Tutorial
 date: 2013-05-06
 tags: [java]
-catagories: [mobile, android, tutorial]
+categories: [mobile, android, tutorial]
 ---
 I had just installed IntelliJ version 12.1.2 the other day and I saw an old Android project in the recent projects list. Thinking back I was satisfied with the result so I thought I should post it to my blog. It was a proof of concept application I wrote to list nearby restaurants based on your current location.
 
