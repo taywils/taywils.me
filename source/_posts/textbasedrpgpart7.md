@@ -3,11 +3,13 @@ title: Build A Text Based Multiplayer RPG Part VII
 date: 2011-06-17
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart7.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart7.JPG
 ---
-[Click here for part VI][link_part_6]
-
-# Intro
 The Final part of our tutorial, after completing this tutorial you will have successfully created a multiplayer text based rpg. Read on to learn how to design the game server that will connect to the client code written in part six.
+
+<!-- more -->
+[Click here for part VI][link_part_6]
 
 In the last part of this series we're going to develop the server logic to host our game and end with a short demonstration of how it works in action. Just as you performed it in part 6, create a new Visual C++ CLR project within Visual Studio and add the following files leaving them empty for now; "Common.h", "database.h", "server.h", "database.cpp", "main.cpp" and "server.cpp". 
 
@@ -81,15 +83,15 @@ Then for the client relay which is responsible for starting and stopping a threa
 ```
 The last two methods of the server class are specific for backwards compatibility between managed and native C++.
 ```c
-    // See the link below
-    //msdn.microsoft.com/en-us/library/1b4az623(v=VS.90).aspx 
-    //How to: Convert System::String to Standard String
-    void MarshalString ( String^ s, std::string& os ) ;
+  // See the link below
+  //msdn.microsoft.com/en-us/library/1b4az623(v=VS.90).aspx 
+  //How to: Convert System::String to Standard String
+  void MarshalString ( String^ s, std::string& os ) ;
   String^ toSysString( std::string ) ;
 }
 ```
 <div>
-The point of string marshaling is to allow use to translate between C++/CLI String^ and native std::string* pointers. Now we're ready to tackle the meat of the application, the definitions of the servers methods; open up "server.cpp" for editing and first add the pre-processor directives.
+The point of string marshaling is to allow use to translate between C++/CLI String^ and native `std::string*` pointers. Now we're ready to tackle the meat of the application, the definitions of the servers methods; open up "server.cpp" for editing and first add the pre-processor directives.
 </div>
 ```c
 #pragma once
@@ -704,7 +706,5 @@ Once again the two files below, the one for the server and the one for the clien
 
 <a href="http://dl.dropbox.com/u/22280460/Simple_RPG_Client.rar">Click here to download the client application</a>
 <a href="http://dl.dropbox.com/u/22280460/Simple_RPG_Server.rar">Click here to download the server application</a>
-
-[Click here for part VI][link_part_6]
 
 [link_part_6]: /2011/06/16/textbasedrpgpart6

@@ -6,6 +6,7 @@ categories: [mobile, android, tutorial]
 ---
 I had just installed IntelliJ version 12.1.2 the other day and I saw an old Android project in the recent projects list. Thinking back I was satisfied with the result so I thought I should post it to my blog. It was a proof of concept application I wrote to list nearby restaurants based on your current location.
 
+<!-- more -->
 ### __FOR READERS IN A HURRY__
 The entire Java class files themselves are located at the end of this post just before the comments.
 

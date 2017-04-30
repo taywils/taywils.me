@@ -3,9 +3,12 @@ title: Why I switched over to Jekyll from WordPress
 date: 2012-07-25
 tags: [ruby, javascript]
 categories: []
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/jekyllblog.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/jekyllblog.JPG
 ---
 Although it wasn't easy I finally migrated my blog over to Jekyll. Personally I have nothing against the fantastic work of software that is WordPress it really helped a lot of people all across the world get into blogging and sharing their thoughts but WordPress is at its heart a CMS. Although commonly used to host blogs WordPress is greatly under-utilized as a blogging platform and many of its features become rather obtrusive from a single users perspective.
 
+<!-- more -->
 - <a href="https://github.com/taywils/taywils.me">Grab the code on GitHub</a>
 
 Quite some time ago(early 2010) when I just began programming I had learned that it was a fairly common practice amongst programmers to keep an update code blog.
@@ -24,10 +27,10 @@ However given my skillset at the time(all I knew was C++ and a tiny sliver of HT
 In the meantime I had just discovered the wonders of version control and Git in particular when I came across an article about how GitHub.com handles its myraid number of web pages.
 It was something called Jekyll, a blog aware static site generator.
 
-The basics of Jekyll are easy enough to figure out, you design a layout and run some ruby code to render all of your post which fit neatly into the<div>_post</div>directory of your app.
-From there you run the command "Jekyll" at the terminal at the root directory of your application and the _site folder is generated.
+The basics of Jekyll are easy enough to figure out, you design a layout and run some ruby code to render all of your post which fit neatly into the `_post` directory of your app.
+From there you run the command "Jekyll" at the terminal at the root directory of your application and the `_site` folder is generated.
 
-Next you copy the<div>_site</div> directory to a web server and you're done.
+Next you copy the `_site` directory to a web server and you're done.
 The overall no nonsense just write some markup or markdown, add css throw in some javascript and let Jekyll do the rest really made writing a blog a chore.
 As you can see from the github source for this blog the main layout is where all parts of the Jekyll app come together.
 

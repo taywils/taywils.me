@@ -3,9 +3,12 @@ title: Imagescraper Is A Sinatra.rb App That Dumps Images From a Webpage
 date: 2011-09-04
 categories: []
 tags: [javascript, ruby]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion1.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion1.JPG
 ---
 Learn about imagescraper, its a small test project I wrote to familiarize myself with the Sinatra microframework. In short you pass it a url and it returns all images from the page.
 
+<!-- more -->
 Imagescraper is a small project I built using Ruby together with the Sinatra microframework. If you aren't familiar with Sinatra you can browse the project's main website at <a href="http://www.sinatrarb.com/">http://www.sinatrarb.com/</a>. In a nutshell Sinatra is light weight framework for Ruby that lets you rapidly build web applications using as few lines of code as possible.
 
 To install Sinatra as a Ruby gem, just type

@@ -7,6 +7,7 @@ categories: [web, magento]
 
 A new job has required me to learn as much as possible about the popular E-commerce framework Magento. In this series I'll blog about my entire learning experience; the good the bad and the ugly. Taken from the perspective of a developer who has only really heard of Magento from the PHP rumor mill I hope this series will be useful as a case study for Magento's ease of adoption.
 
+<!-- more -->
 ### My Thoughts On The Current State Of E-commerce Software
 
 When I think of E-commerce software my mind automatically divides it into distinct categories.

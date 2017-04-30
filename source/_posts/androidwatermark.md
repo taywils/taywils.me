@@ -2,7 +2,12 @@
 title: My Experience Publishing My First Android App, Six Things I Learned
 date: 2011-06-04
 tags: [java, android, mobile]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/androidwatermark.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/androidwatermark.JPG
 ---
+Publishing my first Android app to the Google App store was quite the interesting experience. In this article I'll explain six basic things I learned in the process. Some of the highlights include getting comfortable using version control and how to properly debug Android apps using the free tools provided by Google.
+
+<!-- more -->
 Here are some of the things I learned about developing for the [Android][link_android_dev_home] platform from publishing my first app which I hope will useful to others who want to but haven’t started developing for the Android platform.
 
 Its currently in the free beta mode(with ads) right now as I plan on adding more features later such as the ability to design/store your own logos as preferences and an actual user interface that uses the [action bar design pattern][link_android_dev_actionbar] which is so popular nowadays.

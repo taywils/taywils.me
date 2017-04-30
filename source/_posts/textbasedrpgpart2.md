@@ -3,7 +3,12 @@ title: Build A Text Based Multiplayer RPG Part II
 date: 2011-06-08
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart2.JPG 
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart2.JPG
 ---
+In the second part of the series on building a multiplayer console based RPG we look at the unit test structure and create code to test the methods and properties of our Item class as was introduced in the first part.
+
+<!-- more -->
 [Click here for part I][link_part_1]
 [Click here for part III][link_part_3]
 

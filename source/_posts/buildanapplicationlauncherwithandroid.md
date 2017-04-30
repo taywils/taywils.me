@@ -3,31 +3,34 @@ title: Build An Application Launcher For Android
 date: 2011-07-05
 categories: [tutorial]
 tags: [java, android, mobile]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/buildanapplicationlauncherwithandroid.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/buildanapplicationlauncherwithandroid.JPG
 ---
-In this tutorial we'll create an interesting android application which has the ability to launch any other app you have installed on your phone. If you've ever wanted to know how Android applications perform cross app communication you should read on(this tutorial assumes familiarity with the Android API).
+In this tutorial we'll create an interesting android application which has the ability to launch any other app you have installed on your phone. If you've ever wanted to know how Android applications perform cross app communication you should read on (this tutorial assumes familiarity with the Android API).
 
+<!-- more -->
 To start off create a new Android application project within Eclipse. Whenever I develop Android apps I usually start with the layout of the application and add functionality via Java classes later. Since our app will display the users installed apps within a ListView widget we have to first declare a layout to hold the ListView itself.
 
 Create a new xml layout for the ListView by right clicking the res/layout folder and adding a new android xml file. Title it "applauncher.xml" and then add the code below to it.
 
 ```xml
 <LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/applauncher_linearlayout"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:orientation="vertical">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/applauncher_linearlayout"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
 
-<ListView
-android:id="@android:id/list"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"/>
+  <ListView
+    android:id="@android:id/list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"/>
 
-<TextView
-android:id="@android:id/empty"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:text="List PlaceHolder"/>
+  <TextView
+    android:id="@android:id/empty"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:text="List PlaceHolder"/>
 
 </LinearLayout>
 ```
@@ -36,33 +39,33 @@ When using ListViews we can setup the overall look of each row by creating an xm
 Create a new xml layout for the ListView rows by right clicking the res/layout folder and adding a new android xml file. Title it "applauncherrow.xml" and add the code below.
 ```xml
 <LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/applauncherrow_imagelinearlayout"
-android:layout_width="fill_parent"
-android:layout_height="?android:attr/listPreferredItemHeight"
-android:padding="6dip">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/applauncherrow_imagelinearlayout"
+  android:layout_width="fill_parent"
+  android:layout_height="?android:attr/listPreferredItemHeight"
+  android:padding="6dip">
 
 <ImageView
-android:id="@+id/applauncherrow_icon"
-android:layout_width="wrap_content"
-android:layout_height="fill_parent"
-android:layout_marginRight="6dip"/>
+  android:id="@+id/applauncherrow_icon"
+  android:layout_width="wrap_content"
+  android:layout_height="fill_parent"
+  android:layout_marginRight="6dip"/>
 
-<LinearLayout
-android:id="@+id/applauncherrow_namelinearlayout"
-android:orientation="vertical"
-android:layout_width="0dip"
-android:layout_weight="1"
-android:layout_height="fill_parent">
+  <LinearLayout
+    android:id="@+id/applauncherrow_namelinearlayout"
+    android:orientation="vertical"
+    android:layout_width="0dip"
+    android:layout_weight="1"
+    android:layout_height="fill_parent">
 
-<TextView
-android:id="@+id/applauncherrow_appname"
-android:layout_width="fill_parent"
-android:layout_height="0dip"
-android:layout_weight="1"
-android:gravity="center_vertical"/>
+  <TextView
+    android:id="@+id/applauncherrow_appname"
+    android:layout_width="fill_parent"
+    android:layout_height="0dip"
+    android:layout_weight="1"
+    android:gravity="center_vertical"/>
 
-</LinearLayout>
+  </LinearLayout>
 
 </LinearLayout>
 ```

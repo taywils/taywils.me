@@ -3,12 +3,14 @@ title: Build A Text Based Multiplayer RPG Part V
 date: 2011-06-15
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart5.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart5.JPG
 ---
+The fifth part of the tutorial on creating a text based multiplayer RPG game will see us creating the last part of the testing and game mechanics before the next section where we'll launch the client and server code to actually test our game in action.
+
+<!-- more -->
 - [Click here for part IV][link_part_4]
 - [Click here for part VI][link_part_6]
-
-# Intro
-The fifth part of the tutorial on creating a text based multiplayer RPG game will see us creating the last part of the testing and game mechanics before the next section where we'll launch the client and server code to actually test our game in action.
 
 In this part of the tutorial we will complete the test and methods necessary to get the full functionality for the stand alone single player version. In the next part of the tutorial part 6, we will begin to develop both the client and server code that allows other users to connect and play our game over a local area network. So lets continue with the testing and move onto the player class. Go ahead and open up the “test.h" file and add line below.
 
@@ -1292,7 +1294,6 @@ For reference here are all the files for the project below.If none of the dropbo
 <a href="http://dl.dropbox.com/u/22280460/Test.h">http://dl.dropbox.com/u/22280460/Test.h</a>
 </p>
 
-<a href="/2011/06/16/textbasedrpgpart6.html">Click here for part 6</a>
 [Click here for part VI][link_part_6]
 
 [link_part_4]: /2011/06/11/textbasedrpgpart4

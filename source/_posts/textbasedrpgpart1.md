@@ -3,12 +3,14 @@ title: Build A Text Based Multiplayer RPG Part I
 date: 2011-06-05
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart1.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart1.JPG
 ---
-[Click here for part II][link_part_2]
-
-# Intro
-
 This is the first article in a multi-part series on how to develop a console based multiplayer MUD style RPG game. By the end of this series you will have a fully working console app that will run a typical client server model desktop application on Windows. This tutorial requires the Microsoft Visual C++ Compiler.
+
+<!-- more -->
+
+[Click here for part II][link_part_2]
 
 ## Review Material
 
@@ -24,7 +26,10 @@ Ok, now that we’re all familiar with the concept, lets first review why anyone
 Second, the core of any role playing game relies on the sophistication of its <a href="http://en.wikipedia.org/wiki/Role-playing_game_system">role playing system</a>; or the game mechanics. Without a unique and interesting core system, gamers will quickly dismiss your rpg as a rehash or just another D&D clone.
 
 Lastly, from a programming perspective it’s a great excuse to practice data structures, socket programming and object oriented design. In this first part of series we’re going to begin by writing out the code base for the header class which will hold all the definitions for the objects which will appear within our game. However before we even write a single line of code lets first think about how we want all the game objects to fit together. Take a look at the picture below, and take note of all the objects that are identified. We have the <em>player</em>, <em>monster</em>, <em>items</em>, <em>dungeon</em> and <em>terminal </em>objects which are all clearly identified within our simple mock up. Although those won’t be our exact classes that we’ll code in a moment, the rough picture just lets us better understand the model.
-<p style="text-align: center;"><a class="lightbox" href="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/Simple_C%2B%2B_Part_1_2.png"><img class="aligncenter size-thumbnail wp-image-92" src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/Simple_C%2B%2B_Part_1_2.png" alt="Photo" width="150" height="150" /></a></p>
+
+<div class="justifiedgallery">
+  <img class="aligncenter" src="https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/Simple_C%2B%2B_Part_1_2.png" alt="Game Sketch" width="150" height="150" />
+</div>
 
 ## Initial Code
 

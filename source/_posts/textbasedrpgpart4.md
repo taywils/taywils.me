@@ -3,12 +3,16 @@ title: Build A Text Based Multiplayer RPG Part IV
 date: 2011-06-11
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart4.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart4.JPG
 ---
+We continue our quest to design a console based multiplayer RPG game in this article we'll implement the code for the Monster and Room classes. Both of these classes are critical to our application so pay close attention to the instructions.
+
+<!-- more -->
+
 [Click here for part III][link_part_3]
 [Click here for part V][link_part_5]
 
-# Intro
-We continue our quest to design a console based multiplayer RPG game in this article we'll implement the code for the Monster and Room classes. Both of these classes are critical to our application so pay close attention to the instructions.
 In part 4 we’re going to implement the methods for two classes, the Monster class and the Room class. Due to its overall small code base we’ll look at the Monster class first. To jog your memory, below are the declarations for the Monster class from “database.h”. 
 ```c
 class Monster
@@ -495,6 +499,8 @@ int main(void)
   Test::get_instance()->test_room_class();
 }
 ```
+
+[Click here for part V][link_part_5]
 
 [link_part_3]: /2011/06/09/textbasedrpgpart3
 [link_part_5]: /2011/06/15/textbasedrpgpart5

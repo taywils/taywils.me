@@ -3,9 +3,12 @@ title: An Introductory Meteor Tutorial, Improving On The Leaderboard Sample App
 date: 2012-03-26
 categories: [tutorial]
 tags: [javascript, nodejs]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boozenet.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boozenet.JPG
 ---
 In this tutorial I'll discuss my experience developing and launching(and yes you'll see how easy it is to launch with Meteor) a realtime javascript application using the Meteor framework; with its built in MongoDB shell and strong client server architecture Meteor is a powerful framework that should become popular for developers wishing to build fast realtime web applications.
 
+<!-- more -->
 - <a href="https://github.com/taywils/Meteor_Tutorial_Code">Grab the code on GitHub</a>
 
 To begin this tutorial the first thing you'll want to do is to install the Meteor framework for NodeJs. 

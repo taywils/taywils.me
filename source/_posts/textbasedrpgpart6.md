@@ -1,14 +1,17 @@
 ---
 title: Build A Text Based Multiplayer RPG Part VI
 date: 2011-06-16
+more: More
 categories: [tutorial]
 tags: [cpp]
+banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart6.JPG
+thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart6.JPG
 ---
+In part six of the tutorial we build the client side code for the multiplayer game which will connect to the server. After completion of this part you can run the client code by itself to simulate a single player version of the game.
+
+<!-- more -->
 [Click here for part V][link_part_5]
 [Click here for part VII][link_part_7]
-
-# Intro
-In part six of the tutorial we build the client side code for the multiplayer game which will connect to the server. After completion of this part you can run the client code by itself to simulate a single player version of the game.
 
 In this tutorial we are going to build the client code which will be used by players to access the server where the game is hosted. However for this part of the tutorial we're going to transition over from <a href="http://en.wikipedia.org/wiki/C%2B%2B">pure C++</a> to <a href="http://en.wikipedia.org/wiki/C%2B%2B/CLI">C++/CLI</a> for access to the <a href="http://msdn.microsoft.com/en-us/library/system.net.aspx">.Net framework's networking libraries</a>. If you haven't been following this tutorial using Windows don't feel left out because you can still take the basic ideas of networking shown here and apply them to <a href="http://en.wikipedia.org/wiki/BSD_sockets">BSD sockets</a> which are used on Unix(includes Mac OS X) operating systems. Or if you are skillful enough with <a href="http://en.wikipedia.org/wiki/Java_Native_Interface">Java native interfacing</a> you can port this whole program over to Java and use <a href="http://download.oracle.com/javase/tutorial/networking/sockets/">Java's networking packages</a>, and run our little game on any machine with the JRE installed.
 
@@ -16,9 +19,10 @@ Anyways I'll assume that for this part of the tutorial you are either running a 
 
 <a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express">Get the express version of Visual Studio 2010.</a>
 
+<!-- more -->
 Install Visual Studio 2010 if you haven't and once that is done follow the instructions below to create a new C++/CLI project.
 
-1) File -&gt; New -&gt; Project
+1) File -> New -> Project
 2) From the project menu find Visual C++
 3) Under Visual C++ you'll see some listings, click the one titled CLR
 4) Then create a new CLR Console Application by giving it a proper name

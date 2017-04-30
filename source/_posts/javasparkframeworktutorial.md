@@ -6,6 +6,7 @@ categories: [web, tutorial]
 ---
 Some friends and I want build a large project in Java beginning early next year so in the meantime we all need to brush up on web development with Java. Although I've used Spring(which is awesome by the way) I wanted to explore some alternatives for building some lightweight MVC apps that can be rapidly developed without having to worry about the overhead of learning the Spring framework in depth. Thus I discovered Spark; a micro framework for Java.
 
+<!-- more -->
 ## Setting up Java for web development
 
 ### Before you begin download and install Git
