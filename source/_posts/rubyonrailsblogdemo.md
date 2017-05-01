@@ -5,7 +5,7 @@ categories: [ruby-on-rails]
 tags: [ruby, javascript]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/rubyonrailsblogdemo.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/rubyonrailsblogdemo.JPG
-comments: true
+comments: false
 ---
 A while ago I decided to get my feet wet with the awesome Ruby On Rails MVC framework for developing dynamic databased backed web applications. In this article you can see a short project I developed that highlights a typical blog you can create using the Ruby On Rails framework.
 

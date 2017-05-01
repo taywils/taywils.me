@@ -5,7 +5,7 @@ categories: [tutorial]
 tags: [cpp]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart7.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart7.JPG
-comments: true
+comments: false
 ---
 The Final part of our tutorial, after completing this tutorial you will have successfully created a multiplayer text based rpg. Read on to learn how to design the game server that will connect to the client code written in part six.
 

@@ -5,7 +5,7 @@ tags: [ruby, javascript]
 categories: []
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion2.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion2.JPG
-comments: true
+comments: false
 ---
 After over a year I've finally made some changes to my old imagescraper Ruby project. I re-wrote the entire code from the ground up and replaced the old session based form with a new AJAX powered one. It was interesting to see just how bad of a developer I once was and how much my skills have improved since I first began the project.
 

@@ -5,7 +5,7 @@ categories: []
 tags: [javascript, ruby]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion1.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/imagescrapeversion1.JPG
-comments: true
+comments: false
 ---
 Learn about imagescraper, its a small test project I wrote to familiarize myself with the Sinatra microframework. In short you pass it a url and it returns all images from the page.
 

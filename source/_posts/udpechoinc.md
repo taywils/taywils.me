@@ -5,7 +5,7 @@ tags: [cpp]
 categories: [tutorial, socket-programming]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/udpechoinc.jpg
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/udpechoinc.jpg
-comments: true
+comments: false
 ---
 Lately I've been getting back into C, for various reasons I haven't been impressed so far with either GoLang nor Rust and the newest additions to the C++ standard seem to be making the language increasingly harder to manage. However, because I might be developing some larger C++ projects in the future I want to revisit the C programming language in order to strengthen my fundamentals in case I need to deal with raw pointers/unsafe sections of C++ applications. What better place to start getting back into C then with sockets programming.
 

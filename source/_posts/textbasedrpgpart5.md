@@ -5,7 +5,7 @@ categories: [tutorial]
 tags: [cpp]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart5.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart5.JPG
-comments: true
+comments: false
 ---
 The fifth part of the tutorial on creating a text based multiplayer RPG game will see us creating the last part of the testing and game mechanics before the next section where we'll launch the client and server code to actually test our game in action.
 

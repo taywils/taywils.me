@@ -5,7 +5,7 @@ tags: [python]
 categories: [tutorial]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/pythonfinance1.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/pythonfinance1.JPG
-comments: true
+comments: false
 ---
 In this tutorial we'll setup a Python development environment on Windows 7. After finishing this tutorial you will be ready to start writing numerical applications, data analysis algorithmns and implement various machine learning methods. I've always wanted to get back into numerical computing and Python seems like the way to go.
 

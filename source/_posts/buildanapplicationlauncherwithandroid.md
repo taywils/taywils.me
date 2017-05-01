@@ -5,7 +5,7 @@ categories: [tutorial]
 tags: [java, android, mobile]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/buildanapplicationlauncherwithandroid.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/buildanapplicationlauncherwithandroid.JPG
-comments: true
+comments: false
 ---
 In this tutorial we'll create an interesting android application which has the ability to launch any other app you have installed on your phone. If you've ever wanted to know how Android applications perform cross app communication you should read on (this tutorial assumes familiarity with the Android API).
 
