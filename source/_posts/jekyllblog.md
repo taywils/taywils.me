@@ -5,6 +5,7 @@ tags: [ruby, javascript]
 categories: []
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/jekyllblog.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/jekyllblog.JPG
+comments: true
 ---
 Although it wasn't easy I finally migrated my blog over to Jekyll. Personally I have nothing against the fantastic work of software that is WordPress it really helped a lot of people all across the world get into blogging and sharing their thoughts but WordPress is at its heart a CMS. Although commonly used to host blogs WordPress is greatly under-utilized as a blogging platform and many of its features become rather obtrusive from a single users perspective.
 

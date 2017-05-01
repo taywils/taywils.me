@@ -5,6 +5,7 @@ tags: [javascript]
 categories: [tutorial]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/newprojectspage.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/newprojectspage.JPG
+comments: true
 ---
 I used some interesting jquery tricks(at least to me) to make the projects page more visually appealing; read on to learn how it was made. This is the beginning of a series on updates to the overall blog that I will post as I continue to learn more about both the Ruby Jekyll gem and web design in general.
 

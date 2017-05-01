@@ -5,6 +5,7 @@ tags: [cpp]
 categories: [tutorial, socket-programming, multi-threading]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boostchatserver.jpg
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boostchatserver.jpg
+comments: true
 ---
 In part 2 of the C++ boost chat application tutorial we'll develop the server side code. It uses a bit more C++ coding but the same concepts apply from the first article in the series.
 

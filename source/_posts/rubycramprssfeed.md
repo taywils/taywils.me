@@ -5,6 +5,7 @@ tags: [ruby, redis]
 categories: [tutorial]
 banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/rubycramprssfeed.JPG
 thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/rubycramprssfeed.JPG
+comments: true
 ---
 A while ago I had wanted to design an API for delivering realtime RSS news feeds from multiple sites organized by category so that I wouldn't have to navigate a reading list of tabs within my browser or simply run out of interesting stories to read whenever my favorites sites offered me nothing of interest.
 
