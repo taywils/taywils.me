@@ -2,6 +2,7 @@ title: "About"
 layout: "page"
 comments: false
 ---
-Welcome to taywils.me my blog for everything programming, software engineering and math related subjects that interest me. Occasionally there will longer posts that form multi-part tutorials however; a majority of the code I write can be found on my Github.
+Welcome to taywils.me my personal blog for everything I do related to software engineering, web development and programming. On a day to day basis I'm currently employed at a startup working in the E-Commerce sector but in my spare time I develop apps in hopes of running my own software development company someday.
 
-Originally I started off on a hosted Wordpress site, then moved to a private Linode server and re-wrote this blog using Jeykll, stopped blogging for about 3 years and recently discovered Hexo which gave me renewed faith in customizable static-site blogging platforms that give you just enough but not too much.
+## Current Interest
+As of late I've been writing a lot of software in Javascript and Ruby; mostly React and Ruby on Rails. Due to the maturity and large size of both Javascript's and Ruby's respective developer communities those platforms are most aligned with quickly building out prototypes and MVPs.

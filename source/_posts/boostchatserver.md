@@ -39,6 +39,7 @@ Once again we'll be using the C++ standard libs along with [Boost Asio](http://w
   using namespace boost::asio;
   using namespace boost::asio::ip;
 ```
+
 Moving right along the next segment of the ChatServer code are the typedefs; hopefully you'll agree with my choice of typedefs to hide all of the Boost smart pointer extra typing since this codebase does not use the standard C++11 smart pointers.
 
 ```cpp
