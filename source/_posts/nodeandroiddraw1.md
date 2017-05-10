@@ -306,6 +306,9 @@ http.listen(port, function() {
 
 - [https://github.com/taywils/herokunodetest][link_github_project]
 
+[Click here for part II][link_part_2]
+
+[link_part_2]: /2015/02/20/nodeandroiddraw2
 [link_socket_io]: https://socket.io/
 [link_express_js]: http://expressjs.com/
 [link_github_project]: https://github.com/taywils/herokunodetest
