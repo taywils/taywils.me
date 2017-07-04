@@ -10,6 +10,12 @@ thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/pos
 Welcome to part II of the Realtime Whiteboard App with NodeJS. In this part we will go over the web UI interface which uses a bit of javascript and will work with the NodeJs server from [part I][link_part_1].
 
 <!-- more -->
+## Live Demo of the Web Client
+
+Try opening the live demo in multiple browser tabs; start drawing in the first tab and watch as all the other tabs read the web-socket.
+
+[http://warm-fortress-2906.herokuapp.com/][heroku_demo]
+
 ## Part II: The UI Interface
 As discussed previously the server is expecting the UI to emit four key events.
 
@@ -334,7 +340,13 @@ Thats it for part II; in the third and final part of this series we will finally
 </html>
 ```
 
+## Link To Full Source Code
+
+- [https://github.com/taywils/herokunodetest][link_github_project]
+
 [Click here for part I][link_part_1]
 
 [link_part_1]: /2015/01/15/nodeandroiddraw1
 [link_cdnjs]: http://cdnjs.cloudflare.com
+[link_github_project]: https://github.com/taywils/herokunodetest
+[heroku_demo]: http://warm-fortress-2906.herokuapp.com/

@@ -8,9 +8,9 @@ There were several new static site generators that have popped up in recent year
 - [x] Create git orphan branch
 - [x] Download and install Hexo
 - [x] Start off with a basic Hexo theme, I'll design my own or customize later
-- [ ] Convert all non Markdown blog posts over to Markdown
-- [ ] Copy Markdowm blog posts to Hexo source posts directory
-- [ ] Deploy Hexo site to my Linode box
+- [x] Convert all non Markdown blog posts over to Markdown
+- [x] Copy Markdowm blog posts to Hexo source posts directory
+- [x] Deploy Hexo site to my Linode box
 - [ ] Add Disqus integration
 
 [link_hexo]: https://hexo.io/
