@@ -3,9 +3,7 @@ title: Build A Text Based Multiplayer RPG Part I
 date: 2011-06-05
 categories: [tutorial]
 tags: [cpp]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart1.JPG
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart1.JPG
-comments: false
+comments: true
 ---
 This is the first article in a multi-part series on how to develop a console based multiplayer MUD style RPG game. By the end of this series you will have a fully working console app that will run a typical client server model desktop application on Windows. This tutorial requires the Microsoft Visual C++ Compiler.
 

@@ -3,9 +3,7 @@ title: Why I Choose To Write A Book
 date: 2013-03-13
 tags: [rant]
 categories: []
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/writingabookandmisc.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/writingabookandmisc.jpg
-comments: false
+comments: true
 ---
 
 Lately I've gotten behind on blogging again but would like to try out some new things such as hosting all of my static content on Amazon s3. Meanwhile I've been very busy typing away on my lastest project which will be my first published book. Enough talk... just click on this stub to read the rest of my rant.

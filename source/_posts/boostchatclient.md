@@ -3,9 +3,7 @@ title: C++ Chat Server Tutorial Part I
 date: 2014-11-15
 tags: [cpp]
 categories: [tutorial, socket-programming, multi-threading]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boostchatclient.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/boostchatclient.jpg
-comments: false
+comments: true
 ---
 In this tutorial we'll learn how to write a client for a feature limited chat server in C++ using the Boost libraries. The codebase for this tutorial is a bit dated as many of the features included by Boost are now apart of the C++ standard library but knowledege of Boost is still worthy of merit in case you run into the many C++ projects which make use of it.
 

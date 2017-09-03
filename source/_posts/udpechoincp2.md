@@ -3,9 +3,7 @@ title: UDP Echo Server In C Tutorial Part II
 date: 2014-11-09
 tags: [cpp]
 categories: [tutorial, socket-programming]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/udpechoincp2.jpg
-thumbnail:  https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/udpechoincp2.jpg
-comments: false
+comments: true
 ---
 The second part to the UDP Echo Server in C tutorial. In part II we add the server component of the code base and together with the client code from part I we'll have a functioning application.
 

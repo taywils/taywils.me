@@ -3,9 +3,7 @@ title: Android Realtime Whiteboard App with NodeJS Part III
 date: 2015-02-27
 tags: [java, android]
 categories: [mobile, android, tutorial]
-comments: false
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddraw3.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddraw3.jpg
+comments: true
 ---
 Welcome to part III of the Realtime Whiteboard App with NodeJS. In this last part I will provide a link to the Android client that I wrote some time ago in Java which targeted the Android SDK version 19.
 

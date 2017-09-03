@@ -3,9 +3,7 @@ title: Android Realtime Whiteboard App with NodeJS Part I
 date: 2015-01-15
 tags: [javascript, android, nodejs]
 categories: [tutorial]
-comments: false
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddrawp1.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddrawp1.jpg 
+comments: true
 ---
 A while back I had interviewed with a company that was looking to hire a full-stack developer with experience building Android apps and who knew just enough NodeJS to work on their realtime socket-based backend code. After speaking on the phone the company and I came to the conclusion that they would judge my application on how well I performed on the take-home coding assignment which was to develop a real-time whiteboard/drawing application together with an accompanying Android app. 
 

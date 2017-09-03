@@ -3,9 +3,7 @@ title: Patomic - A PHP Library For The Datomic REST Client
 date: 2014-07-02
 tags: [php]
 categories: [open-source, project, datomic]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/patomicbeta.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/patomicbeta.jpg
-comments: false
+comments: true
 ---
 Its been about six months since I started building a PHP library to help PHP devs interact with the Datomic REST API. Over one hundred commits later I finnally released the beta version of the project to the public. I announced it on Reddit's PHP developers subreddit and as expected it didn't generate a lot of interest. However, on the other hand Patomic was quite exciting to build and really kept my PHP skills razor sharp.
 

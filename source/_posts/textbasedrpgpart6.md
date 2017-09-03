@@ -3,9 +3,7 @@ title: Build A Text Based Multiplayer RPG Part VI
 date: 2011-06-16
 categories: [tutorial]
 tags: [cpp]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart6.JPG
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart6.JPG
-comments: false
+comments: true
 ---
 In part six of the tutorial we build the client side code for the multiplayer game which will connect to the server. After completion of this part you can run the client code by itself to simulate a single player version of the game.
 

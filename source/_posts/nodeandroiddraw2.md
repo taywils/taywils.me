@@ -3,9 +3,7 @@ title: Android Realtime Whiteboard App with NodeJS Part II
 date: 2015-02-20
 tags: [javascript]
 categories: [tutorial]
-comments: false
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddraw2.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/nodeandroiddraw2.jpg
+comments: true
 ---
 Welcome to part II of the Realtime Whiteboard App with NodeJS. In this part we will go over the web UI interface which uses a bit of javascript and will work with the NodeJs server from [part I][link_part_1].
 

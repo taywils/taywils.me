@@ -3,9 +3,7 @@ title: Build A Text Based Multiplayer RPG Part III
 date: 2011-06-09
 categories: [tutorial]
 tags: [cpp]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart3.JPG
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/textbasedrpgpart3.JPG
-comments: false
+comments: true
 ---
 After writing the code to support the unit test in part II, beginning in this part we'll look at the code behind the test to verify that our test are sound and correct.
 Where we left off we had just implemented the unit test for the Item class. However, before we can even run the test we have to first write out the methods. So create a new C++ file, title it “database.cpp” and add it to your project’s directory. Now go ahead and type in the following.

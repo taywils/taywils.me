@@ -11,6 +11,7 @@ There were several new static site generators that have popped up in recent year
 - [x] Convert all non Markdown blog posts over to Markdown
 - [x] Copy Markdowm blog posts to Hexo source posts directory
 - [x] Deploy Hexo site to my Linode box
+- [ ] 404 page
 - [ ] Add Disqus integration
 
 [link_hexo]: https://hexo.io/

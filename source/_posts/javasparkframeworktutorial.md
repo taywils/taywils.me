@@ -3,9 +3,7 @@ title: Java Spark Framework Tutorial
 date: 2013-11-05 
 tags: [java]
 categories: [web, tutorial]
-banner: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/javasparkframeworktutorial.jpg
-thumbnail: https://s3-us-west-2.amazonaws.com/taywils.me.static.files/images/post_banners_thumbnails/javasparkframeworktutorial.jpg
-comments: false
+comments: true
 ---
 Some friends and I want build a large project in Java beginning early next year so in the meantime we all need to brush up on web development with Java. Although I've used Spring(which is awesome by the way) I wanted to explore some alternatives for building some lightweight MVC apps that can be rapidly developed without having to worry about the overhead of learning the Spring framework in depth. Thus I discovered Spark; a micro framework for Java.
 
