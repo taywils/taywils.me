@@ -121,6 +121,6 @@ edge b3 end 4 2.1556 1.0257 2.0693 0.90609 1.9614 0.75643 1.8635 0.62066 solid b
 edge start a0 4 1.4648 5.0922 1.3671 4.9533 1.2316 4.7604 1.115 4.5946 solid black
 edge start b0 4 1.7297 5.0922 1.8273 4.9533 1.9629 4.7604 2.0794 4.5946 solid black
 stop
-
-Thats about it for now.
 ```
+
+Thats about it for now; I'll be investigating more later.
